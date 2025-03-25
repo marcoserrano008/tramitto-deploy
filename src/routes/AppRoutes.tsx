@@ -1,7 +1,8 @@
 import {createBrowserRouter, RouteObject, RouterProvider} from "react-router-dom";
 import App from "../App.tsx";
-import applicantRoutes from "../features/applicant/Applicant.routes.tsx";
-import administratorRoutes from "../features/administrator/Administrator.routes.tsx";
+import applicantRoutes from "../features/applicant/ApplicantRoutes.tsx";
+import administratorRoutes from "../features/administrator/AdministratorRoutes.tsx";
+import KatrinPage from "./katrin/katrin.page.tsx";
 
 const rootRoutes: RouteObject[] = [
   {
@@ -11,6 +12,7 @@ const rootRoutes: RouteObject[] = [
       ...applicantRoutes,
       ...administratorRoutes,
       {path: '*', element: <div>404 Not Found</div>},
+      {path: 'katrin', element: <KatrinPage/>},
     ],
   },
 ]

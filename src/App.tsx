@@ -1,12 +1,14 @@
 import './App.css'
 import {Outlet} from "react-router-dom";
+import Header from "./components/Header/Header.tsx";
+import Footer from "./components/Footer/Footer.tsx";
 
 function App() {
   return (
     <>
-      <h1>header</h1>
-      <Outlet />
-      <h1>footer</h1>
+        <Header/>
+        <Outlet/>
+        <Footer/>
     </>
   )
 }
