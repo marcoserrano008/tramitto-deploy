@@ -1,0 +1,24 @@
+.sidebar-container {
+    border: 1px solid black;
+    height: 100%;
+    padding: 5px;
+    width: 240px;
+    /* The key is to transition the transform property, so it slides in/out. */
+    transition: transform 0.3s ease;
+    position: relative; /* or absolute/fixed if desired */
+}
+
+/* Sidebar open (translateX = 0 => visible) */
+.open {
+    transform: translateX(0);
+}
+
+/* Sidebar closed (translateX = -100% or -240px => hidden) */
+.closed {
+    transform: translateX(-240px);
+}
+
+.close-sidebar {
+    margin-left: 234px;
+    margin-top: -30px;
+}
