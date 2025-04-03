@@ -5,8 +5,7 @@ import styles from './AppSidebar.module.scss';
 import {classNames} from "primereact/utils";
 import {useState} from "react";
 
-function AppSidebar(props) {
-  // State to track if sidebar is open or closed
+function AppSidebar() {
   const [isOpen, setIsOpen] = useState(true);
 
   const items: MenuItem[] = [

@@ -1,8 +1,8 @@
 .sidebar-container {
-    border: 1px solid black;
     height: 100%;
     padding: 5px;
     width: 240px;
+    //width: 0;
     /* The key is to transition the transform property, so it slides in/out. */
     transition: transform 0.3s ease;
     position: relative; /* or absolute/fixed if desired */

@@ -17,6 +17,7 @@ function App() {
         </section>
 
         <section className="outlet-container">
+
           <Outlet/>
         </section>
       </main>
