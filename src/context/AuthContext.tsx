@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import authService, {User} from "../services/AuthService.ts";
+import authService from "../services/AuthService.ts";
+import {User} from "../types/User.interface.ts";
 
 interface AuthContextType {
   handleOAuthSuccess: () => void;
@@ -108,8 +109,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsAuthenticated,
     user
   };
-
-
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

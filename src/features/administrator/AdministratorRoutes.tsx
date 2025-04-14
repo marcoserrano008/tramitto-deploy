@@ -1,10 +1,30 @@
 import {RouteObject} from "react-router-dom";
+import AdministratorLayout from "./layout/AdministratorLayout.tsx";
+import ProtectedRoute from "../../routes/ProtectedRoute.tsx";
+import {RoleEnum} from "../../types/enum/Role.enum.ts";
+import AdministratorHomePage from "./pages/AdministratorHomePage/AdministratorHomePage.tsx";
+import AdministratorProcedureInformationPage
+  from "./pages/AdministratorProcedureInformationPage/AdministratorProcedureInformationPage.tsx";
+import AdministratorProceduresStatusPage
+  from "./pages/AdministratorProceduresStatusPage/AdministratorProceduresStatusPage.tsx";
+import AdministratorReportsPage from "./pages/AdministratorReportsPage/AdministratorReportsPage.tsx";
 
 const administratorRoutes: RouteObject[] = [
   {
     path: 'administrator',
+    element: (
+      <ProtectedRoute allowedRoles={[RoleEnum.ADMINISTRATOR]}>
+        <AdministratorLayout/>
+      </ProtectedRoute>
+    ),
     children: [
-      {index: true, element: <></>},
+      {index: true, element: <AdministratorHomePage/>},
+
+      {path: 'procedures-list', element: <AdministratorProcedureInformationPage/>},
+
+      {path: 'procedures-status', element: <AdministratorProceduresStatusPage/>},
+
+      {path: 'reports', element: <AdministratorReportsPage/>}
     ],
   },
 ]

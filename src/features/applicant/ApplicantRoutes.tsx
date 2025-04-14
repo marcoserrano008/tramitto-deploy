@@ -1,10 +1,27 @@
 import {RouteObject} from "react-router-dom";
+import ProtectedRoute from "../../routes/ProtectedRoute.tsx";
+import {RoleEnum} from "../../types/enum/Role.enum.ts";
+import ApplicantHomePage from "./pages/ApplicantHomePage/ApplicantHomePage.tsx";
+import ApplicantLayout from "./layout/ApplicantLayout.tsx";
+import ApplicantPersonalProceduresPage
+  from "./pages/ApplicantPersonalProceduresPage/ApplicantPersonalProceduresPage.tsx";
+import ApplicantProcedureInformationPage
+  from "./pages/ApplicantProcedureInformationPage/ApplicantProcedureInformationPage.tsx";
 
 const applicantRoutes: RouteObject[] = [
   {
     path: 'applicant',
+    element: (
+      <ProtectedRoute allowedRoles={[RoleEnum.APPLICANT]}>
+        <ApplicantLayout/>
+      </ProtectedRoute>
+    ),
     children: [
-      {index: true, element: <></>},
+      {index: true, element: <ApplicantHomePage/>},
+
+      {path: 'personal-procedures', element: <ApplicantPersonalProceduresPage/>},
+
+      {path: 'procedure-information', element: <ApplicantProcedureInformationPage/>}
     ],
   },
 ]

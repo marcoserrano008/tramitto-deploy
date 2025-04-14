@@ -3,16 +3,8 @@ import LoginPage from "./pages/LoginPage/LoginPage.tsx";
 import Profile from "./components/Profile/Profile.tsx";
 import ProtectedRoute from "../../routes/ProtectedRoute.tsx";
 import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler/OAuth2RedirectHandler.tsx";
+import {RoleEnum} from "../../types/enum/Role.enum.ts";
 
-// const authenticationRoutes: RouteObject[] = [
-//   {
-//     path: 'autenticacion',
-//     children: [
-//       {index: true, element: <LoginPage></LoginPage>},
-//       {path: 'registro', element: <SignUpPage></SignUpPage>}
-//     ],
-//   },
-// ]
 const authenticationRoutes: RouteObject[] = [
   {
     path: "login",
@@ -25,7 +17,8 @@ const authenticationRoutes: RouteObject[] = [
   {
     path: "profile",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute
+        allowedRoles={[RoleEnum.ADMINISTRATOR, RoleEnum.APPLICANT, RoleEnum.ARCHIVES_MANAGER, RoleEnum.GENERAL_SECRETARY]}>
         <Profile/>
       </ProtectedRoute>
     )

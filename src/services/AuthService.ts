@@ -1,32 +1,9 @@
 import axios from 'axios';
+import {LoginRequest} from "../types/LoginRequest.interface.ts";
+import {AuthResponse} from "../types/AuthResponse.interface.ts";
+import {User} from "../types/User.interface.ts";
 
 const API_URL = 'http://localhost:3000/api/v1';
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface AuthResponse {
-  user?: User;
-  accessToken: string;
-  refreshToken: string;
-}
-
-export interface User {
-  email: string;
-  firstName: string;
-  lastName: string;
-  secondLastName: string;
-  role: RoleEnum;
-}
-
-export enum RoleEnum {
-  APPLICANT = 'APPLICANT',
-  ADMINISTRATOR = 'ADMINISTRATOR',
-  ARCHIVES_MANAGER = 'ARCHIVES_MANAGER',
-  GENERAL_SECRETARY = 'GENERAL_SECRETARY'
-}
 
 class AuthService {
   async login(credentials: LoginRequest): Promise<AuthResponse> {
@@ -108,22 +85,6 @@ class AuthService {
   initiateGoogleLogin(): void {
     window.location.href = 'http://localhost:3000/oauth2/authorize/google';
   }
-
-  // handleOAuthRedirect(): void {
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   const token = urlParams.get('token');
-  //   const refreshToken = urlParams.get('refreshToken');
-  //
-  //   if (token && refreshToken) {
-  //     this.setTokens({
-  //       accessToken: token,
-  //       refreshToken: refreshToken
-  //     });
-  //
-  //     // Clear the URL parameters
-  //     window.history.replaceState({}, document.title, window.location.pathname);
-  //   }
-  // }
 }
 
 export default new AuthService();
