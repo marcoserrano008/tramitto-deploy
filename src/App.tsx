@@ -3,8 +3,16 @@ import {Outlet} from "react-router-dom";
 import Header from "./components/Header/Header.tsx";
 import Footer from "./components/Footer/Footer.tsx";
 import AppSidebar from "./components/Sidebar/AppSidebar.tsx";
+import {useAuth} from "./context/AuthContext.tsx";
 
 function App() {
+
+  const { loading } = useAuth();
+
+  if (loading) {
+    return <div className="loading-container">Loading...</div>;
+  }
+
   return (
     <>
       <header className="header-container">

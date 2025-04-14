@@ -1,55 +1,134 @@
-.login-container {
-  height: 100%;
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.loginForm {
   width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.loginForm h2 {
+  margin-bottom: 24px;
+  text-align: center;
+  color: #333;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.formGroup input:focus {
+  border-color: #4285f4;
+  outline: none;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 12px;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.loginButton:hover {
+  background-color: #3367d6;
+}
+
+.loginButton:disabled {
+  background-color: #a4c1f4;
+  cursor: not-allowed;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  color: #777;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider span {
+  padding: 0 10px;
+}
+
+.googleButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  align-content: center;
-}
-
-.login-form {
-  width: 400px;
-  padding: 20px;
-  height: 470px;
-  border: 1px solid black;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.login-form-title {
   width: 100%;
-  text-align: center;
+  padding: 12px;
+  background-color: white;
+  color: #555;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.login-form-field {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-
-  :global(.p-password) {
-    display: block;
-    width: 100%;
-  }
-
-  :global(.p-password .p-password-input) {
-    width: 100%;
-  }
+.googleButton svg {
+  margin-right: 10px;
 }
 
-
-.login-form-data {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.googleButton:hover {
+  background-color: #f5f5f5;
 }
 
-.login-form-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-
+.googleButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
+.errorMessage {
+  padding: 12px;
+  margin-bottom: 20px;
+  background-color: #ffebee;
+  color: #d32f2f;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.successMessage {
+  padding: 12px;
+  margin-bottom: 20px;
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 4px;
+  font-size: 14px;
+}

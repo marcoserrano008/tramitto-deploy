@@ -1,63 +1,111 @@
-import styles from './LoginPage.module.scss';
-import {classNames} from "primereact/utils";
-import {InputText} from "primereact/inputtext";
-import {Password} from "primereact/password";
-import {useState} from "react";
-import * as React from "react";
-import {Button} from "primereact/button";
+import {FormEvent, useState} from "react";
+import authService from "../../../../services/AuthService.ts";
+import styles from "./LoginPage.module.scss";
+import {useAuth} from "../../../../context/AuthContext.tsx";
+import {useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
-  const [password, setPassword] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const load = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = async (e: FormEvent) => {
+    e.preventDefault();
+    setMessage('');
     setLoading(true);
 
-    setTimeout(() => {
+    try {
+      await login(email, password);
+      setIsSuccess(true);
+      setMessage('Login successful!');
+
+      // Redirect to profile page
+      setTimeout(() => {
+        navigate('/profile');
+      }, 1500);
+    } catch (error: any) {
+      const resMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      setIsSuccess(false);
+      setMessage(resMessage);
+    } finally {
       setLoading(false);
-    }, 200);
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    authService.initiateGoogleLogin();
   };
 
   return (
-    <div className={classNames(styles['login-container'])}>
-      <article className={classNames(styles['login-form'])}>
-        <h2 className={classNames(styles['login-form-title'])}>Ingresar</h2>
+    <div className={styles.loginContainer}>
+      <div className={styles.loginForm}>
+        <h2>Login</h2>
 
-        <section className={classNames(styles['login-form-data'])}>
-          <div className={classNames(styles['login-form-field'])}>
-            <label htmlFor="username">Usuario</label>
-            <InputText
-              id="username"
-              aria-describedby="username-help"
-              className={classNames(styles['login-form-field-input'])}
+        {message && (
+          <div className={isSuccess ? styles.successMessage : styles.errorMessage}>
+            {message}
+          </div>
+        )}
+
+        <form onSubmit={handleLogin}>
+          <div className={styles.formGroup}>
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
-          <div className={classNames(styles['login-form-field'])}>
-            <label htmlFor="password">Contraseña</label>
-            <Password
+          <div className={styles.formGroup}>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
               id="password"
-              className={classNames(styles['login-form-field-input'])}
               value={password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-              toggleMask
-              feedback={false}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
+          <div className={styles.formGroup}>
+            <button type="submit" disabled={loading} className={styles.loginButton}>
+              {loading ? 'Loading...' : 'Login'}
+            </button>
+          </div>
+        </form>
 
-        </section>
+        <div className={styles.divider}>
+          <span>OR</span>
+        </div>
 
-        <section className={classNames(styles['login-form-actions'])}>
-          <section>
-            <label>¿No tienes cuenta? <a href={''}>Registrate</a></label>
-          </section>
-          <Button label="Iniciar Sesion" loading={loading} onClick={load}/>
-          <Button label="Iniciar Sesión con Google" icon="pi pi-google" onClick={load}/>
-
-        </section>
-
-      </article>
+        <button
+          onClick={handleGoogleLogin}
+          className={styles.googleButton}
+          disabled={loading}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48">
+            <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+            <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
+            <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
+            <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
+          </svg>
+          Login with Google
+        </button>
+      </div>
     </div>
   );
 };
