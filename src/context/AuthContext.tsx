@@ -3,12 +3,12 @@ import authService from "../services/AuthService.ts";
 import {User} from "../types/User.interface.ts";
 
 interface AuthContextType {
-  handleOAuthSuccess: () => void;
+  handleOAuthSuccess: () => Promise<User | null>;
   isAuthenticated: boolean;
   setIsAuthenticated: (value: boolean) => void;
   user: User | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<User>;
   logout: () => void;
 }
 
@@ -66,14 +66,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       const response = await authService.login({ email, password });
       setIsAuthenticated(true);
+      let loggedInUser: User | null = null;
 
       if (response.user) {
-        localStorage.setItem("user", JSON.stringify(response.user));
+        loggedInUser = response.user;
+        localStorage.setItem("user", JSON.stringify(loggedInUser));
         setUser(response.user);
       } else {
-        const userData = await authService.fetchCurrentUser();
-        setUser(userData);
+        loggedInUser = await authService.fetchCurrentUser();
+        setUser(loggedInUser);
+        localStorage.setItem("user", JSON.stringify(loggedInUser));
       }
+
+      return loggedInUser;
     } catch (error) {
       throw error;
     }
@@ -87,16 +92,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const handleOAuthSuccess = async () => {
     setIsAuthenticated(true);
-    const currentUser = authService.getCurrentUser();
-    if (currentUser) {
-      setUser(currentUser);
-    } else {
-      try {
-        const userData = await authService.fetchCurrentUser();
-        setUser(userData);
-      } catch (error) {
-        console.error("Failed to fetch user data after OAuth:", error);
+    let fetchedUser: User | null = null;
+    try {
+      fetchedUser = await authService.fetchCurrentUser();
+      setUser(fetchedUser);
+      if (fetchedUser) {
+        localStorage.setItem("user", JSON.stringify(fetchedUser));
       }
+      return fetchedUser;
+    } catch (error) {
+      console.error("Failed to fetch user data after OAuth:", error);
+      // logout if user fetch is critical:
+      authService.logout();
+      setIsAuthenticated(false);
+      setUser(null);
+      return null;
     }
   };
 

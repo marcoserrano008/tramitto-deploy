@@ -55,8 +55,6 @@ class AuthService {
     localStorage.removeItem('user');
   }
 
-
-
   getCurrentUser(): User | null {
     const userStr = localStorage.getItem('user');
     if (userStr) {

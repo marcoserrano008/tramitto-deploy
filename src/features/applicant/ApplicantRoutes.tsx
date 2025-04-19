@@ -18,10 +18,14 @@ const applicantRoutes: RouteObject[] = [
     ),
     children: [
       {index: true, element: <ApplicantHomePage/>},
-
-      {path: 'personal-procedures', element: <ApplicantPersonalProceduresPage/>},
-
-      {path: 'procedure-information', element: <ApplicantProcedureInformationPage/>}
+      {
+        path: 'personal-procedures',
+        element: <ApplicantPersonalProceduresPage/>
+      },
+      {
+        path: 'procedure-information/:procedureType',
+        element: <ApplicantProcedureInformationPage/>
+      }
     ],
   },
 ]

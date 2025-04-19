@@ -3,6 +3,7 @@ import authService from "../../../../services/AuthService.ts";
 import styles from "./LoginPage.module.scss";
 import {useAuth} from "../../../../context/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
+import {RoleEnum} from "../../../../types/enum/Role.enum.ts";
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -20,14 +21,36 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      await login(email, password);
-      setIsSuccess(true);
-      setMessage('Login successful!');
+      const loggedInUser = await login(email, password);
 
-      // Redirect to profile page
-      setTimeout(() => {
-        navigate('/profile');
-      }, 1500);
+      if (loggedInUser && loggedInUser.role) {
+        setIsSuccess(true);
+        setMessage("Login successful! Redirecting...");
+
+        let redirectPath = "/";
+        const userRole = loggedInUser.role as RoleEnum;
+
+        switch (userRole) {
+          case RoleEnum.APPLICANT:
+            redirectPath = "/applicant";
+            break;
+          case RoleEnum.ADMINISTRATOR:
+            redirectPath = "/administrator";
+            break;
+          case RoleEnum.ARCHIVES_MANAGER:
+            redirectPath = "/archives-manager";
+            break;
+          case RoleEnum.GENERAL_SECRETARY:
+            redirectPath = "/general-secretary";
+            break;
+          default:
+            console.warn(`Unknown role encountered: ${userRole}`);
+            redirectPath = "/";
+        }
+        navigate(redirectPath, { replace: true });
+      } else {
+        throw new Error("Login successful, but user data or role is missing.");
+      }
     } catch (error: any) {
       const resMessage =
         (error.response &&
@@ -38,7 +61,6 @@ const LoginPage = () => {
 
       setIsSuccess(false);
       setMessage(resMessage);
-    } finally {
       setLoading(false);
     }
   };

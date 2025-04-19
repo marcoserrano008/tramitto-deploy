@@ -14,7 +14,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="app-container">
       <header className="header-container">
         <Header/>
       </header>
@@ -25,7 +25,6 @@ function App() {
         </section>
 
         <section className="outlet-container">
-
           <Outlet/>
         </section>
       </main>
@@ -33,7 +32,7 @@ function App() {
       <footer className="footer-container">
         <Footer/>
       </footer>
-    </>
+    </div>
   )
 }
 

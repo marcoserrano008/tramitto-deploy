@@ -17,10 +17,14 @@ const generalSecretaryRoutes: RouteObject[] = [
     ),
     children: [
       {index: true, element: <GeneralSecretaryHomePage/>},
-
-      {path: 'procedures-list', element: <GeneralSecretaryProceduresListPage/>},
-
-      {path: 'reports', element: <GeneralSecretaryReportsPage/>}
+      {
+        path: 'procedures-list',
+        element: <GeneralSecretaryProceduresListPage/>
+      },
+      {
+        path: 'reports',
+        element: <GeneralSecretaryReportsPage/>
+      }
     ],
   },
 ]
