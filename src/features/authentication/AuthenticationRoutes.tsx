@@ -4,6 +4,8 @@ import Profile from "./components/Profile/Profile.tsx";
 import ProtectedRoute from "../../routes/ProtectedRoute.tsx";
 import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler/OAuth2RedirectHandler.tsx";
 import {RoleEnum} from "../../types/enum/Role.enum.ts";
+import IdentityValidationPage from "./pages/IdentityValidationPage/IdentityValidationPage.tsx";
+import CompleteProfilePage from "./pages/CompleteProfilePage/CompleteProfilePage.tsx";
 
 const authenticationRoutes: RouteObject[] = [
   {
@@ -22,7 +24,15 @@ const authenticationRoutes: RouteObject[] = [
         <Profile/>
       </ProtectedRoute>
     )
-  }
+  },
+  {
+    path: "validation",
+    element: <IdentityValidationPage/>
+  },
+  {
+    path: "complete-profile",
+    element: <CompleteProfilePage/>
+  },
 ];
 
 export default authenticationRoutes;

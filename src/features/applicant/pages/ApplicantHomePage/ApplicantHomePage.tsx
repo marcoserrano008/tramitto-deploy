@@ -4,8 +4,8 @@ const ApplicantHomePage = () => {
   return (
     <div>
       ApplicantHomePage
-      asdfasdfasdf
       <h1 className={styles.myProfileHeader}>This is a page</h1>
+      <button>click me</button>
     </div>
   );
 }

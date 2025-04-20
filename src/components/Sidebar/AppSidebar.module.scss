@@ -1,12 +1,20 @@
-.sidebar-container {
+.sidebar-wrapper {
+    position: relative;
     height: 100%;
+}
+
+.sidebar-container {
+    height: fit-content;
     padding: 5px;
     width: 240px;
     transition: transform 0.3s ease;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     background-color: red;
     border: 1px solid black;
     border-radius: 15px;
+    z-index: 10;
 }
 
 .open {
@@ -17,8 +25,11 @@
     transform: translateX(-240px);
 }
 
-.close-sidebar {
+.toggle-button {
     position: absolute;
-    left: 240px;
+    right: -60px;
     top: 10px;
+    z-index: 11;
+    height: 40px;
+    width: 60px;
 }

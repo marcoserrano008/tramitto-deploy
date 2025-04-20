@@ -7,6 +7,10 @@ import ApplicantPersonalProceduresPage
   from "./pages/ApplicantPersonalProceduresPage/ApplicantPersonalProceduresPage.tsx";
 import ApplicantProcedureInformationPage
   from "./pages/ApplicantProcedureInformationPage/ApplicantProcedureInformationPage.tsx";
+import ProcedureStepsLayout from "./layout/ProcedureStepsLayout.tsx";
+import ApplicantStepPaymentPage from "./pages/ApplicantStepPaymentPage/ApplicantStepPaymentPage.tsx";
+import ApplicantStepUploadDocumentPage
+  from "./pages/ApplicantStepUploadDocumentPage/ApplicantStepUploadDocumentPage.tsx";
 
 const applicantRoutes: RouteObject[] = [
   {
@@ -24,7 +28,21 @@ const applicantRoutes: RouteObject[] = [
       },
       {
         path: 'procedure-information/:procedureType',
-        element: <ApplicantProcedureInformationPage/>
+        element: <ProcedureStepsLayout/>,
+        children: [
+          {
+            index: true,
+            element: <ApplicantProcedureInformationPage/>,
+          },
+          {
+            path: 'payment',
+            element: <ApplicantStepPaymentPage/>,
+          },
+          {
+            path: 'upload-document',
+            element: <ApplicantStepUploadDocumentPage/>,
+          },
+        ],
       }
     ],
   },

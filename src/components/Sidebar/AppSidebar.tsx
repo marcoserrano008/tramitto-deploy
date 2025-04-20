@@ -10,13 +10,12 @@ import {RoleEnum} from "../../types/enum/Role.enum.ts";
 
 function AppSidebar() {
   const [isOpen, setIsOpen] = useState(false);
-  const {isAuthenticated, user} = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const items: MenuItem[] = useMemo(() => {
     if (!isAuthenticated || !user?.role) {
       return [];
     }
-
     return getMenuItemsByRole(user.role as RoleEnum);
   }, [isAuthenticated, user]);
 
@@ -25,17 +24,27 @@ function AppSidebar() {
   };
 
   if (!isAuthenticated || items.length === 0) {
-    return <></>;
+    return null;
   }
 
   return (
-      <div className={classNames(styles['sidebar-container'], {[styles.open]: isOpen}, {[styles.closed]: !isOpen})}>
+    <div className={classNames(styles['sidebar-wrapper'])}>
+      <div
+        className={classNames(styles['sidebar-container'], {
+          [styles.open]: isOpen,
+          [styles.closed]: !isOpen,
+        })}
+      >
         <PanelMenu model={items} className="w-full md:w-20rem"/>
-
-        <button onClick={handleToggleSidebar} className={classNames(styles['close-sidebar'])}>
+        <button
+          onClick={handleToggleSidebar}
+          className={classNames(styles['toggle-button'])}
+        >
           {isOpen ? 'Hide Sidebar' : 'Show Sidebar'}
         </button>
       </div>
+
+    </div>
   );
 }
 

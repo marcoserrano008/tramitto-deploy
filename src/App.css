@@ -10,17 +10,23 @@
 
 .main-container {
     position: relative;
-    height: calc(100% - 110px);
+    display: flex;
+    height: calc(100vh - 110px);
 }
 
 .sidebar-container {
-    position: absolute;
-    top: 5px;
+    /*position: absolute;*/
+    /*top: 10px;*/
 }
 
 .outlet-container {
-    width: 100%;
-    height: 100%;
+    flex: 1;
+    transition: margin-left 0.3s ease;
+    padding: 10px;
+}
+
+.outlet-with-sidebar {
+    margin-left: 240px;
 }
 
 .footer-container {
