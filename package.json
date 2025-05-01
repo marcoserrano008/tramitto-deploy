@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "axios": "^1.8.4",
+    "classnames": "^2.5.1",
     "primeicons": "^7.0.0",
-    "primereact": "^10.9.3",
+    "primereact": "^10.9.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.0"
