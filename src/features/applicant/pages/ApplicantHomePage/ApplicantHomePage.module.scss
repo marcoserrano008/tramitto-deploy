@@ -5,20 +5,41 @@
   gap: 3rem;
 }
 
-.welcomeSection {
-  text-align: center;
-  color: #04243C;
+.heroSection {
+  background: linear-gradient(90deg, #003A8C 44%, #80DCF3 98%);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3rem 2rem;
+  flex-wrap: wrap;
 }
 
-.welcomeTitle {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+.heroText {
+  flex: 1;
+  max-width: 60%;
+  margin-right: 1rem;
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.3rem;
+    line-height: 1.5;
+  }
 }
 
-.welcomeSubtitle {
-  font-size: 1.2rem;
-  color: #555;
+.heroLogos {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  .logoImage {
+    max-width: 110px;
+    height: auto;
+  }
 }
 
 .whyUse {

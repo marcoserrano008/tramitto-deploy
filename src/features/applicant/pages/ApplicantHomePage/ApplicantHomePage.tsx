@@ -2,6 +2,9 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import styles from './ApplicantHomePage.module.scss';
 import 'primeicons/primeicons.css';
+import logoTramitto from "../../../../assets/images/logoTramitto.svg";
+import logoUMSS from "../../../../assets/images/logoUMSS.svg";
+
 
 const ApplicantHomePage = () => {
   const whyItems = [
@@ -18,11 +21,17 @@ const ApplicantHomePage = () => {
 
   return (
     <div className={styles.container}>
-      <section className={styles.welcomeSection}>
-        <h1 className={styles.welcomeTitle}>Bienvenido a Tramitto</h1>
-        <p className={styles.welcomeSubtitle}>
-          Digitaliza y gestiona tus documentos académicos de forma rápida y segura.
-        </p>
+      <section className={styles.heroSection}>
+        <div className={styles.heroText}>
+          <h1>Bienvenido a Tramitto</h1>
+          <p>
+            Digitaliza y gestiona tus documentos académicos de forma rápida y segura.
+          </p>
+        </div>
+        <div className={styles.heroLogos}>
+          <img src={logoTramitto} alt="Logo Tramitto" className={styles.logoImage}/>
+          <img src={logoUMSS} alt="Logo UMSS" className={styles.logoImage}/>
+        </div>
       </section>
 
       <section>
@@ -44,7 +53,7 @@ const ApplicantHomePage = () => {
             <Card key={idx} className={styles.processCard}>
               <div className={styles.processCardTitle}>{item.title}</div>
               <div className={styles.processCardSubtitle}>{item.subtitle}</div>
-              <Button label="Iniciar" icon="pi pi-play" className="p-button-primary" />
+              <Button label="Iniciar" icon="pi pi-play" className="p-button-primary"/>
             </Card>
           ))}
         </div>
