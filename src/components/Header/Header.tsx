@@ -10,7 +10,7 @@ import 'primeicons/primeicons.css';
 function Header() {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-  const menu = useRef(null);
+  const menu = useRef<Menu>(null);
 
   const handleLogin = () => {
     navigate('/login');
@@ -44,7 +44,7 @@ function Header() {
               image="https://via.placeholder.com/40"
               shape="circle"
               size="large"
-              onClick={(e) => menu.current.toggle(e)}
+              onClick={(e) => menu.current && menu.current.toggle(e)}
               style={{ cursor: 'pointer', marginLeft: '1rem' }}
             />
             <Menu model={menuItems} popup ref={menu} />
