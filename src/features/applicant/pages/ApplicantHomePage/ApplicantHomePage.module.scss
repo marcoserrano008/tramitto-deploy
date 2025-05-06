@@ -1,5 +1,5 @@
 .container {
-  padding: 2rem;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 3rem;
@@ -13,6 +13,8 @@
   align-items: center;
   padding: 3rem 2rem;
   flex-wrap: wrap;
+  width: 100vw;
+  margin: 0;
 }
 
 .heroText {
@@ -23,11 +25,13 @@
   h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
   }
 
   p {
     font-size: 1.3rem;
     line-height: 1.5;
+    font-family: 'Quicksand', sans-serif;
   }
 }
 
@@ -42,27 +46,6 @@
   }
 }
 
-.whyUse {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  text-align: center;
-}
-
-.whyCard {
-  border: 1px solid #ddd;
-  padding: 1.5rem;
-  border-radius: 1rem;
-  background: #fff;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-}
-
-.whyIcon {
-  font-size: 2rem;
-  color: #0d6efd;
-  margin-bottom: 0.5rem;
-}
-
 .processSection {
   display: flex;
   flex-direction: column;
@@ -73,6 +56,45 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: #04243C;
+  text-align: center;
+  font-family: 'Quicksand', sans-serif;
+}
+
+.whyUse {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.whyCard {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  overflow: hidden;
+  max-width: 300px;
+  flex: 1 0 250px;
+}
+
+.whyIconContainer {
+  background: #E6F7FF;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whyIcon {
+  font-size: 2rem;
+  color: #0d6efd;
+}
+
+.whyText {
+  padding: 1rem;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .processCards {
@@ -93,15 +115,17 @@
 .processCardTitle {
   font-weight: bold;
   margin-bottom: 0.5rem;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .processCardSubtitle {
   color: #777;
   margin-bottom: 1rem;
+  font-family: 'Quicksand', sans-serif;
 }
 
 @media screen and (max-width: 600px) {
-  .welcomeTitle {
+  .heroText h1 {
     font-size: 2rem;
   }
 

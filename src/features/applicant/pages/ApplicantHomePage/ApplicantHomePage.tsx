@@ -39,8 +39,12 @@ const ApplicantHomePage = () => {
         <div className={styles.whyUse}>
           {whyItems.map((item, idx) => (
             <div key={idx} className={styles.whyCard}>
-              <i className={`${item.icon} ${styles.whyIcon}`}></i>
-              <p>{item.title}</p>
+              <div className={styles.whyIconContainer}>
+                <i className={`${item.icon} ${styles.whyIcon}`}></i>
+              </div>
+              <div className={styles.whyText}>
+                <p>{item.title}</p>
+              </div>
             </div>
           ))}
         </div>
