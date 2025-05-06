@@ -41,11 +41,11 @@ function Header() {
         {isAuthenticated ? (
           <>
             <Avatar
-              image="https://via.placeholder.com/40"
+              icon="pi pi-user"
               shape="circle"
               size="large"
+              className={styles.avatarUser}
               onClick={(e) => menu.current && menu.current.toggle(e)}
-              style={{ cursor: 'pointer', marginLeft: '1rem' }}
             />
             <Menu model={menuItems} popup ref={menu} />
           </>
