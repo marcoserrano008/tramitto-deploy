@@ -6,4 +6,5 @@ export interface User {
   lastName: string;
   secondLastName: string;
   role: RoleEnum;
+  imageUrl: string;
 }

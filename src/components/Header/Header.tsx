@@ -8,7 +8,7 @@ import { useRef } from 'react';
 import 'primeicons/primeicons.css';
 
 function Header() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
   const navigate = useNavigate();
   const menu = useRef<Menu>(null);
 
@@ -38,15 +38,26 @@ function Header() {
 
       <div className={styles.rightSection}>
         <i className={`pi pi-bell ${styles.iconBell}`}></i>
+
         {isAuthenticated ? (
           <>
-            <Avatar
-              icon="pi pi-user"
-              shape="circle"
-              size="large"
-              className={styles.avatarUser}
-              onClick={(e) => menu.current && menu.current.toggle(e)}
-            />
+            {user && user.imageUrl ? (
+              <Avatar
+                image={user.imageUrl}
+                shape="circle"
+                size="large"
+                className={styles.avatarUser}
+                onClick={(e) => menu.current && menu.current.toggle(e)}
+              />
+            ) : (
+              <Avatar
+                icon="pi pi-user"
+                shape="circle"
+                size="large"
+                className={styles.avatarUser}
+                onClick={(e) => menu.current && menu.current.toggle(e)}
+              />
+            )}
             <Menu model={menuItems} popup ref={menu} />
           </>
         ) : (
