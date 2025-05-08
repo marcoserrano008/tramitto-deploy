@@ -1,5 +1,5 @@
 .container {
-  position: fixed;
+  //position: fixed;
   left: 0;
   width: 100%;
   height: 70px;
@@ -15,10 +15,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3rem 2rem;
+  padding: 2rem 2rem;
   flex-wrap: wrap;
-  //width: 100vw;
   margin: 0;
+  width: 100vw;
+  box-sizing: border-box;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
 .heroText {
