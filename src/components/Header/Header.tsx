@@ -32,7 +32,13 @@ function Header() {
   return (
     <div className={styles.header}>
       <div className={styles.leftSection}>
-        <img src={logoTramitto} alt="Logo Tramitto" className={styles.logoImage} />
+        <img
+          src={logoTramitto}
+          alt="Logo Tramitto"
+          className={styles.logoImage}
+          onClick={() => navigate('/applicant')}
+          style={{cursor: 'pointer'}}
+        />
         <span className={styles.appName}>Tramitto</span>
       </div>
 
@@ -41,7 +47,7 @@ function Header() {
 
         {isAuthenticated ? (
           <>
-            {user && user.imageUrl ? (
+          {user && user.imageUrl ? (
               <Avatar
                 image={user.imageUrl}
                 shape="circle"
