@@ -51,7 +51,6 @@ function Header() {
               <Avatar
                 image={user.imageUrl}
                 shape="circle"
-                size="large"
                 className={styles.avatarUser}
                 onClick={(e) => menu.current && menu.current.toggle(e)}
               />
@@ -59,7 +58,6 @@ function Header() {
               <Avatar
                 icon="pi pi-user"
                 shape="circle"
-                size="large"
                 className={styles.avatarUser}
                 onClick={(e) => menu.current && menu.current.toggle(e)}
               />

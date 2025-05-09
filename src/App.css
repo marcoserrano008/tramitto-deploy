@@ -22,7 +22,7 @@
 .outlet-container {
     flex: 1;
     transition: margin-left 0.3s ease;
-    padding: 10px;
+    /*padding: 10px;*/
 }
 
 .outlet-with-sidebar {
