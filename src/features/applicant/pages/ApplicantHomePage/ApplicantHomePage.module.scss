@@ -15,7 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
   flex-wrap: wrap;
   margin: 0;
   width: 100%;
@@ -32,6 +32,7 @@
     font-size: 3rem;
     margin-bottom: 1rem;
     font-family: 'Poppins', sans-serif;
+    text-align: left;
   }
 
   p {
@@ -131,10 +132,35 @@
 }
 
 @media screen and (max-width: 600px) {
-  .heroText h1 {
-    font-size: 2rem;
+  .heroSection {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
   }
 
+  .heroText {
+    flex: 1;
+    max-width: 70%;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .heroLogos {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+
+    .logoImage {
+      max-width: 60px;
+    }
+  }
   .whyIcon {
     font-size: 1.5rem;
   }

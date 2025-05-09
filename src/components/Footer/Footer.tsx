@@ -12,7 +12,7 @@ function Footer() {
 
         <div className={styles.contactSection}>
           <h3 className={styles.contactTitle}>Contáctanos</h3>
-          <p className={styles.contactInfo}>DTIC, umss campus central - teléfono: 46894213 - 79333499</p>
+          <p className={styles.contactInfo}>DTIC, UMSS Campus central - Teléfono: 46894213 - 79333499</p>
         </div>
       </div>
     </footer>
