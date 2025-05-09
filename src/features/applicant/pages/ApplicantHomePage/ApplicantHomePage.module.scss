@@ -15,7 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 5rem;
   flex-wrap: wrap;
   margin: 0;
   width: 100%;
@@ -136,6 +136,7 @@
     flex-wrap: nowrap;
     flex-direction: row;
     align-items: center;
+    padding: 1.5rem 2rem;
   }
 
   .heroText {
