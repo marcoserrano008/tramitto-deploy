@@ -1,5 +1,6 @@
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
+import { Carousel } from 'primereact/carousel';
 import styles from './ApplicantHomePage.module.scss';
 import 'primeicons/primeicons.css';
 import logoTramitto from "../../../../assets/images/logoTramitto.svg";
@@ -37,19 +38,38 @@ const ApplicantHomePage = () => {
         </div>
       </section>
 
-      <section>
+      <section className={styles.whySection}>
         <h2 className={styles.processHeader}>¿Por qué usar Tramitto?</h2>
-        <div className={styles.whyUse}>
-          {whyItems.map((item, idx) => (
-            <div key={idx} className={styles.whyCard}>
-              <div className={styles.whyLeft}>
-                <i className={`${item.icon} ${styles.whyIcon}`}></i>
+        <div className={styles.carouselWrapper}>
+          <Carousel
+            value={whyItems}
+            itemTemplate={(item) => (
+              <div className={styles.whyCard}>
+                <div className={styles.whyLeft}>
+                  <i className={`${item.icon} ${styles.whyIcon}`}></i>
+                </div>
+                <div className={styles.whyRight}>
+                  <p>{item.title}</p>
+                </div>
               </div>
-              <div className={styles.whyRight}>
-                <p>{item.title}</p>
-              </div>
-            </div>
-          ))}
+            )}
+            numVisible={3}
+            numScroll={1}
+            autoplayInterval={3000}
+            circular
+            responsiveOptions={[
+              {
+                breakpoint: '1024px',
+                numVisible: 2,
+                numScroll: 1
+              },
+              {
+                breakpoint: '600px',
+                numVisible: 1,
+                numScroll: 1
+              }
+            ]}
+          />
         </div>
       </section>
 
