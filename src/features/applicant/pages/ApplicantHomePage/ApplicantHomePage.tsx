@@ -11,6 +11,9 @@ const ApplicantHomePage = () => {
     { icon: 'pi pi-lock', title: 'Rápido y seguro' },
     { icon: 'pi pi-check-square', title: '100% Digital' },
     { icon: 'pi pi-map-marker', title: 'Seguimiento en tiempo real' },
+    { icon: 'pi pi-file-pdf', title: 'Reducción de Papel y Costos' },
+    { icon: 'pi pi-shield', title: 'Seguridad y Privacidad' },
+    { icon: 'pi pi-pencil', title: 'Firma Digital Legalmente Válida' },
   ];
 
   const processItems = [
@@ -39,10 +42,10 @@ const ApplicantHomePage = () => {
         <div className={styles.whyUse}>
           {whyItems.map((item, idx) => (
             <div key={idx} className={styles.whyCard}>
-              <div className={styles.whyIconContainer}>
+              <div className={styles.whyLeft}>
                 <i className={`${item.icon} ${styles.whyIcon}`}></i>
               </div>
-              <div className={styles.whyText}>
+              <div className={styles.whyRight}>
                 <p>{item.title}</p>
               </div>
             </div>
