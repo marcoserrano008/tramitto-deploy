@@ -1,5 +1,4 @@
 .container {
-  //position: fixed;
   left: 0;
   width: 100%;
   padding: 0;
@@ -52,7 +51,6 @@
   }
 }
 
-//este debería ser otro componente pero bueno unununu
 .processSection {
   display: flex;
   flex-direction: column;
@@ -65,39 +63,76 @@
   color: #04243C;
   text-align: center;
   font-family: 'Roboto', sans-serif;
+  margin-bottom: 2rem;
 }
 
 .whySection {
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
-  padding: 0 1rem;
+  padding: 0;
   box-sizing: border-box;
+  margin-top: 2rem;
 }
 
 .carouselWrapper {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  overflow: hidden;
+  padding: 0 2.5rem;
 }
 
-.whyUse {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+.slickSlider {
+  margin: 0 auto;
+
+  :global {
+    .slick-prev,
+    .slick-next {
+      width: 30px;
+      height: 30px;
+      z-index: 1;
+
+      &::before {
+        font-size: 30px;
+        color: #0077C8;
+        opacity: 0.8;
+      }
+    }
+
+    .slick-prev {
+      left: -30px;
+    }
+
+    .slick-next {
+      right: -30px;
+    }
+
+    .slick-dots {
+      bottom: -35px;
+
+      li button::before {
+        font-size: 12px;
+        color: #0077C8;
+      }
+
+      li.slick-active button::before {
+        color: #004e9a;
+      }
+    }
+  }
 }
 
-//este es el texto de ¿Por qué usar Tramitto?
+.slickSlide {
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
 .whyCard {
   display: flex;
   border: 1px dashed #2d76d1;
   border-radius: 1.5rem;
   overflow: hidden;
-  max-width: 300px;
-  flex: 1 0 250px;
   height: 130px;
+  margin: 0 auto;
 }
 
 .whyLeft {
@@ -123,18 +158,9 @@
   line-height: 1.5rem;
 }
 
-.whyIconContainer {
-  background: #E6F7FF;
-  padding: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50%;
-}
-
-.whyIconImage {
-  width: 50px;
-  height: 50px;
+.whyIcon {
+  font-size: 2rem;
+  color: #0077C8;
 }
 
 .processCards {
@@ -149,7 +175,7 @@
   padding: 1rem;
   text-align: center;
   background: #fff;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .processCardTitle {
@@ -195,42 +221,46 @@
       max-width: 60px;
     }
   }
+
   .whyIcon {
     font-size: 1.5rem;
   }
 
   .whySection {
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: -16px;
-    margin-right: -16px;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
     padding: 0;
   }
 
   .carouselWrapper {
     width: 100%;
-    overflow-x: hidden;
+    padding: 0 1.5rem;
   }
 
   .whyCard {
-    width: 90%;
-    margin: 0 auto;
     height: 110px;
-  }
-  :global(.p-carousel) {
-    max-width: 100vw;
-    width: 100%;
+    max-width: 280px;
   }
 
-  :global(.p-carousel-container),
-  :global(.p-carousel-items-container) {
-    max-width: 100%;
+  .slickSlider {
+    :global {
+      .slick-prev {
+        left: -15px;
+      }
+
+      .slick-next {
+        right: -15px;
+      }
+
+      .slick-prev:before,
+      .slick-next:before {
+        font-size: 24px;
+      }
+    }
   }
 
-  :global(.p-carousel-item) {
-    display: flex;
-    justify-content: center;
+  .slickSlide {
+    padding: 0 5px;
   }
 }
-
-
