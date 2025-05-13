@@ -51,35 +51,19 @@
   }
 }
 
-.processSection {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 0 2rem;
-}
-
-.processHeader {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #04243C;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  margin-bottom: 2rem;
-}
-
-.processWrapper {
-  border: 2px dashed #2d76d1;
-  border-radius: 1.5rem;
-  padding: 2rem;
-  background: #F9FBFF;
-}
-
 .whySection {
   width: 100%;
   max-width: 100%;
   padding: 0;
   box-sizing: border-box;
-  margin-top: 2rem;
+}
+
+.whyHeader {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  color: #004e9a;
 }
 
 .carouselWrapper {
@@ -171,39 +155,133 @@
   color: #0077C8;
 }
 
+.processSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0 8rem;
+  position: relative;
+}
+
+.processWrapper {
+  position: relative;
+  border: 1px solid #0050B3;
+  border-radius: 1.5rem;
+  padding: 2.2rem 5% 2.2rem 5%;
+  box-shadow: 1px 2px 10px 0px #f1f1f1;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.processLabel {
+  position: absolute;
+  top: -18px;
+  left: 30px;
+  background-color: #fff;
+  color: #004e9a;
+  padding: 0.3rem 1rem;
+  border-radius: 999px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  z-index: 2;
+  border: 1px solid #0050B3;
+}
+
 .processCards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+  gap: 3rem;
 }
 
 .processCard {
-  border: 1px solid #0077C8;
   border-radius: 1rem;
-  padding: 1.5rem 1rem;
-  text-align: center;
+  overflow: hidden;
   background: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid var(--Neutral-6, #BFBFBF);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 0;
+  margin-top: 0.6rem;
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  :global {
+    .p-card {
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: none;
+    }
+
+    .p-card-body, .p-card-content {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
   }
 }
 
+.processCardHeader {
+  border-radius: 1rem 1rem 0 0;
+  width: 100%;
+  background: linear-gradient(90deg, #004e9a, #58c5f5);
+  height: 80px;
+  position: relative;
+  margin: 0;
+}
+
+.processCardIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.processCardContent {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
 .processCardTitle {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #004e9a;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  font-family: 'Quicksand', sans-serif;
+  font-weight: 400;
+  margin-top: 1.5rem;
 }
 
 .processCardSubtitle {
-  color: #777;
+  font-size: 1.2rem;
+  color: #333;
   margin-bottom: 1rem;
-  font-family: 'Quicksand', sans-serif;
+  font-weight: 550;
+  font-family: 'Roboto', sans-serif;
+}
+
+.processCardButton {
+  background-color: #003A8C !important;
+  border-radius: 8px !important;
+  font-size: 1rem !important;
+  padding: 0.5rem 1.5rem !important;
+  color: white !important;
+  font-family: 'Roboto', sans-serif;
+  margin: 0 auto 1rem auto !important;
+  width: auto !important;
+  max-width: 140px !important;
+  min-width: 130px !important;
+  display: block !important;
 }
 
 @media screen and (max-width: 800px) {
@@ -278,5 +356,9 @@
 
   .slickSlide {
     padding: 0 5px;
+  }
+
+  .processSection {
+    padding: 0 2rem;
   }
 }

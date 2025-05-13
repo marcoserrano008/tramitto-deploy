@@ -104,7 +104,7 @@ const ApplicantHomePage = () => {
       </section>
 
       <section className={styles.whySection}>
-        <h2 className={styles.processHeader}>¿Por qué usar Tramitto?</h2>
+        <h2 className={styles.whyHeader}>¿Por qué usar Tramitto?</h2>
         <div className={styles.carouselWrapper}>
           <Slider {...slickSettings} className={styles.slickSlider}>
             {whyItems.map((item, index) => (
@@ -124,15 +124,24 @@ const ApplicantHomePage = () => {
       </section>
 
       <section className={styles.processSection}>
-        <h2 className={styles.processHeader}>Trámites</h2>
-        <div className={styles.processCards}>
-          {processItems.map((item, index) => (
-            <Card key={`${item.subtitle}-${index}`} className={styles.processCard}>
-              <div className={styles.processCardTitle}>{item.title}</div>
-              <div className={styles.processCardSubtitle}>{item.subtitle}</div>
-              <Button label="Iniciar" icon="pi pi-play" severity="primary" />
-            </Card>
-          ))}
+        <div className={styles.processWrapper}>
+          <span className={styles.processLabel}>Trámites</span>
+          <div className={styles.processCards}>
+            {processItems.map((item, index) => (
+              <div key={`${item.subtitle}-${index}`} className={styles.processCard}>
+                <div className={styles.processCardHeader}>
+                  <div className={styles.processCardIcon}>
+                    <i className="pi pi-file" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
+                  </div>
+                </div>
+                <div className={styles.processCardContent}>
+                  <div className={styles.processCardTitle}>{item.title}</div>
+                  <div className={styles.processCardSubtitle}>{item.subtitle}</div>
+                  <Button label="Iniciar" className={styles.processCardButton}/>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>
