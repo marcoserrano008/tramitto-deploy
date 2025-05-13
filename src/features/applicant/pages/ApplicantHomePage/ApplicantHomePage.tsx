@@ -1,6 +1,6 @@
-import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import Slider, { Settings } from "react-slick";
+import { useNavigate } from 'react-router-dom';
 import styles from './ApplicantHomePage.module.scss';
 import 'primeicons/primeicons.css';
 import "slick-carousel/slick/slick.css";
@@ -16,6 +16,7 @@ type WhyItem = {
 type ProcessItem = {
   title: string;
   subtitle: string;
+  route: string;
 };
 
 const whyItems: WhyItem[] = [
@@ -28,9 +29,21 @@ const whyItems: WhyItem[] = [
 ];
 
 const processItems: ProcessItem[] = [
-  { title: 'Legalización', subtitle: 'Diploma de Bachiller' },
-  { title: 'Legalización', subtitle: 'Diploma Académico' },
-  { title: 'Legalización', subtitle: 'Título Provisión Nacional' },
+  {
+    title: 'Legalización',
+    subtitle: 'Diploma de Bachiller',
+    route: '/applicant/procedure-information/diploma-bachiller'
+  },
+  {
+    title: 'Legalización',
+    subtitle: 'Diploma Académico',
+    route: '/applicant/procedure-information/diploma-academico'
+  },
+  {
+    title: 'Legalización',
+    subtitle: 'Título Provisión Nacional',
+    route: '/applicant/procedure-information/titulo-provision'
+  },
 ];
 
 const slickSettings: Settings = {
@@ -90,6 +103,12 @@ const slickSettings: Settings = {
 };
 
 const ApplicantHomePage = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (route: string) => {
+    navigate(route);
+  };
+
   return (
     <div className={styles.container}>
       <section className={styles.heroSection}>
@@ -137,7 +156,11 @@ const ApplicantHomePage = () => {
                 <div className={styles.processCardContent}>
                   <div className={styles.processCardTitle}>{item.title}</div>
                   <div className={styles.processCardSubtitle}>{item.subtitle}</div>
-                  <Button label="Iniciar" className={styles.processCardButton}/>
+                  <Button
+                    label="Iniciar"
+                    className={styles.processCardButton}
+                    onClick={() => handleNavigation(item.route)}
+                  />
                 </div>
               </div>
             ))}
