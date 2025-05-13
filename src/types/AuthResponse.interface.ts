@@ -1,7 +1,7 @@
-import {User} from "./User.interface.ts";
+import {UserResponse} from "./User.interface.ts";
 
 export interface AuthResponse {
-  user?: User;
+  user?: UserResponse;
   accessToken: string;
   refreshToken: string;
 }

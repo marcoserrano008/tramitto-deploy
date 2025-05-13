@@ -2,11 +2,11 @@ import { Outlet } from 'react-router-dom';
 
 function ApplicantLayout() {
   return (
-    <div>
-      <main>
-        <Outlet />
-      </main>
-    </div>
+    <article className="outlet-container">
+      <section className="outlet-container">
+        <Outlet/>
+      </section>
+    </article>
   );
 }
 

@@ -1,9 +1,10 @@
 import {RoleEnum} from "./enum/Role.enum.ts";
 
-export interface User {
+export interface UserResponse {
+  id: number;
   email: string;
   firstName: string;
   lastName: string;
-  secondLastName: string;
+  secondLastName?: string;
   role: RoleEnum;
 }

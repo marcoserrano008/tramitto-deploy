@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {LoginRequest} from "../types/LoginRequest.interface.ts";
 import {AuthResponse} from "../types/AuthResponse.interface.ts";
-import {User} from "../types/User.interface.ts";
+import {UserResponse} from "../types/User.interface.ts";
 
 const API_URL = 'http://localhost:3000/api/v1';
 
@@ -18,8 +18,8 @@ class AuthService {
     return response.data;
   }
 
-  async fetchCurrentUser(): Promise<User> {
-    const response = await axios.get<User>(`${API_URL}/user/me`, {
+  async fetchCurrentUser(): Promise<UserResponse> {
+    const response = await axios.get<UserResponse>(`${API_URL}/user/me`, {
       headers: {
         Authorization: `Bearer ${this.getAccessToken()}`
       }
@@ -29,7 +29,7 @@ class AuthService {
     return response.data;
   }
 
-  async handleOAuthRedirect(): Promise<User | null> {
+  async handleOAuthRedirect(): Promise<UserResponse | null> {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     const refreshToken = urlParams.get('refreshToken');
@@ -55,7 +55,7 @@ class AuthService {
     localStorage.removeItem('user');
   }
 
-  getCurrentUser(): User | null {
+  getCurrentUser(): UserResponse | null {
     const userStr = localStorage.getItem('user');
     if (userStr) {
       return JSON.parse(userStr);

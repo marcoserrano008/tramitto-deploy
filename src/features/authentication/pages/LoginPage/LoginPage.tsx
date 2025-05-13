@@ -1,5 +1,5 @@
 import {FormEvent, useState} from "react";
-import authService from "../../../../services/AuthService.ts";
+import authService from "../../../../services/Auth.http.service.ts";
 import styles from "./LoginPage.module.scss";
 import {useAuth} from "../../../../context/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import {Navigate} from 'react-router-dom';
 import styles from './OAuth2RedirectHandler.module.scss';
-import authService from "../../../../services/AuthService.ts";
+import authService from "../../../../services/Auth.http.service.ts";
 import {useAuth} from "../../../../context/AuthContext.tsx";
 import {RoleEnum} from "../../../../types/enum/Role.enum.ts";
 
