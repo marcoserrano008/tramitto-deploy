@@ -7,4 +7,5 @@ export interface UserResponse {
   lastName: string;
   secondLastName?: string;
   role: RoleEnum;
+  imageUrl: string;
 }
