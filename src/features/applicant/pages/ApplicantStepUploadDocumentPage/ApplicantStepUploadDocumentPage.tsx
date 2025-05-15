@@ -1,4 +1,4 @@
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {useEffect, useRef, useState} from "react";
 import {FileResponse} from "../../../../types/FileResponse.interface.ts";
 import {DocumentTypeEnum} from "../../../../types/enum/DocumentType.enum.ts";
@@ -9,47 +9,38 @@ import {ProcedureStatusEnum} from "../../../../types/enum/ProcedureStatus.enum.t
 function ApplicantStepUploadDocumentPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const {procedureType} = useParams<{ procedureType: string }>();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Get procedure data from previous step
   const procedureData: ProcedureResponse = location.state?.procedureData;
 
-  // States for file handling
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [documentType, setDocumentType] = useState<DocumentTypeEnum>(DocumentTypeEnum.PROCEDURE_DOCUMENT);
+  const documentType = DocumentTypeEnum.PROCEDURE_DOCUMENT;
 
-  // States for processing
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<string>('');
 
-  // Validate that we have procedure data
   useEffect(() => {
     if (!procedureData) {
       setError('Missing procedure data. Unable to continue.');
     }
   }, [procedureData]);
 
-  // Generate preview when file is selected
   useEffect(() => {
     if (!selectedFile) {
       setPreviewUrl(null);
       return;
     }
 
-    // Create preview URL for the selected file
     const fileUrl = URL.createObjectURL(selectedFile);
     setPreviewUrl(fileUrl);
 
-    // Clean up the URL when component unmounts or file changes
     return () => {
       URL.revokeObjectURL(fileUrl);
     };
   }, [selectedFile]);
 
-  // Handle file selection
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setSelectedFile(event.target.files[0]);
@@ -57,7 +48,6 @@ function ApplicantStepUploadDocumentPage() {
     }
   };
 
-  // Process document upload, attachment and submission
   const handleProcessDocument = async () => {
     if (!selectedFile) {
       setError('Please select a file to upload');

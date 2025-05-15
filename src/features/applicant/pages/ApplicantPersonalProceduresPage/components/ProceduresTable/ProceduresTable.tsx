@@ -3,6 +3,7 @@ import {ProcedureResponse} from "../../../../../../types/ProcedureResponse.inter
 import "./ProceduresTable.css";
 import {Tag} from "primereact/tag";
 import {useNavigate} from "react-router-dom";
+import {handlePreview} from "../../../../../../utils/documentActions.ts";
 
 interface ProceduresTableProps {
   procedures: ProcedureResponse[];
@@ -11,13 +12,13 @@ interface ProceduresTableProps {
 function ProceduresTable({procedures}: ProceduresTableProps) {
 
   //TODO: Change this value to an enum
-  const PROCEDURE_TYPE_MAP: Record<string, string> = {
-    'legalizacion diploma de bachiller 5': 'diploma-bachiller',
-    'legalizacion diploma academico': 'diploma-academico',
-    'legalizacion titulo en provision nacional': 'titulo-provision',
+  const PROCEDURE_TYPE_MAP: Record<number, string> = {
+    1: 'diploma-bachiller',
+    2: 'diploma-academico',
+    3: 'titulo-provision',
   };
 
-  const getProcedureRoute = (name: string): string => PROCEDURE_TYPE_MAP[name.toLowerCase().trim()] ?? 'unknown';
+  const getProcedureRoute = (procedureTypeId: number): string => PROCEDURE_TYPE_MAP[procedureTypeId] ?? 'unknown';
 
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
   const navigate = useNavigate();
@@ -46,12 +47,20 @@ function ProceduresTable({procedures}: ProceduresTableProps) {
   };
 
   const handleUploadNewFile = (procedure: ProcedureResponse) => {
-    const procedureRouter = getProcedureRoute(procedure.procedureTypeName);
+    const procedureRouter = getProcedureRoute(procedure.procedureTypeId);
 
     navigate(`../procedure-information/${procedureRouter}/upload-document`, {
-      state: { procedureData: procedure }
+      state: {procedureData: procedure}
     });
   };
+
+  const handleSendDocument = (procedure: ProcedureResponse) => {
+    const procedureRouter = getProcedureRoute(procedure.procedureTypeId);
+
+    navigate(`../procedure-information/${procedureRouter}/upload-document`, {
+      state: {procedureData: procedure}
+    });
+  }
 
   const getStatusDisplay = (procedure: ProcedureResponse) => {
     switch (procedure.status) {
@@ -68,6 +77,9 @@ function ProceduresTable({procedures}: ProceduresTableProps) {
           </div>
         );
       case "ADMIN_REVIEW":
+      case "ARCHIVES_REVIEW":
+      case "SECRETARY_REVIEW":
+      case "ADMIN_FINAL_REVIEW":
         return (
           <div className="status-review">
             <Tag className="mr-2" icon="pi pi-user" value="En revision"></Tag>
@@ -79,6 +91,12 @@ function ProceduresTable({procedures}: ProceduresTableProps) {
             <span className="status-icon">⌛</span> Pendiente
           </div>
         );
+      case "DRAFT":
+        return (
+          <div className="status-pending">
+            <Tag className="mr-2" severity="info" icon="pi pi-exclamation-triangle" value="No enviado"></Tag>
+          </div>
+        );
       default:
         return <div>{procedure.status}</div>;
     }
@@ -86,21 +104,24 @@ function ProceduresTable({procedures}: ProceduresTableProps) {
 
   const getExpandedContent = (procedure: ProcedureResponse) => {
     switch (procedure.status) {
-      case "COMPLETED":
+      case "COMPLETED": {
+        const documentId: string | undefined = procedure.documents.at(-1)?.documentId;
+
         return (
           <div className="expanded-content">
             <div className="document-info">
               Diploma de Bachiller legalizado el{" "}
               {formatDate(procedure.workflowSteps[0]?.completedAt || procedure.createdAt)}
             </div>
-            <button className="download-btn">Descargar PDF</button>
+            <button className="download-btn" onClick={() => documentId && handlePreview(documentId)}>Abrir Documento
+            </button>
           </div>
         );
+      }
 
-      case "REJECTED": { // <--- Add opening brace here
-        // Now these declarations are scoped only to this case block
+      case "REJECTED": {
         const lastStep = procedure.workflowSteps[procedure.workflowSteps.length - 1];
-        // const lastDocument = procedure.documents[procedure.documents.length - 1]; // You weren't using this, maybe remove?
+        const documentId: string | undefined = procedure.documents.at(-1)?.documentId;
 
         return (
           <div className="expanded-content">
@@ -114,19 +135,37 @@ function ProceduresTable({procedures}: ProceduresTableProps) {
               </ul>
             </div>
             <div className="action-buttons">
-              <button className="view-btn">Visualizar documento</button>
+              <button className="view-btn" onClick={() => documentId && handlePreview(documentId)}>Abrir Documento
+              </button>
               <button className="upload-btn" onClick={() => handleUploadNewFile(procedure)}>Subir nuevo archivo</button>
             </div>
           </div>
         );
-      } // <--- Add closing brace here
+      }
 
       case "ADMIN_REVIEW":
+      case "ARCHIVES_REVIEW":
+      case "SECRETARY_REVIEW":
+      case "ADMIN_FINAL_REVIEW": {
+        const documentId: string | undefined = procedure.documents.at(-1)?.documentId;
+
         return (
           <div className="expanded-content">
-            <button className="view-btn">Visualizar documento</button>
+            <button className="view-btn" onClick={() => documentId && handlePreview(documentId)}>Abrir Documento
+            </button>
           </div>
         );
+      }
+
+      case "DRAFT": {
+        return (
+          <div className="expanded-content">
+            <div className="action-buttons">
+              <button className="upload-btn" onClick={() => handleSendDocument(procedure)}>Enviar Documento</button>
+            </div>
+          </div>
+        );
+      }
 
       default:
         return null;

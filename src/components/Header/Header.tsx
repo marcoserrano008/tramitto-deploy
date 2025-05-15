@@ -3,12 +3,8 @@ import {useAuth} from "../../context/AuthContext.tsx";
 import {useNavigate} from "react-router-dom";
 
 function Header() {
-  const { isAuthenticated, logout } = useAuth();
+  const {isAuthenticated, logout} = useAuth();
   const navigate = useNavigate();
-
-  const handleLogin = () => {
-    navigate('/login');
-  };
 
   const handleLogout = () => {
     logout();
@@ -17,26 +13,19 @@ function Header() {
 
   return (
     <div className={styles.header}>
-      <div className={styles.logo}>Your App Name</div>
+      <div className={styles.logo}>Tramitto App</div>
 
       <div className={styles.navLinks}>
         {/* Your existing navigation links */}
       </div>
 
       <div className={styles.authButtons}>
-        {isAuthenticated ? (
+        {isAuthenticated && (
           <button
             className={styles.logoutButton}
             onClick={handleLogout}
           >
             Logout
-          </button>
-        ) : (
-          <button
-            className={styles.loginButton}
-            onClick={handleLogin}
-          >
-            Login
           </button>
         )}
       </div>

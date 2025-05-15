@@ -1,13 +1,16 @@
-import { Outlet, useLocation, useParams } from 'react-router-dom';
+import {Outlet, useLocation, useParams} from 'react-router-dom';
+import {MenuItem} from "primereact/menuitem";
+import React from "react";
+import {Steps} from "primereact/steps";
 
 const procedureSteps = [
-  { path: '', name: 'Information' },
-  { path: 'payment', name: 'Payment' },
-  { path: 'upload-document', name: 'Upload Documents' },
+  {path: '', name: 'Information'},
+  {path: 'payment', name: 'Payment'},
+  {path: 'upload-document', name: 'Upload Documents'},
 ];
 
 function ProcedureStepsLayout() {
-  const { procedureType } = useParams<{ procedureType: string }>();
+  const {procedureType} = useParams<{ procedureType: string }>();
   const location = useLocation();
 
   const pathSegments = location.pathname.split('/').filter(Boolean);
@@ -26,10 +29,19 @@ function ProcedureStepsLayout() {
     currentStepIndex = 0;
   }
 
+  const items: MenuItem[] = procedureSteps
+    .filter((step) => step.path !== '')
+    .map((step) => ({
+      label: step.name
+    }));
+
+  const stepsActiveIndex = currentStepIndex === 0 ? -1 : currentStepIndex - 1;
+
   return (
     <article className="outlet-container">
+      {stepsActiveIndex > -1 && <Steps model={items} activeIndex={stepsActiveIndex}/>}
       <section className="outlet-container">
-        <Outlet />
+        <Outlet/>
       </section>
     </article>
   );

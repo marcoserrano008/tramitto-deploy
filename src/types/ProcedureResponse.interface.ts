@@ -9,6 +9,7 @@ import {UserResponse} from "./User.interface.ts";
 export interface ProcedureResponse {
   id: number;
   procedureTypeName: string;
+  procedureTypeId: number;
   status: ProcedureStatusEnum;
   currentStage: ProcedureStageEnum;
   paymentStatus: PaymentStatusEnum;
