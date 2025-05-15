@@ -38,9 +38,15 @@ function AppSidebar() {
         <PanelMenu model={items} className="w-full md:w-20rem"/>
         <button
           onClick={handleToggleSidebar}
-          className={classNames(styles['toggle-button'])}
+          aria-label={isOpen ? 'Hide sidebar' : 'Show sidebar'}
+          className={classNames(
+            styles['toggle-button'],
+            {[styles.open]: isOpen}   // note: this is a class local to the button
+          )}
         >
-          {isOpen ? 'Hide Sidebar' : 'Show Sidebar'}
+          <span className={styles.bar}/>
+          <span className={styles.bar}/>
+          <span className={styles.bar}/>
         </button>
       </div>
 

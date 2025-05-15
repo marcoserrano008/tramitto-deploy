@@ -11,7 +11,7 @@ const archivesManagerRoutes: RouteObject[] = [
   {
     path: 'archives-manager',
     element: (
-      <ProtectedRoute allowedRoles={[RoleEnum.ADMINISTRATOR]}>
+      <ProtectedRoute allowedRoles={[RoleEnum.ARCHIVES_MANAGER]}>
         <ArchivesManagerLayout/>
       </ProtectedRoute>
     ),

@@ -3,11 +3,11 @@ import AdministratorLayout from "./layout/AdministratorLayout.tsx";
 import ProtectedRoute from "../../routes/ProtectedRoute.tsx";
 import {RoleEnum} from "../../types/enum/Role.enum.ts";
 import AdministratorHomePage from "./pages/AdministratorHomePage/AdministratorHomePage.tsx";
-import AdministratorProcedureInformationPage
-  from "./pages/AdministratorProcedureInformationPage/AdministratorProcedureInformationPage.tsx";
 import AdministratorProceduresStatusPage
   from "./pages/AdministratorProceduresStatusPage/AdministratorProceduresStatusPage.tsx";
 import AdministratorReportsPage from "./pages/AdministratorReportsPage/AdministratorReportsPage.tsx";
+import AdministratorProceduresListPage
+  from "./pages/AdministratorProceduresListPage/AdministratorProceduresListPage.tsx";
 
 const administratorRoutes: RouteObject[] = [
   {
@@ -20,7 +20,7 @@ const administratorRoutes: RouteObject[] = [
     children: [
       {index: true, element: <AdministratorHomePage/>},
 
-      {path: 'procedures-list', element: <AdministratorProcedureInformationPage/>},
+      {path: 'procedures-list', element: <AdministratorProceduresListPage/>},
 
       {path: 'procedures-status', element: <AdministratorProceduresStatusPage/>},
 

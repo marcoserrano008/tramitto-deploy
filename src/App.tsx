@@ -4,11 +4,9 @@ import Header from "./components/Header/Header.tsx";
 import Footer from "./components/Footer/Footer.tsx";
 import AppSidebar from "./components/Sidebar/AppSidebar.tsx";
 import {useAuth} from "./context/AuthContext.tsx";
-import {classNames} from "primereact/utils";
 
 function App() {
-  const { loading } = useAuth();
-  const { isAuthenticated } = useAuth();
+  const {loading} = useAuth();
 
   if (loading) {
     return <div className="loading-container">Loading...</div>;

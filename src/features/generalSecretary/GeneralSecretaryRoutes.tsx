@@ -11,7 +11,7 @@ const generalSecretaryRoutes: RouteObject[] = [
   {
     path: 'general-secretary',
     element: (
-      <ProtectedRoute allowedRoles={[RoleEnum.ADMINISTRATOR]}>
+      <ProtectedRoute allowedRoles={[RoleEnum.GENERAL_SECRETARY]}>
         <GeneralSecretaryLayout/>
       </ProtectedRoute>
     ),

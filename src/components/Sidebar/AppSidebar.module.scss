@@ -1,35 +1,110 @@
+@use "../../assets/variables.scss";
+
 .sidebar-wrapper {
-    position: relative;
-    height: 100%;
+  position: relative;
+  height: 100%;
 }
 
 .sidebar-container {
-    height: fit-content;
-    padding: 5px;
-    width: 240px;
-    transition: transform 0.3s ease;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: red;
-    border: 1px solid black;
-    border-radius: 15px;
-    z-index: 10;
+  height: fit-content;
+  padding: 10px 5px;
+  width: 240px;
+  transition: transform 0.3s ease;
+  position: absolute;
+  top: 3px;
+  left: 1px;
+  background-color: variables.$neutral;
+
+  border: 3px solid transparent;
+  background-image: linear-gradient(variables.$neutral, variables.$neutral),
+  linear-gradient(90deg, #003A8C 44%, #80DCF3 98%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 15px;
+  z-index: 10;
 }
 
-.open {
+.sidebar-container {
+  transition: transform .35s cubic-bezier(.29, 1.15, .44, 1);
+
+  &.open {
     transform: translateX(0);
-}
+  }
 
-.closed {
-    transform: translateX(-240px);
+  &.closed {
+    transform: translateX(-241px);
+  }
 }
 
 .toggle-button {
-    position: absolute;
-    right: -60px;
-    top: 10px;
-    z-index: 11;
-    height: 40px;
-    width: 60px;
+  position: absolute;
+  right: -60px;
+  top: 10px;
+  z-index: 11;
+  width: 60px;
+  height: 40px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  background: rgba(variables.$primary8, 0.3);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .15);
+  transition: transform .35s cubic-bezier(.29, 1.15, .44, 1),
+  background .25s;
+
+  &:hover {
+    transform: scale(1.08) rotate(1deg);
+    background: variables.$primary8;
+  }
+
+  &:active {
+    transform: scale(.97) rotate(1deg);
+  }
+
+  .bar {
+    width: 60%;
+    height: 2px;
+    border-radius: 1px;
+    background: #fff;
+    transition: transform .35s ease,
+    opacity .35s ease;
+    pointer-events: none;
+  }
 }
+
+.toggle-button.open {
+  background: variables.$primary8;
+
+  .bar:nth-child(1) {
+    transform: translateY(6px) rotate(0deg);
+  }
+
+  .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .bar:nth-child(3) {
+    transform: translateY(-6px) rotate(0deg);
+  }
+
+  animation: swivel .6s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+@keyframes swivel {
+  0% {
+    transform: rotate(0deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+

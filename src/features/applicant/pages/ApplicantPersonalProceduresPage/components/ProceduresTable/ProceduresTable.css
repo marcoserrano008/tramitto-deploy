@@ -1,0 +1,121 @@
+/* ProceduresTable.css */
+.procedures-table-container {
+    font-family: Arial, sans-serif;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 20px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.procedures-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.procedures-table th {
+    background-color: #f8f9fa;
+    padding: 16px;
+    text-align: left;
+    color: #0056b3;
+    font-weight: bold;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.procedures-table td {
+    padding: 16px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.procedure-row {
+    cursor: pointer;
+}
+
+.procedure-row:hover {
+    background-color: #f8f9fa;
+}
+
+.procedure-row.rejected {
+    background-color: #ffeeee;
+}
+
+.expanded-row {
+    background-color: #f8f9fa;
+}
+
+.expanded-row td {
+    padding: 0;
+}
+
+.expanded-content {
+    padding: 16px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.status-completed {
+    color: #28a745;
+    display: flex;
+    align-items: center;
+}
+
+.status-rejected {
+    color: #dc3545;
+    display: flex;
+    align-items: center;
+}
+
+.status-review {
+    color: #fd7e14;
+    display: flex;
+    align-items: center;
+}
+
+.status-pending {
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+}
+
+.status-icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.expand-icon {
+    float: right;
+    color: #0056b3;
+}
+
+.download-btn, .view-btn, .upload-btn {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 8px;
+    margin-top: 12px;
+}
+
+.download-btn:hover, .view-btn:hover, .upload-btn:hover {
+    background-color: #004494;
+}
+
+.document-info {
+    color: #6c757d;
+    font-style: italic;
+}
+
+.rejection-reason {
+    margin-bottom: 12px;
+}
+
+.rejection-reason ul {
+    margin-top: 8px;
+    padding-left: 20px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}

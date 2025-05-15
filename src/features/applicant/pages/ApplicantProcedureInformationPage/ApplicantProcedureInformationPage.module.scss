@@ -1,0 +1,64 @@
+@use "../../../../assets/variables";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.procedureContainer {
+  border: 2px solid variables.$primary8;
+  border-radius: 10px;
+  display: flex;
+  position: relative;
+}
+
+.procedureTitle {
+  position: absolute;
+  padding: 4px;
+  border: 2px solid variables.$primary8;
+  border-radius: 10px;
+  top: -15px;
+  left: 90px;
+  background-color: variables.$neutral;
+}
+
+.stepsContainer {
+  border-right: 2px solid variables.$primary8;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 20px;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+}
+
+.information {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  gap: 20px;
+}
+
+.informationDetail {
+  display: flex;
+  flex-direction: column;
+}
+
+.informationTitle {
+  font-weight: 700;
+}
+
+.startButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.startButton {
+  width: 140px;
+}

@@ -1,14 +1,14 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import authService from "../services/AuthService.ts";
-import {User} from "../types/User.interface.ts";
+import authService from "../services/Auth.http.service.ts";
+import {UserResponse} from "../types/User.interface.ts";
 
 interface AuthContextType {
-  handleOAuthSuccess: () => Promise<User | null>;
+  handleOAuthSuccess: () => Promise<UserResponse | null>;
   isAuthenticated: boolean;
   setIsAuthenticated: (value: boolean) => void;
-  user: User | null;
+  user: UserResponse | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<User>;
+  login: (email: string, password: string) => Promise<UserResponse>;
   logout: () => void;
 }
 
@@ -28,7 +28,7 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       const response = await authService.login({ email, password });
       setIsAuthenticated(true);
-      let loggedInUser: User | null = null;
+      let loggedInUser: UserResponse | null = null;
 
       if (response.user) {
         loggedInUser = response.user;
@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const handleOAuthSuccess = async () => {
     setIsAuthenticated(true);
-    let fetchedUser: User | null = null;
+    let fetchedUser: UserResponse | null = null;
     try {
       fetchedUser = await authService.fetchCurrentUser();
       setUser(fetchedUser);
