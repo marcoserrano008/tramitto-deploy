@@ -4,6 +4,8 @@ import {useEffect, useState} from "react";
 import {proceduresByUserIdService} from "../../../../services/ProceduresByUserId.http.service.ts";
 import {useAuth} from "../../../../context/AuthContext.tsx";
 import './ApplicantPersonalProceduresPage.scss';
+import styles
+  from "../../../administrator/pages/AdministratorProceduresListPage/AdministratorProceduresListPage.module.scss";
 
 const ApplicantPersonalProceduresPage = () => {
   const auth = useAuth();
@@ -46,8 +48,13 @@ const ApplicantPersonalProceduresPage = () => {
 
   return (
     <div className="applicant-personal-procedures-container">
-      <h1>Mis Trámites</h1>
-      <ProceduresTable procedures={procedures}/>
+      <section className={styles.proceduresListHeader}>
+        <span className={styles.proceduresListTitle}>Mis tramites</span>
+        <span className={styles.proceduresListSubtitle}>Legalizaciones</span>
+      </section>
+      <section className="applicant-personal-procedures-table">
+        <ProceduresTable procedures={procedures}/>
+      </section>
     </div>
   );
 }

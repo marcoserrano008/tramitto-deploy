@@ -1,9 +1,10 @@
 import { Outlet } from 'react-router-dom';
+import styles from './ApplicantLayout.module.scss';
 
 function ApplicantLayout() {
   return (
-    <article className="outlet-container">
-      <section className="outlet-container">
+    <article className={styles.outletContainer}>
+      <section  className="outlet-container">
         <Outlet/>
       </section>
     </article>
