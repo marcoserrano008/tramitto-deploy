@@ -1,3 +1,8 @@
 .applicant-personal-procedures-container {
-  padding-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+}
+
+.applicant-personal-procedures-table {
+  padding: 20px 60px;
 }

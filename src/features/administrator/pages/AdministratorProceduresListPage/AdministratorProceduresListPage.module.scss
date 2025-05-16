@@ -1,0 +1,74 @@
+@use "../../../../assets/variables.scss";
+
+.proceduresListHeader {
+  width: 100%;
+  background-color: variables.$primary1;
+  display: flex;
+  flex-direction: column;
+  padding: 25px 60px;
+}
+
+.proceduresListTitle {
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.proceduresListSubtitle {
+  font-size: 36px;
+  font-weight: 600;
+  color: variables.$primary10;
+}
+
+.proceduresListSplitterContainer {
+  height: 100%;
+}
+
+.proceduresListSplitterLeft {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  gap: 24px;
+}
+
+.proceduresListSlitterRight {
+  padding: 32px 32px 32px 0;
+
+}
+
+.filterListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid variables.$primary7;
+  border-radius: 16px;
+  padding: 16px 24px;
+}
+
+.filterListContainer label {
+  font-weight: 600;
+}
+
+.filterListRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filterListField,
+.filterListSwitchField,
+.filterListCalendarField {
+  flex: 1 1 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filterListSwitchField {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filterListCalendarField label {
+  margin-bottom: 0.25rem;
+}
+

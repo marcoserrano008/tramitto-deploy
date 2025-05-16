@@ -1,7 +1,7 @@
 import {Outlet, useLocation, useParams} from 'react-router-dom';
 import {MenuItem} from "primereact/menuitem";
-import React from "react";
 import {Steps} from "primereact/steps";
+import styles from './ProcedureStepsLayout.module.scss';
 
 const procedureSteps = [
   {path: '', name: 'Information'},
@@ -38,7 +38,17 @@ function ProcedureStepsLayout() {
   const stepsActiveIndex = currentStepIndex === 0 ? -1 : currentStepIndex - 1;
 
   return (
-    <article className="outlet-container">
+    <article className={styles.procedureStepsOutlet}>
+      {/*<section className={styles.proceduresHeader}>*/}
+      {/*  <span className={styles.proceduresHeaderTitle}>{procedureType}</span>*/}
+      {/*  <section className={styles.proceduresHeaderLeft}>*/}
+      {/*    <label><strong>Codigo de tramite: </strong> 123</label>*/}
+      {/*    <label><strong>Fecha de inicio</strong>17 de mayo de 2025</label>*/}
+
+      {/*  </section>*/}
+      {/*  <section className={styles.proceduresHeaderRight}></section>*/}
+
+      {/*</section>*/}
       {stepsActiveIndex > -1 && <Steps model={items} activeIndex={stepsActiveIndex}/>}
       <section className="outlet-container">
         <Outlet/>
@@ -48,34 +58,3 @@ function ProcedureStepsLayout() {
 }
 
 export default ProcedureStepsLayout;
-
-
-// return (
-//   <div>
-//     {/* Optional: Add a heading or context */}
-//     <span>{procedureType} Procedure</span>
-//
-//     {/* === Placeholder for your Steps Component === */}
-//     <div style={{ margin: '20px 0', padding: '10px', border: '1px dashed blue' }}>
-//       <p>Future Steps Component Area:</p>
-//       {/*
-//             When you build StepsComponent, you'll pass props like:
-//             <StepsComponent
-//                 steps={procedureSteps}
-//                 currentStepIndex={currentStepIndex}
-//                 totalSteps={procedureSteps.length}
-//             />
-//          */}
-//       <p>(Current Step Index: {currentStepIndex} - {procedureSteps[currentStepIndex]?.name})</p>
-//     </div>
-//     {/* ========================================== */}
-//
-//     {/* This Outlet renders the actual page component for the current step */}
-//     {/* (ApplicantProcedureInformationPage, ApplicantStepPaymentPage, or ApplicantStepUploadDocumentPage) */}
-//     <main>
-//       <Outlet />
-//     </main>
-//
-//     {/* Optional: Add common footer elements for the steps if needed */}
-//   </div>
-// );

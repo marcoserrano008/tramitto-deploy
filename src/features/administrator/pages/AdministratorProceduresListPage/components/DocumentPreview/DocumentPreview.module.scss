@@ -1,0 +1,258 @@
+@use "../../../../../../assets/variables.scss";
+
+.container {
+  overflow: hidden;
+  max-width: 64rem;
+  margin: 0 auto;
+  border: 1px solid variables.$primary7;
+  border-radius: 16px;
+  padding: 16px 24px;
+}
+
+.previewHeader {
+  text-align: center;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.applicantInfo {
+  display: flex;
+  font-size: 15px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+
+.infoLabel {
+  font-weight: 800;
+  width: 6rem;
+}
+
+.documentViewer {
+  padding: 12px;
+}
+
+.viewerControls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.newWindowLink {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  background-color: white;
+  color: #2563eb;
+  border-radius: 0.25rem;
+  border: 1px solid #d1d5db;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+.newWindowLink:hover {
+  color: #1d4ed8;
+}
+
+.newWindowLinkText {
+  display: flex;
+  gap: 5px;
+}
+
+.pdfContainer {
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  overflow: hidden;
+  height: 500px;
+}
+
+.pdfViewer {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24rem;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+}
+
+.loadingContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #6b7280;
+}
+
+.loadingSpinner {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  animation: spin 1s linear infinite;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.noDocument {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24rem;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+}
+
+.noDocumentContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #6b7280;
+}
+
+.documentIcon {
+  height: 3rem;
+  width: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Footer Section */
+.footer {
+  padding: 1rem 1.5rem;
+  background-color: #f9fafb;
+}
+
+/* Action Buttons */
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s;
+  border: none;
+  cursor: pointer;
+  height: 35px;
+}
+
+.approveBtn {
+  composes: button;
+  background-color: #16a34a;
+  color: white;
+  display: flex;
+  gap: 6px;
+}
+
+.approveBtn:hover {
+  background-color: #15803d;
+}
+
+.rejectBtn {
+  composes: button;
+  background-color: #dc2626;
+  color: white;
+  display: flex;
+  gap: 6px;
+}
+
+.rejectBtn:hover {
+  background-color: #b91c1c;
+}
+
+.buttonIcon {
+  margin-right: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Rejection Form */
+.rejectionForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rejectionTitle {
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.rejectionTextarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  outline: none;
+  transition: all 0.2s;
+  resize: vertical;
+}
+
+.rejectionTextarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.formButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.cancelBtn {
+  composes: button;
+  background-color: white;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+}
+
+.cancelBtn:hover {
+  background-color: #f9fafb;
+}
+
+.submitBtn {
+  composes: button;
+  background-color: #dc2626;
+  color: white;
+}
+
+.submitBtn:hover {
+  background-color: #b91c1c;
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .applicantInfo {
+    grid-template-columns: 1fr 1fr;
+  }
+}

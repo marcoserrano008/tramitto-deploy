@@ -23,7 +23,6 @@
 .outlet-container {
     flex: 1;
     transition: margin-left 0.3s ease;
-    padding-bottom: 20px;
     /*padding: 10px;*/
 }
 
