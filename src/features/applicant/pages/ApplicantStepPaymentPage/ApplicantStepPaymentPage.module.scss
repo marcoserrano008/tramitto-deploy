@@ -1,0 +1,325 @@
+@use "../../../../assets/variables";
+
+//.mainContainer {
+//  display: flex;
+//  flex-direction: column;
+//  width: 100%;
+//  gap: 45px;
+//  align-items: center;
+//}
+//
+//.proceduresListHeader {
+//  width: 100%;
+//}
+
+.mainContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.proceduresListHeader {
+  margin-bottom: 1.5rem;
+}
+
+.container {
+  max-width: 1800px;
+  margin: 0 auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar {
+  width: 100%;
+  border-right: 1px solid #e5e7eb;
+}
+
+.stepHeader {
+  background-color: #0052cc;
+  color: white;
+  padding: 1.5rem;
+}
+
+.stepLabel {
+  font-size: 0.875rem;
+}
+
+.stepNumber {
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+.paymentType {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.paymentTypeTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.recommendations {
+  padding: 1.5rem;
+}
+
+.recommendationsTitle {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.recommendationsIntro {
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.recommendationsList {
+  font-size: 0.875rem;
+  margin-left: -20px;
+}
+
+.recommendationItem {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.bullet {
+  margin-right: 0.5rem;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+.paymentHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.iconContainer {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background-color: #e6f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+}
+
+.icon {
+  color: #0052cc;
+}
+
+.paymentTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.paymentDescription {
+  margin-bottom: 1rem;
+}
+
+.paymentDetails {
+  margin-bottom: 1rem;
+}
+
+.paymentDetail {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.25rem;
+}
+
+.detailLabel {
+  font-weight: 600;
+}
+
+.paymentMethodSelection {
+  margin: 1.5rem 0;
+}
+
+.paymentMethodTitle {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.paymentOptions {
+  display: flex;
+  gap: 1rem;
+}
+
+.paymentOption {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.qrContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.qrCode {
+  border: 2px solid #e5e7eb;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+  position: relative;
+}
+
+.successQr {
+  position: relative;
+}
+
+.successOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 82, 204, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  color: #0052cc;
+}
+
+.downloadButton {
+  background-color: #0052cc;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.downloadButton:hover {
+  background-color: #003d99;
+}
+
+.instructions {
+  margin-top: 2rem;
+}
+
+.instructionsTitle {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.instructionsList {
+  list-style: none;
+  padding: 0;
+}
+
+.instructionItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.instructionNumber {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background-color: #0052cc;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  font-size: 0.875rem;
+}
+
+.paymentError {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border-radius: 0.25rem;
+}
+
+.paymentSuccess {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #d1fae5;
+  color: #065f46;
+  border-radius: 0.25rem;
+}
+
+.footerNote {
+  margin-top: 2rem;
+  font-size: 0.875rem;
+}
+
+.actionButtons {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.cancelButton {
+  background-color: #e5e7eb;
+  color: #374151;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  cursor: pointer;
+}
+
+.cancelButton:hover {
+  background-color: #d1d5db;
+}
+
+.verifyButton {
+  background-color: #003d99;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.verifyButton:hover:not(:disabled) {
+  background-color: #00306b;
+}
+
+.verifyButton:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Media query for responsive layout */
+@media (min-width: 768px) {
+  .layout {
+    flex-direction: row;
+  }
+
+  .sidebar {
+    width: 320px;
+  }
+
+  .paymentDetail {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+

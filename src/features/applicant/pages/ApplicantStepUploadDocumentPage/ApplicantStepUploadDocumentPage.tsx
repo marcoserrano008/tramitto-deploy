@@ -1,12 +1,26 @@
-import {useLocation, useNavigate} from 'react-router-dom';
-import {useEffect, useRef, useState} from "react";
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import React, {useEffect, useRef, useState} from "react";
 import {FileResponse} from "../../../../types/FileResponse.interface.ts";
 import {DocumentTypeEnum} from "../../../../types/enum/DocumentType.enum.ts";
 import axios from "axios";
 import {ProcedureResponse} from "../../../../types/ProcedureResponse.interface.ts";
 import {ProcedureStatusEnum} from "../../../../types/enum/ProcedureStatus.enum.ts";
+import styles from './ApplicantStepUploadDocumentPage.module.scss';
+import {procedureSteps} from "../../../../types/procedureSteps.ts";
+import {ProcedureTypeEnum} from "../../../../types/enum/ProcedureType.enum.ts";
+import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
+import {useProcedureTypeData} from "../../hooks/useProcedureTypeData.ts";
+import {Steps} from "primereact/steps";
+import {MenuItem} from "primereact/menuitem";
+import ProceduresHeader from "../../components/ProceduresHeader/ProceduresHeader.tsx";
+import {useAuth} from "../../../../context/AuthContext.tsx";
+import {Image} from "primereact/image";
+import generatedQrImage from "../../../../assets/images/qr-payment.png";
 
 function ApplicantStepUploadDocumentPage() {
+  const {procedureType} = useParams<{ procedureType: string }>();
+  const {user} = useAuth();
+
   const navigate = useNavigate();
   const location = useLocation();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -20,6 +34,16 @@ function ApplicantStepUploadDocumentPage() {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<string>('');
+
+  const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
+  const {procedure} = useProcedureTypeData(procedureTypeEnum as ProcedureTypeEnum);
+
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  const currentPathEnd = pathSegments[pathSegments.length - 1];
+  const currentStepIndex = procedureSteps.findIndex((step: {path: string, name: string}) => step.path === currentPathEnd);
+  const stepsActiveIndex = currentStepIndex === 0 ? -1 : currentStepIndex - 1;
+  const items: MenuItem[] = procedureSteps.filter((step) => step.path !== '')
+    .map((step) => ({label: step.name}));
 
   useEffect(() => {
     if (!procedureData) {
@@ -108,7 +132,7 @@ function ApplicantStepUploadDocumentPage() {
       // Success - redirect to personal procedures
       setCurrentStep('Complete! Redirecting...');
       setTimeout(() => {
-        navigate('/applicant/personal-procedures');
+        navigate('/usuario/personal-procedures');
       }, 1000);
 
     } catch (error) {
@@ -124,7 +148,7 @@ function ApplicantStepUploadDocumentPage() {
         <h2>Error</h2>
         <p>{error}</p>
         <button
-          onClick={() => navigate('/applicant/personal-procedures')}
+          onClick={() => navigate('/usuario/personal-procedures')}
           className="btn-primary"
         >
           Return to My Procedures
@@ -134,89 +158,180 @@ function ApplicantStepUploadDocumentPage() {
   }
 
   return (
-    <div className="document-upload-container">
-      <h2>Document Upload</h2>
+    <article className={styles.mainContainer}>
+      <section className={styles.proceduresListHeader}>
+        <ProceduresHeader procedure={procedure!} createdProcedure={procedureData} user={user!} />
+      </section>
 
-      {procedureData && (
-        <div className="procedure-info">
-          <p><strong>Procedure:</strong> {procedureData.procedureTypeName}</p>
-          <p><strong>ID:</strong> {procedureData.id}</p>
-          <p><strong>Status:</strong> {procedureData.status}</p>
-        </div>
-      )}
+      {stepsActiveIndex > -1 && <Steps model={items} activeIndex={stepsActiveIndex} />}
 
-      <div className="upload-section">
-        <h3>Upload Required Document</h3>
+      <div className={styles.container}>
+        <div className={styles.layout}>
+          {/* Left sidebar */}
+          <div className={styles.sidebar}>
+            {/* Step header */}
+            <div className={styles.stepHeader}>
+              <div className={styles.stepLabel}>Paso</div>
+              <div className={styles.stepNumber}>3</div>
+            </div>
 
-        <div className="file-input-container">
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            disabled={isProcessing}
-            accept=".pdf,.jpg,.jpeg,.png"
-            style={{display: 'none'}}
-          />
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            disabled={isProcessing}
-            className="btn-secondary"
-          >
-            {selectedFile ? 'Change File' : 'Select File'}
-          </button>
+            {/* Document type */}
+            <div className={styles.documentType}>
+              <h2 className={styles.documentTypeTitle}>Subir Documento</h2>
+            </div>
 
-          {selectedFile && (
-            <span className="selected-file">
-              Selected: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(2)} KB)
-            </span>
-          )}
-        </div>
+            {/* Recommendations */}
+            <div className={styles.recommendations}>
+              <h3 className={styles.recommendationsTitle}>Recomendaciones:</h3>
+              <p className={styles.recommendationsIntro}>Antes de subir el documento, ten en cuenta:</p>
 
-        {/* Preview section appears immediately after file selection */}
-        {previewUrl && selectedFile && (
-          <div className="document-preview">
-            <h4>Document Preview</h4>
-            {selectedFile.type.startsWith('image/') ? (
-              <img
-                src={previewUrl}
-                alt="Document preview"
-                style={{maxWidth: '100%', maxHeight: '300px'}}
-              />
-            ) : selectedFile.type === 'application/pdf' ? (
-              <iframe
-                src={previewUrl}
-                width="300px"
-                height="400px"
-                title="PDF Preview"
-              />
-            ) : (
-              <p>
-                Preview not available for this file type.
+              <ul className={styles.recommendationsList}>
+                <li className={styles.recommendationItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>El documento debe estar en formato PDF, JPG o PNG.</span>
+                </li>
+                <li className={styles.recommendationItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>El tamaño máximo permitido es de 5MB.</span>
+                </li>
+                <li className={styles.recommendationItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>Asegúrate que el documento sea legible y esté completo.</span>
+                </li>
+                <li className={styles.recommendationItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>Verifica que la información sea correcta antes de procesar.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Sample document image */}
+            <div className={styles.sampleDocumentSection}>
+              <h3 className={styles.sampleDocumentTitle}>Documento de Ejemplo:</h3>
+              <p className={styles.sampleDocumentDescription}>Tu documento debe ser similar al siguiente ejemplo:</p>
+              <div className={styles.sampleImageContainer}>
+                <Image src={generatedQrImage}
+                       alt={`Image sample`} width="220" height="300"
+                       preview/>
+              </div>
+              <p className={styles.sampleDocumentNote}>
+                Asegúrate que todos los campos estén visibles y la imagen sea clara.
               </p>
+            </div>
+          </div>
+
+          {/* Main content */}
+          <div className={styles.mainContent}>
+            <div className={styles.documentHeader}>
+              <div className={styles.iconContainer}>
+                <i className="pi pi-file-arrow-up" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
+              </div>
+              <h2 className={styles.documentTitle}>Subir Documento</h2>
+            </div>
+
+            {procedureData && (
+              <div className={styles.procedureInfo}>
+                <div className={styles.procedureDetail}>
+                  <span className={styles.detailLabel}>Procedimiento:</span>
+                  <span>{procedureData.procedureTypeName}</span>
+                </div>
+                <div className={styles.procedureDetail}>
+                  <span className={styles.detailLabel}>ID:</span>
+                  <span>{procedureData.id}</span>
+                </div>
+                <div className={styles.procedureDetail}>
+                  <span className={styles.detailLabel}>Estado:</span>
+                  <span className={styles.statusBadge}>{procedureData.status}</span>
+                </div>
+              </div>
             )}
+
+            <div className={styles.uploadSection}>
+              <h3 className={styles.uploadSectionTitle}>Subir Documento Requerido</h3>
+
+              <div className={styles.fileInputContainer}>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  disabled={isProcessing}
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  style={{ display: "none" }}
+                />
+
+                <div className={styles.dropZone} onClick={() => fileInputRef.current?.click()}>
+                  <div className={styles.dropZoneContent}>
+                    <i className="pi pi-cloud-upload" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
+                    <p className={styles.dropZoneText}>
+                      {selectedFile ? "Haz clic para cambiar el archivo" : "Haz clic para seleccionar un archivo"}
+                    </p>
+                    <p className={styles.dropZoneSubtext}>o arrastra y suelta aquí</p>
+                    <p className={styles.dropZoneFormats}>PDF, JPG, PNG (max. 5MB)</p>
+                  </div>
+                </div>
+
+                {selectedFile && (
+                  <div className={styles.selectedFileInfo}>
+                    <i className="pi pi-file-check" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
+                    <span className={styles.fileName}>{selectedFile.name}</span>
+                    <span className={styles.fileSize}>({(selectedFile.size / 1024).toFixed(2)} KB)</span>
+                    <button
+                      className={styles.changeFileButton}
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={isProcessing}
+                    >
+                      Cambiar
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Preview section appears immediately after file selection */}
+              {previewUrl && selectedFile && (
+                <div className={styles.documentPreview}>
+                  <h4 className={styles.previewTitle}>Vista Previa del Documento</h4>
+                  <div className={styles.previewContainer}>
+                    {selectedFile.type.startsWith("image/") ? (
+                      <img
+                        src={previewUrl || "/placeholder.svg"}
+                        alt="Vista previa del documento"
+                        className={styles.imagePreview}
+                      />
+                    ) : selectedFile.type === "application/pdf" ? (
+                      <iframe src={previewUrl} className={styles.pdfPreview} title="Vista previa del PDF" />
+                    ) : (
+                      <p className={styles.noPreviewMessage}>Vista previa no disponible para este tipo de archivo.</p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {error && <div className={styles.errorMessage}>{error}</div>}
+
+              {isProcessing && (
+                <div className={styles.progressIndicator}>
+                  <div className={styles.spinner}></div>
+                  <p className={styles.processingStep}>{currentStep}</p>
+                </div>
+              )}
+
+              {/* Action buttons */}
+              <div className={styles.actionButtons}>
+                <button className={styles.cancelButton}>Cancelar</button>
+                <button
+                  className={styles.processButton}
+                  onClick={handleProcessDocument}
+                  disabled={!selectedFile || isProcessing}
+                >
+                  {isProcessing ? currentStep : "Procesar Documento"}
+                </button>
+              </div>
+            </div>
           </div>
-        )}
-
-        {error && <div className="error-message">{error}</div>}
-
-        {/* Single button to process everything */}
-        <button
-          onClick={handleProcessDocument}
-          disabled={!selectedFile || isProcessing}
-          className="btn-primary btn-large"
-        >
-          {isProcessing ? currentStep : 'Process Document'}
-        </button>
-
-        {isProcessing && (
-          <div className="progress-indicator">
-            <div className="spinner"></div>
-            <p>{currentStep}</p>
-          </div>
-        )}
+        </div>
       </div>
-    </div>
-  );
+    </article>
+  )
 }
 
 export default ApplicantStepUploadDocumentPage;

@@ -1,0 +1,158 @@
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {useProcedurePayment} from "../../hooks/useProcedurePayment.ts";
+import {useEffect} from "react";
+import {PaymentDetails} from "../../../../types/PaymentDetails.interface.ts";
+import styles from './ApplicantStepPaymentPage.module.scss';
+import {ProcedureTypeEnum} from "../../../../types/enum/ProcedureType.enum.ts";
+import {useProcedureTypeData} from "../../hooks/useProcedureTypeData.ts";
+import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
+import {Steps} from "primereact/steps";
+import {MenuItem} from "primereact/menuitem";
+import {procedureSteps} from "../../../../types/procedureSteps.ts";
+import {useAuth} from "../../../../context/AuthContext.tsx";
+import ProceduresHeader from "../../components/ProceduresHeader/ProceduresHeader.tsx";
+
+function ApplicantStepPaymentPage() {
+  const {procedureType} = useParams<{ procedureType: string }>();
+  const {user} = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
+  const {procedure, loading, error, procedureId} = useProcedureTypeData(procedureTypeEnum as ProcedureTypeEnum);
+
+  const items: MenuItem[] = procedureSteps.filter((step) => step.path !== '')
+    .map((step) => ({label: step.name}));
+
+  const paymentDetails: PaymentDetails = location.state?.paymentDetails || {
+    amount: 0,
+    currency: 'BOB',
+    procedureType: procedureType || '',
+    procedureName: '',
+    procedureId: 0
+  };
+
+  const {
+    createdProcedure,
+    creationLoading,
+    creationError,
+    paymentProcessing,
+    paymentSuccess,
+    paymentError,
+    paymentResponse,
+    handlePayment
+  } = useProcedurePayment(paymentDetails);
+
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  const currentPathEnd = pathSegments[pathSegments.length - 1];
+  const currentStepIndex = procedureSteps.findIndex((step: {
+    path: string,
+    name: string
+  }) => step.path === currentPathEnd);
+  const stepsActiveIndex = currentStepIndex === 0 ? -1 : currentStepIndex - 1;
+
+  useEffect(() => {
+    if (paymentSuccess && paymentResponse) {
+      const timer = setTimeout(() => {
+        navigate('../subir-archivos', {
+          state: {procedureData: paymentResponse}
+        });
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [paymentSuccess, paymentResponse, navigate]);
+
+  if (creationLoading) {
+    return <div>Creating your procedure...</div>;
+  }
+
+  if (creationError) {
+    return <div className="error-message">{creationError}</div>;
+  }
+
+  if (loading) return <div>Loading procedure information...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!procedure) return <div>No procedure information found</div>;
+
+  return (
+    <article className={styles.mainContainer}>
+      <section className={styles.proceduresListHeader}>
+        <ProceduresHeader procedure={procedure}
+                          createdProcedure={createdProcedure!}
+                          user={user!}/>
+      </section>
+
+      {stepsActiveIndex > -1 && <Steps model={items} activeIndex={stepsActiveIndex}/>}
+
+      <section className={styles.paymentContainer}>
+        <h1>Payment Information</h1>
+
+        <div className="procedure-details">
+          <p><strong>Procedure:</strong> {paymentDetails.procedureName}</p>
+          <p><strong>Amount to pay:</strong> {paymentDetails.amount} {paymentDetails.currency}</p>
+          {createdProcedure && (
+            <p><strong>Procedure ID:</strong> {createdProcedure.id}</p>
+          )}
+        </div>
+
+        <div className="payment-method">
+          <h2>Payment Method</h2>
+          <div className="payment-options">
+            <div className="payment-option active">
+              <input
+                type="radio"
+                id="qr"
+                name="payment-method"
+                value="qr"
+                checked
+                readOnly
+              />
+              <label htmlFor="qr">QR Code Payment</label>
+            </div>
+          </div>
+
+          {/* Mock QR Code */}
+          <div className="qr-container">
+            <div className="mock-qr">
+              <p>Scan to pay {paymentDetails.amount} {paymentDetails.currency}</p>
+              <div className="qr-code">
+                <div style={{
+                  width: '200px',
+                  height: '200px',
+                  backgroundColor: '#f0f0f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto'
+                }}>
+                  QR Code Placeholder
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Simulate Payment Button */}
+          <button
+            className="payment-button"
+            onClick={handlePayment}
+            disabled={paymentProcessing || paymentSuccess}
+          >
+            {paymentProcessing ? 'Processing...' : paymentSuccess ? 'Payment Successful' : 'Simulate Payment'}
+          </button>
+
+          {paymentError && <div className="payment-error">{paymentError}</div>}
+          {paymentSuccess && (
+            <div className="payment-success">
+              Payment successful! Transaction ID: {paymentResponse?.payment?.transactionId}
+              <p>Redirecting to document upload...</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+    </article>
+  );
+}
+
+export default ApplicantStepPaymentPage;

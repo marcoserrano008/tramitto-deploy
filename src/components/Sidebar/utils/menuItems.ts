@@ -33,7 +33,7 @@ const applicantMenuItems: MenuItem[] = [
   {
     label: 'Inicio',
     icon: 'pi pi-fw pi-home',
-    url: '/applicant',
+    url: '/usuario',
   },
   {
     label: 'Tramites',
@@ -42,24 +42,24 @@ const applicantMenuItems: MenuItem[] = [
       {
         label: 'Legalizacion de Diploma de bachiller',
         icon: 'pi pi-fw pi-file',
-        url: '/applicant/procedure-information/diploma-bachiller',
+        url: '/usuario/informacion-tramite/diploma-bachiller',
       },
       {
         label: 'Legalizacion de Diploma Academico',
         icon: 'pi pi-fw pi-file',
-        url: '/applicant/procedure-information/diploma-academico',
+        url: '/usuario/informacion-tramite/diploma-academico',
       },
       {
         label: 'Legalizacion de Titulo en provision nacional',
         icon: 'pi pi-fw pi-file',
-        url: '/applicant/procedure-information/titulo-provision',
+        url: '/usuario/informacion-tramite/titulo-provision',
       },
     ],
   },
   {
     label: 'Mis Tramites',
     icon: 'pi pi-fw pi-folder',
-    url: '/applicant/personal-procedures',
+    url: '/usuario/personal-procedures',
   },
   {
     label: 'Preguntas Frecuentes',

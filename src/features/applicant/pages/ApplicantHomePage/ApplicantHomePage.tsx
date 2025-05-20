@@ -32,17 +32,17 @@ const processItems: ProcessItem[] = [
   {
     title: 'Legalización',
     subtitle: 'Diploma de Bachiller',
-    route: '/applicant/procedure-information/diploma-bachiller'
+    route: '/usuario/informacion-tramite/diploma-bachiller'
   },
   {
     title: 'Legalización',
     subtitle: 'Diploma Académico',
-    route: '/applicant/procedure-information/diploma-academico'
+    route: '/usuario/informacion-tramite/diploma-academico'
   },
   {
     title: 'Legalización',
     subtitle: 'Título Provisión Nacional',
-    route: '/applicant/procedure-information/titulo-provision'
+    route: '/usuario/informacion-tramite/titulo-provision'
   },
 ];
 

@@ -14,7 +14,7 @@ import ApplicantStepUploadDocumentPage
 
 const applicantRoutes: RouteObject[] = [
   {
-    path: 'applicant',
+    path: 'usuario',
     element: (
       <ProtectedRoute allowedRoles={[RoleEnum.APPLICANT]}>
         <ApplicantLayout/>
@@ -27,7 +27,7 @@ const applicantRoutes: RouteObject[] = [
         element: <ApplicantPersonalProceduresPage/>
       },
       {
-        path: 'procedure-information/:procedureType',
+        path: 'informacion-tramite/:procedureType',
         element: <ProcedureStepsLayout/>,
         children: [
           {
@@ -35,11 +35,11 @@ const applicantRoutes: RouteObject[] = [
             element: <ApplicantProcedureInformationPage/>,
           },
           {
-            path: 'payment',
+            path: 'pagos',
             element: <ApplicantStepPaymentPage/>,
           },
           {
-            path: 'upload-document',
+            path: 'subir-archivos',
             element: <ApplicantStepUploadDocumentPage/>,
           },
         ],
