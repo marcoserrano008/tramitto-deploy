@@ -1,0 +1,40 @@
+@use "../../../../assets/variables";
+
+.proceduresListHeader {
+  width: 100%;
+  background-color: variables.$primary1;
+  display: flex;
+  flex-direction: column;
+  padding: 25px 60px;
+  gap: 28px;
+}
+
+.proceduresListTitle {
+  font-size: 32px;
+  font-weight: 600;
+  color: variables.$primary10;
+}
+
+.headerColumns {
+  display: flex;
+  gap: 42px;
+}
+
+.headerColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.headerRow {
+  display: flex;
+  gap: 8px;
+}
+
+.headerLabel {
+  font-weight: 700;
+}
+
+.headerTag {
+  margin-top: -2px;
+}

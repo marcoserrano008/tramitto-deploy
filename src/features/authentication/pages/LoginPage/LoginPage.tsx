@@ -32,7 +32,7 @@ const LoginPage = () => {
 
         switch (userRole) {
           case RoleEnum.APPLICANT:
-            redirectPath = "/applicant";
+            redirectPath = "/usuario";
             break;
           case RoleEnum.ADMINISTRATOR:
             redirectPath = "/administrator";

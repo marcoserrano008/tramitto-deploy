@@ -24,7 +24,7 @@ const OAuth2RedirectHandler = () => {
 
           switch (userRole) {
             case RoleEnum.APPLICANT:
-              path = "/applicant";
+              path = "/usuario";
               break;
             case RoleEnum.ADMINISTRATOR:
               path = "/administrator";

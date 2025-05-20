@@ -36,7 +36,7 @@ function Header() {
           src={logoTramitto}
           alt="Logo Tramitto"
           className={styles.logoImage}
-          onClick={() => navigate('/applicant')}
+          onClick={() => navigate('/usuario')}
           style={{cursor: 'pointer'}}
         />
         <span className={styles.appName}>Tramitto</span>

@@ -1,12 +1,32 @@
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {useProcedurePayment} from "../../hooks/useProcedurePayment.ts";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {PaymentDetails} from "../../../../types/PaymentDetails.interface.ts";
+import styles from './ApplicantStepPaymentPage.module.scss';
+import {ProcedureTypeEnum} from "../../../../types/enum/ProcedureType.enum.ts";
+import {useProcedureTypeData} from "../../hooks/useProcedureTypeData.ts";
+import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
+import {Steps} from "primereact/steps";
+import {MenuItem} from "primereact/menuitem";
+import {procedureSteps} from "../../../../types/procedureSteps.ts";
+import {useAuth} from "../../../../context/AuthContext.tsx";
+import ProceduresHeader from "../../components/ProceduresHeader/ProceduresHeader.tsx";
+import {Image} from 'primereact/image';
+import generatedQrImage from '../../../../assets/images/qr-payment.png';
+import paymentCheckGif from '../../../../assets/images/payment-check.gif';
+
 
 function ApplicantStepPaymentPage() {
-  const {procedureType} = useParams<{ procedureType: string }>(); // Get type from URL
+  const {procedureType} = useParams<{ procedureType: string }>();
+  const {user} = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
+  const {procedure, loading, error} = useProcedureTypeData(procedureTypeEnum as ProcedureTypeEnum);
+
+  const items: MenuItem[] = procedureSteps.filter((step) => step.path !== '')
+    .map((step) => ({label: step.name}));
 
   const paymentDetails: PaymentDetails = location.state?.paymentDetails || {
     amount: 0,
@@ -15,8 +35,6 @@ function ApplicantStepPaymentPage() {
     procedureName: '',
     procedureId: 0
   };
-
-  console.log('payment details', paymentDetails);
 
   const {
     createdProcedure,
@@ -29,15 +47,21 @@ function ApplicantStepPaymentPage() {
     handlePayment
   } = useProcedurePayment(paymentDetails);
 
+  const pathSegments = location.pathname.split('/').filter(Boolean);
+  const currentPathEnd = pathSegments[pathSegments.length - 1];
+  const currentStepIndex = procedureSteps.findIndex((step: {
+    path: string,
+    name: string
+  }) => step.path === currentPathEnd);
+  const stepsActiveIndex = currentStepIndex === 0 ? -1 : currentStepIndex - 1;
+
   useEffect(() => {
     if (paymentSuccess && paymentResponse) {
       const timer = setTimeout(() => {
-        navigate('../upload-document', {
-          state: {
-            procedureData: paymentResponse
-          }
+        navigate('../subir-archivos', {
+          state: {procedureData: paymentResponse}
         });
-      }, 1500);
+      }, 3500);
 
       return () => clearTimeout(timer);
     }
@@ -51,73 +75,165 @@ function ApplicantStepPaymentPage() {
     return <div className="error-message">{creationError}</div>;
   }
 
+  if (loading) return <div>Loading procedure information...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!procedure) return <div>No procedure information found</div>;
+
   return (
-    <div className="payment-page">
-      <h1>Payment Information</h1>
+    <article className={styles.mainContainer}>
+      <section className={styles.proceduresListHeader}>
+        <ProceduresHeader procedure={procedure} createdProcedure={createdProcedure!} user={user!}/>
+      </section>
 
-      <div className="procedure-details">
-        <p><strong>Procedure:</strong> {paymentDetails.procedureName}</p>
-        <p><strong>Amount to pay:</strong> {paymentDetails.amount} {paymentDetails.currency}</p>
-        {createdProcedure && (
-          <p><strong>Procedure ID:</strong> {createdProcedure.id}</p>
-        )}
-      </div>
+      {stepsActiveIndex > -1 && <Steps model={items} activeIndex={stepsActiveIndex}/>}
 
-      <div className="payment-method">
-        <h2>Payment Method</h2>
-        <div className="payment-options">
-          <div className="payment-option active">
-            <input
-              type="radio"
-              id="qr"
-              name="payment-method"
-              value="qr"
-              checked
-              readOnly
-            />
-            <label htmlFor="qr">QR Code Payment</label>
+      <div className={styles.container}>
+        <div className={styles.layout}>
+          {/* Left sidebar */}
+          <div className={styles.sidebar}>
+            {/* Step header */}
+            <div className={styles.stepHeader}>
+              <div className={styles.stepLabel}>Paso</div>
+              <div className={styles.stepNumber}>1</div>
+            </div>
+
+            {/* Payment type */}
+            <div className={styles.paymentType}>
+              <h2 className={styles.paymentTypeTitle}>Pagar Tramite</h2>
+            </div>
+
+            {/* Recommendations */}
+            <div className={styles.recommendations}>
+              <h3 className={styles.recommendationsTitle}>Recomendaciones:</h3>
+              <p className={styles.recommendationsIntro}>Antes de realizar el pago, ten en cuenta:</p>
+
+              <ul className={styles.recommendationsList}>
+                <li className={styles.recommendationItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>
+                    El valorado tiene un costo de {paymentDetails.amount} {paymentDetails.currency}.
+                  </span>
+                </li>
+                <li className={styles.recommendationItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>El pago debe realizarse exclusivamente mediante QR.</span>
+                </li>
+                <li className={styles.recommendationItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>Escanea el QR con una app bancaria.</span>
+                </li>
+                <li className={styles.recommendationItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>Tras realizar el pago, descarga o toma captura del comprobante.</span>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
 
-        {/* Mock QR Code */}
-        <div className="qr-container">
-          <div className="mock-qr">
-            <p>Scan to pay {paymentDetails.amount} {paymentDetails.currency}</p>
-            <div className="qr-code">
-              <div style={{
-                width: '200px',
-                height: '200px',
-                backgroundColor: '#f0f0f0',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto'
-              }}>
-                QR Code Placeholder
+          {/* Main content */}
+          <div className={styles.mainContent}>
+            <div className={styles.paymentHeader}>
+              <div className={styles.iconContainer}>
+
+                <i className="pi pi-money-bill" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
+
               </div>
+              <h2 className={styles.paymentTitle}>Pago</h2>
+            </div>
+
+            <p className={styles.paymentDescription}>Realiza el pago escaneando el siguiente código QR:</p>
+
+            <div className={styles.paymentDetails}>
+
+              <div className={styles.paymentDetail}>
+                <span className={styles.detailLabel}>Monto:</span>
+                <span>
+                  {paymentDetails.amount} {paymentDetails.currency}
+                </span>
+              </div>
+              <div className={styles.paymentDetail}>
+                <span className={styles.detailLabel}>Método de pago:</span>
+                <span>Código QR</span>
+              </div>
+            </div>
+
+
+
+            {/* QR Code */}
+            <div className={styles.qrContainer}>
+              <div className={styles.qrCode}>
+                {paymentSuccess ? (
+                  <div className={styles.successQr}>
+                    <img src={paymentCheckGif}
+                         alt="Pago exitoso"
+                         width={400}
+                         className={styles.successGif}/>
+                  </div>
+                ) : (
+                  <Image src={generatedQrImage}
+                         alt={`Código QR para pago de ${paymentDetails.amount} ${paymentDetails.currency}`} width="400"
+                         preview/>
+                )}
+              </div>
+              {!paymentSuccess && <button className={styles.downloadButton}>Descargar QR</button>}
+            </div>
+
+            {/* Instructions */}
+            {!paymentSuccess && (
+              <div className={styles.instructions}>
+                <h3 className={styles.instructionsTitle}>Instrucciones:</h3>
+                <ol className={styles.instructionsList}>
+                  <li className={styles.instructionItem}>
+                    <div className={styles.instructionNumber}>1</div>
+                    <span>Abre la app de tu banco.</span>
+                  </li>
+                  <li className={styles.instructionItem}>
+                    <div className={styles.instructionNumber}>2</div>
+                    <span>Selecciona la opción "Escanear QR".</span>
+                  </li>
+                  <li className={styles.instructionItem}>
+                    <div className={styles.instructionNumber}>3</div>
+                    <span>Escanea el código QR que aparece a continuación.</span>
+                  </li>
+                  <li className={styles.instructionItem}>
+                    <div className={styles.instructionNumber}>4</div>
+                    <span>Confirma el pago y guarda el comprobante.</span>
+                  </li>
+                </ol>
+              </div>
+            )}
+
+            {/* Payment status messages */}
+            {paymentError && <div className={styles.paymentError}>{paymentError}</div>}
+
+            {paymentSuccess && (
+              <div className={styles.paymentSuccess}>
+                <p>¡Pago exitoso! ID de transacción: {paymentResponse?.payment?.transactionId}</p>
+                <p>Redirigiendo al siguiente paso...</p>
+              </div>
+            )}
+
+            {/* Footer note */}
+            <div className={styles.footerNote}>
+              <p>* Una vez confirmado el pago, se habilitará el siguiente paso.</p>
+            </div>
+
+            {/* Action buttons */}
+            <div className={styles.actionButtons}>
+              <button className={styles.cancelButton}>Cancelar</button>
+              <button
+                className={styles.verifyButton}
+                onClick={handlePayment}
+                disabled={paymentProcessing || paymentSuccess}
+              >
+                {paymentProcessing ? "Procesando..." : paymentSuccess ? "Pago Exitoso" : "Verificar pago"}
+              </button>
             </div>
           </div>
         </div>
-
-        {/* Simulate Payment Button */}
-        <button
-          className="payment-button"
-          onClick={handlePayment}
-          disabled={paymentProcessing || paymentSuccess}
-        >
-          {paymentProcessing ? 'Processing...' : paymentSuccess ? 'Payment Successful' : 'Simulate Payment'}
-        </button>
-
-        {paymentError && <div className="payment-error">{paymentError}</div>}
-        {paymentSuccess && (
-          <div className="payment-success">
-            Payment successful! Transaction ID: {paymentResponse?.payment?.transactionId}
-            <p>Redirecting to document upload...</p>
-          </div>
-        )}
       </div>
-    </div>
-  );
+    </article>
+  )
 }
 
 export default ApplicantStepPaymentPage;

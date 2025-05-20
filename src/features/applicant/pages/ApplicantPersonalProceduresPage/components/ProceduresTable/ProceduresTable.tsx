@@ -49,7 +49,7 @@ function ProceduresTable({procedures}: ProceduresTableProps) {
   const handleUploadNewFile = (procedure: ProcedureResponse) => {
     const procedureRouter = getProcedureRoute(procedure.procedureTypeId);
 
-    navigate(`../procedure-information/${procedureRouter}/upload-document`, {
+    navigate(`../informacion-tramite/${procedureRouter}/subir-archivos`, {
       state: {procedureData: procedure}
     });
   };
@@ -57,7 +57,7 @@ function ProceduresTable({procedures}: ProceduresTableProps) {
   const handleSendDocument = (procedure: ProcedureResponse) => {
     const procedureRouter = getProcedureRoute(procedure.procedureTypeId);
 
-    navigate(`../procedure-information/${procedureRouter}/upload-document`, {
+    navigate(`../informacion-tramite/${procedureRouter}/subir-archivos`, {
       state: {procedureData: procedure}
     });
   }

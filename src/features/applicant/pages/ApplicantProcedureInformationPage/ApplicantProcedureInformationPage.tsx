@@ -1,21 +1,17 @@
 import {useNavigate, useParams} from 'react-router-dom';
 import styles from './ApplicantProcedureInformationPage.module.scss';
-import {Button} from "primereact/button";
 import {ProcedureTypeEnum} from "../../../../types/enum/ProcedureType.enum.ts";
 import {useProcedureTypeData} from "../../hooks/useProcedureTypeData.ts";
 import {PaymentDetails} from "../../../../types/PaymentDetails.interface.ts";
-
-const URL_TO_PROCEDURE_ENUM: Record<string, ProcedureTypeEnum> = {
-  'diploma-bachiller': ProcedureTypeEnum.HIGH_SCHOOL_DIPLOMA,
-  'diploma-academico': ProcedureTypeEnum.ACADEMIC_DIPLOMA,
-  'titulo-provision': ProcedureTypeEnum.NATIONAL_PROVISION_DEGREE
-};
+import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
+import {Image} from "primereact/image";
+import generatedQrImage from "../../../../assets/images/qr-payment.png";
 
 function ApplicantProcedureInformationPage() {
   const {procedureType} = useParams<{ procedureType: string }>();
   const navigate = useNavigate();
 
-  const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? URL_TO_PROCEDURE_ENUM[procedureType] : undefined;
+  const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
   const {procedure, loading, error, procedureId} = useProcedureTypeData(procedureTypeEnum as ProcedureTypeEnum);
 
   const handleStartProcedure = () => {
@@ -27,7 +23,7 @@ function ApplicantProcedureInformationPage() {
       procedureId: procedureId!,
     };
 
-    navigate('payment', {state: {paymentDetails}});
+    navigate('pagos', {state: {paymentDetails}});
   };
 
   if (loading) return <div>Loading procedure information...</div>;
@@ -35,57 +31,240 @@ function ApplicantProcedureInformationPage() {
   if (!procedure) return <div>No procedure information found</div>;
 
   return (
-    <div className={styles.container}>
-      <main className={styles.procedureContainer}>
-        <section className={styles.procedureTitle}>
-          <label>{procedure.name}</label>
-        </section>
+    <article className={styles.mainContainer}>
+      <section className={styles.proceduresListHeader}>
+        <span className={styles.proceduresListTitle}>Legalizaciones</span>
+        <span className={styles.proceduresListSubtitle}>{procedure.name}</span>
+      </section>
 
-        <section className={styles.stepsContainer}>
-          <label className={styles.stepsTitle}>Pasos del tramite</label>
+      <section className={styles.container}>
+        <div className={styles.procedureCard}>
+          {/* Left sidebar with steps */}
+          <div className={styles.sidebar}>
+            <div className={styles.stepsHeader}>
+              <i className="pi pi-list"></i>
+              <h2 className={styles.stepsHeaderTitle}>Pasos del trámite</h2>
+            </div>
 
-          <section className={styles.steps}>
-            {procedure.steps.map((step: string) => (
-              <label>{step}</label>
-            ))}
-          </section>
-        </section>
+            <div className={styles.stepsList}>
+              {procedure.steps.map((step, index) => (
+                <div key={index} className={styles.stepItem}>
+                  <div className={styles.stepNumberContainer}>
+                    <div className={styles.stepNumber}>{index + 1}</div>
+                    {index < procedure.steps.length - 1 && <div className={styles.stepConnector}></div>}
+                  </div>
+                  <div className={styles.stepContent}>
+                    <h3 className={styles.stepTitle}>{step}</h3>
+                    <p className={styles.stepDescription}>{step}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-        <section className={styles.information}>
-          <section className={styles.informationDetail}>
-            <label className={styles.informationTitle}>REQUISITOS</label>
-            <section>
-              <ul>
-                {procedure.requirements.map((requirement: string) => (
-                  <li>{requirement}</li>
-                ))}
-              </ul>
+            <div className={styles.sidebarHelp}>
+              <div className={styles.helpIcon}>
+                <i className="pi pi-question-circle"></i>
+              </div>
+              <div className={styles.helpContent}>
+                <h3 className={styles.helpTitle}>¿Necesitas ayuda?</h3>
+                <p className={styles.helpText}>
+                  Si tienes dudas sobre este trámite, puedes contactar a nuestro equipo de soporte.
+                </p>
+                <button className={styles.helpButton}>Contactar soporte</button>
+              </div>
+            </div>
+          </div>
+
+          {/* Main content */}
+          <div className={styles.mainContent}>
+            <div className={styles.contentHeader}>
+              <div className={styles.contentHeaderIcon}>
+                <i className="pi pi-file-pdf"></i>
+              </div>
+              <h1 className={styles.contentHeaderTitle}>Información del trámite</h1>
+            </div>
+
+            <div className={styles.quickInfo}>
+              <div className={styles.quickInfoItem}>
+                <i className="pi pi-calendar-clock"></i>
+                <div>
+                  <span className={styles.quickInfoLabel}>Duración</span>
+                  <span className={styles.quickInfoValue}>1 dia</span>
+                </div>
+              </div>
+              <div className={styles.quickInfoItem}>
+                <i className="pi pi-money-bill"></i>
+                <div>
+                  <span className={styles.quickInfoLabel}>Costo</span>
+                  <span className={styles.quickInfoValue}>{procedure.cost}</span>
+                </div>
+              </div>
+              <div className={styles.quickInfoItem}>
+                <i className="pi pi-qrcode"></i>
+                <div>
+                  <span className={styles.quickInfoLabel}>Pago</span>
+                  <span className={styles.quickInfoValue}>Código QR</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Requirements section */}
+            <section className={styles.infoSection}>
+              <div className={styles.infoHeader}>
+                <i className="pi pi-file-pdf"></i>
+                <h2 className={styles.infoTitle}>REQUISITOS</h2>
+              </div>
+
+              <div className={styles.infoContent}>
+                <ul className={styles.requirementsList}>
+                  {procedure.requirements.map((requirement, index) => (
+                    <li key={index} className={styles.requirementItem}>
+                      <i className="pi pi-check-circle"></i>
+                      <span>{requirement}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className={styles.documentExample}>
+                  <div className={styles.documentExampleHeader}>
+                    <i className="pi pi-info-circle"></i>
+                    <h4 className={styles.documentExampleTitle}>Ejemplo de documento</h4>
+                  </div>
+                  <div className={styles.documentExampleContent}>
+                    <div className={styles.documentImageContainer}>
+                      <Image src={generatedQrImage}
+                             alt={`Image sample`} width="220" height="300"
+                             preview/>
+                    </div>
+                    <p className={styles.documentExampleText}>
+                      Tu diploma debe ser legible y mostrar claramente todos los sellos y firmas oficiales.
+                    </p>
+                  </div>
+                </div>
+
+                <div className={styles.importantNote}>
+                  <div className={styles.warningIcon}>⚠️</div>
+                  <div>
+                    <h4 className={styles.importantTitle}>Importante:</h4>
+                    <ul className={styles.importantList}>
+                      <li>Tu Cédula de Identidad debe estar vigente, no se aceptarán documentos vencidos.</li>
+                      <li>
+                        La selfie será tomada en el momento a través del sistema, por lo que NO podrás subir imágenes
+                        desde tu galería.
+                      </li>
+                      <li>
+                        Asegúrate de que todas las imágenes sean claras y legibles, sin reflejos, filtros ni
+                        obstrucciones.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </section>
-          </section>
 
-          <section className={styles.informationDetail}>
-            <label className={styles.informationTitle}>DURACION</label>
-            <span>Informacion sobre la duracion</span>
-          </section>
+            {/* Process section */}
+            <section className={styles.infoSection}>
+              <div className={styles.infoHeader}>
+                <i className="pi pi-calendar-clock"></i>
+                <h2 className={styles.infoTitle}>PROCESO</h2>
+              </div>
+              <div className={styles.infoContent}>
+                <div className={styles.processTimeline}>
+                  <div className={styles.processStep}>
+                    <div className={styles.processStepIcon}>1</div>
+                    <div className={styles.processStepContent}>
+                      <h4 className={styles.processStepTitle}>Pago</h4>
+                      <p className={styles.processStepDescription}>
+                        Realiza el pago del trámite mediante código QR por un valor de {procedure.cost}.
+                      </p>
+                    </div>
+                  </div>
+                  <div className={styles.processStep}>
+                    <div className={styles.processStepIcon}>2</div>
+                    <div className={styles.processStepContent}>
+                      <h4 className={styles.processStepTitle}>Carga de documentos</h4>
+                      <p className={styles.processStepDescription}>
+                        Sube los documentos requeridos en formato digital según las especificaciones.
+                      </p>
+                    </div>
+                  </div>
+                  <div className={styles.processStep}>
+                    <div className={styles.processStepIcon}>3</div>
+                    <div className={styles.processStepContent}>
+                      <h4 className={styles.processStepTitle}>Verificación</h4>
+                      <p className={styles.processStepDescription}>
+                        Nuestro equipo verificará la autenticidad de los documentos presentados.
+                      </p>
+                    </div>
+                  </div>
+                  <div className={styles.processStep}>
+                    <div className={styles.processStepIcon}>4</div>
+                    <div className={styles.processStepContent}>
+                      <h4 className={styles.processStepTitle}>Legalización</h4>
+                      <p className={styles.processStepDescription}>
+                        Se procederá a la legalización oficial de tu Diploma de Bachiller.
+                      </p>
+                    </div>
+                  </div>
+                  <div className={styles.processStep}>
+                    <div className={styles.processStepIcon}>5</div>
+                    <div className={styles.processStepContent}>
+                      <h4 className={styles.processStepTitle}>Entrega</h4>
+                      <p className={styles.processStepDescription}>
+                        Recibirás una notificación cuando tu documento legalizado esté disponible.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
 
-          <section className={styles.informationDetail}>
-            <label className={styles.informationTitle}>COSTO</label>
-            <span>El tramite tiene un costo de {procedure.cost}</span>
-          </section>
+            {/* FAQ section */}
+            <section className={styles.infoSection}>
+              <div className={styles.infoHeader}>
+                <i className="pi pi-question-circle"></i>
+                <h2 className={styles.infoTitle}>PREGUNTAS FRECUENTES</h2>
+              </div>
+              <div className={styles.infoContent}>
+                <div className={styles.faqItem}>
+                  <h4 className={styles.faqQuestion}>¿Cuánto tiempo tarda el trámite?</h4>
+                  <p className={styles.faqAnswer}>
+                    El trámite se procesa en aproximadamente <strong>1 día hábil</strong> una vez que todos los
+                    documentos han sido verificados.
+                  </p>
+                </div>
+                <div className={styles.faqItem}>
+                  <h4 className={styles.faqQuestion}>¿Puedo realizar este trámite por otra persona?</h4>
+                  <p className={styles.faqAnswer}>
+                    No, este trámite es personal y requiere verificación de identidad del titular del diploma.
+                  </p>
+                </div>
+                <div className={styles.faqItem}>
+                  <h4 className={styles.faqQuestion}>¿Qué hago si mi diploma tiene algún daño?</h4>
+                  <p className={styles.faqAnswer}>
+                    Si tu diploma presenta daños menores pero toda la información es legible, puede ser aceptado. En
+                    caso de daños severos, deberás solicitar un duplicado antes de iniciar este trámite.
+                  </p>
+                </div>
+              </div>
+            </section>
 
-          <section className={styles.informationDetail}>
-            <label className={styles.informationTitle}>METODO DE PAGO</label>
-            <span>El pago se realizara por QR</span>
-          </section>
-
-          <section className={styles.startButtonContainer}>
-            <Button className={styles.startButton} onClick={handleStartProcedure}>Start Procedure</Button>
-          </section>
-
-        </section>
-      </main>
-    </div>
-  );
+            {/* Start button */}
+            <div className={styles.startButtonContainer}>
+              <div className={styles.startButtonInfo}>
+                <p className={styles.startButtonText}>
+                  Al iniciar el trámite, aceptas los términos y condiciones del servicio.
+                </p>
+              </div>
+              <button className={styles.startButton} onClick={handleStartProcedure}>
+                Empezar trámite
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+  )
 }
 
 export default ApplicantProcedureInformationPage;

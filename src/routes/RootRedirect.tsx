@@ -11,7 +11,7 @@ const RootRedirect = () => {
 
   switch (user?.role) {
     case RoleEnum.APPLICANT:
-      return <Navigate to="/applicant" replace />;
+      return <Navigate to="/usuario" replace />;
     case RoleEnum.ADMINISTRATOR:
       return <Navigate to="/administrator" replace />;
     case RoleEnum.ARCHIVES_MANAGER:
