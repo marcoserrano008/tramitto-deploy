@@ -5,6 +5,7 @@
   flex-direction: column;
   width: 100%;
   align-items: center;
+  margin: 0 auto;
 }
 
 .container {
@@ -12,8 +13,8 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  padding: 60px;
-  max-width: 1200px;
+  padding: 20px;
+  max-width: 100%;
 }
 
 .proceduresListHeader {
@@ -21,7 +22,7 @@
   background-color: variables.$primary1;
   display: flex;
   flex-direction: column;
-  padding: 25px 60px;
+  padding: 30px 80px;
 }
 
 .proceduresListTitle {
@@ -305,6 +306,7 @@
   background-color: #f9fafb;
   border-radius: 0.5rem;
   padding: 1rem;
+  flex-direction: column;
 }
 
 .quickInfoItem {
@@ -590,8 +592,88 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive styles */
+@media screen and (max-width: 700px) {
+  .container {
+    padding: 15px;
+  }
+
+  .proceduresListHeader {
+    padding: 20px 30px;
+  }
+
+  .proceduresListTitle {
+    font-size: 22px;
+  }
+
+  .proceduresListSubtitle {
+    font-size: 28px;
+  }
+
+  .procedureCard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .documentExampleContent {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .documentExampleText {
+    text-align: center;
+  }
+
+  .quickInfo {
+    flex-direction: column;
+  }
+
+  .quickInfoItem {
+    width: 100%;
+  }
+
+  .startButtonContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .startButtonInfo {
+    max-width: 100%;
+    text-align: center;
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    padding: 30px;
+    max-width: 100%;
+  }
+
+  .quickInfo {
+    flex-direction: row;
+  }
+
+  .quickInfoItem {
+    width: auto;
+  }
+
+  .startButtonContainer {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
 @media (min-width: 768px) {
+  .container {
+    padding: 40px;
+    max-width: 900px;
+  }
+
   .procedureCard {
     flex-direction: row;
   }
@@ -609,5 +691,12 @@
 
   .documentExampleText {
     text-align: left;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    padding: 60px;
+    max-width: 1200px;
   }
 }
