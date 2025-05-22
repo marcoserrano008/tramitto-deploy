@@ -4,7 +4,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0rem;
 }
 
 .heroSection {
@@ -55,8 +55,8 @@
   width: 100%;
   padding: 0 5rem;
   box-sizing: border-box;
-  margin-top: 3rem;
-  margin-bottom: 1rem;
+  margin-top: 3.8rem;
+  margin-bottom: 1.5rem;
 }
 
 .statsCards {
@@ -132,7 +132,7 @@
   padding: 2.2rem 5% 2.2rem 5%;
   box-shadow: 1px 2px 10px 0px #f1f1f1;
   margin-top: 3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .processLabel {
@@ -246,7 +246,7 @@
   align-items: center;
   gap: 2rem;
   padding: 0.3rem;
-  background: #e9ecef;
+  background:#f1f3f5;
   border-radius: 0.5rem;
 }
 
@@ -339,6 +339,28 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+}
+
+.reportesSection {
+  @extend .processSection;
+  margin-bottom: 2.5rem;
+}
+
+.reportChartContainer {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reportChart {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 @media screen and (max-width: 1200px) {

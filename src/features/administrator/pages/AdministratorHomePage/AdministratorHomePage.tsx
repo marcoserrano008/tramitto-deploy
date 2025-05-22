@@ -2,6 +2,7 @@ import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Tag } from 'primereact/tag';
+import { Chart } from 'primereact/chart';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styles from './AdministratorHomePage.module.scss';
@@ -58,6 +59,8 @@ const processItems: ProcessItem[] = [
 const AdminHomePage = () => {
   const navigate = useNavigate();
   const [reviewHistory, setReviewHistory] = useState<ReviewItem[]>([]);
+  const [reportChartData, setReportChartData] = useState<any>({});
+  const [reportChartOptions, setReportChartOptions] = useState<any>({});
 
   useEffect(() => {
     // desde aqui la tabla
@@ -105,7 +108,52 @@ const AdminHomePage = () => {
       }
     ];
     setReviewHistory(sampleData);
+
+    // Datos de reporte gráfico
+    const data = {
+      labels: ['Diploma Bachiller', 'Diploma Académico', 'Título Provisión'],
+      datasets: [
+        {
+          label: 'Solicitudes Procesadas',
+          backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726'],
+          data: [35, 50, 20]
+        }
+      ]
+    };
+
+    const options = {
+      plugins: {
+        legend: {
+          labels: {
+            color: '#495057'
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: '#495057'
+          },
+          grid: {
+            color: '#ebedef'
+          }
+        },
+        y: {
+          ticks: {
+            color: '#495057'
+          },
+          grid: {
+            color: '#ebedef'
+          }
+        }
+      }
+    };
+
+    setReportChartData(data);
+    setReportChartOptions(options);
+
   }, []);
+  //hasta aqui los reportes
 
   const statusBodyTemplate = (rowData: ReviewItem) => {
     const getSeverity = (status: string) => {
@@ -264,6 +312,24 @@ const AdminHomePage = () => {
                 style={{minWidth: '100px'}}
               />
             </DataTable>
+          </div>
+        </div>
+      </section>
+
+      {/* 📊 Nueva sección de Reportes */}
+      <section className={styles.reportesSection}>
+        <div className={styles.processWrapper}>
+          <span className={styles.processLabel}>Reportes</span>
+          <div className={styles.reportChartContainer}>
+            <Chart type="bar" data={reportChartData} options={reportChartOptions} className={styles.reportChart} />
+          </div>
+          <div style={{ marginTop: '1rem', textAlign: 'right' }}>
+            <Button
+              label="Ver más reportes"
+              icon="pi pi-chart-line"
+              className="p-button-outlined p-button-primary"
+              onClick={() => navigate('/admin/reports')}
+            />
           </div>
         </div>
       </section>
