@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import {ProcedureResponse} from "../../../../../../types/ProcedureResponse.interface.ts";
 import "./ProceduresTable.css";
 import {Tag} from "primereact/tag";
 import {useNavigate} from "react-router-dom";
 import {handlePreview} from "../../../../../../utils/documentActions.ts";
+import React from "react";
 
 interface ProceduresTableProps {
   procedures: ProcedureResponse[];

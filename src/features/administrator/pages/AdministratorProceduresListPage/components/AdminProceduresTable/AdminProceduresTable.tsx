@@ -1,13 +1,21 @@
 import {ProcedureResponse} from "../../../../../../types/ProcedureResponse.interface.ts";
 import "./AdminProceduresTable.css"
+import styles from "./AdminProceduresTable.module.scss";
+import {Paginator} from "primereact/paginator";
 
 interface AdminProceduresTableProps {
   procedures: ProcedureResponse[];
   onProcedureSelect: (procedure: ProcedureResponse) => void;
   selectedProcedureId: number | null;
+  showProcedureColumn: boolean;
 }
 
-function AdminProceduresTable({procedures, onProcedureSelect, selectedProcedureId}: AdminProceduresTableProps) {
+function AdminProceduresTable({
+                                procedures,
+                                onProcedureSelect,
+                                selectedProcedureId,
+                                showProcedureColumn = true
+                              }: AdminProceduresTableProps) {
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "N/A";
 
@@ -27,43 +35,29 @@ function AdminProceduresTable({procedures, onProcedureSelect, selectedProcedureI
     switch (status) {
       case "COMPLETED":
         return (
-          <div className="status-completed">
+          <div className={styles.statusCompleted}>
             <span className="status-icon">●</span> Completado
           </div>
         );
       case "REJECTED":
         return (
-          <div className="status-rejected">
+          <div className={styles.statusRejected}>
             <span className="status-icon">✕</span> Rechazado
           </div>
         );
       case "ADMIN_REVIEW":
+      case "ARCHIVES_REVIEW":
+      case "SECRETARY_REVIEW":
+      case "ADMIN_FINAL_REVIEW":
         return (
-          <div className="status-review">
+          <div className={styles.statusReview}>
             <span className="status-icon">⟳</span> En revisión
           </div>
         );
-      case "ARCHIVES_REVIEW":
-        return (
-          <div className="status-review">
-            <span className="status-icon">⟳</span> Revisión de archivos
-          </div>
-        );
-      case "SECRETARY_REVIEW":
-        return (
-          <div className="status-review">
-            <span className="status-icon">⟳</span> Revisión de secretaría
-          </div>
-        );
-      case "ADMIN_FINAL_REVIEW":
-        return (
-          <div className="status-review">
-            <span className="status-icon">⟳</span> Revisión final
-          </div>
-        );
+
       case "PENDING":
         return (
-          <div className="status-pending">
+          <div className={styles.statusPending}>
             <span className="status-icon">⌛</span> Pendiente
           </div>
         );
@@ -89,37 +83,46 @@ function AdminProceduresTable({procedures, onProcedureSelect, selectedProcedureI
   };
 
   return (
-    <div className="admin-procedures-table-container">
-      <table className="procedures-table">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Trámite</th>
-          <th>Apellido</th>
-          <th>Segundo Apellido</th>
-          <th>Nombre</th>
-          <th>Fecha de envío</th>
-          <th>Estado</th>
-        </tr>
-        </thead>
-        <tbody>
-        {procedures.map((procedure) => (
-          <tr
-            key={procedure.id}
-            className={`procedure-row ${selectedProcedureId === procedure.id ? 'selected' : ''}`}
-            onClick={() => onProcedureSelect(procedure)}
-          >
-            <td>{procedure.id}</td>
-            <td>{procedure.procedureTypeName}</td>
-            <td>{procedure.user.lastName}</td>
-            <td>{procedure.user.secondLastName || '-'}</td>
-            <td>{procedure.user.firstName}</td>
-            <td>{formatDate(getSendDate(procedure))}</td>
-            <td>{getStatusDisplay(procedure.status)}</td>
-          </tr>
-        ))}
-        </tbody>
-      </table>
+    <div>
+      {procedures.length === 0 ? (
+        <p className={styles.noDocumentSelected}>No existen tramites pendientes</p>
+      ) : (
+        <div className={styles.adminProceduresTableContainer}>
+          <table className={styles.proceduresTable}>
+            <thead>
+            <tr>
+              <th>ID</th>
+              {showProcedureColumn && <th>Trámite</th>}
+              <th>Apellido Paterno</th>
+              <th>Apellido Materno</th>
+              <th>Nombre(s)</th>
+              <th>Fecha de recepción</th>
+              <th>Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            {procedures.map((procedure) => (
+              <tr
+                key={procedure.id}
+                className={`${styles.procedureRow} ${
+                  selectedProcedureId === procedure.id ? styles.selected : ""
+                }`}
+                onClick={() => onProcedureSelect(procedure)}
+              >
+                <td>TR-{procedure.id}</td>
+                {showProcedureColumn && <td>{procedure.procedureTypeName}</td>}
+                <td>{procedure.user.lastName}</td>
+                <td>{procedure.user.secondLastName || "-"}</td>
+                <td>{procedure.user.firstName}</td>
+                <td>{formatDate(getSendDate(procedure))}</td>
+                <td>{getStatusDisplay(procedure.status)}</td>
+              </tr>
+            ))}
+            </tbody>
+          </table>
+          <Paginator first={0} rows={10} totalRecords={10}/>
+        </div>
+      )}
     </div>
   );
 }
