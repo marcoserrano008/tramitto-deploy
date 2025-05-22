@@ -80,42 +80,7 @@ function ApplicantProcedureInformationPage() {
             {/*    <button className={styles.helpButton}>Contactar soporte</button>*/}
             {/*  </div>*/}
             {/*</div>*/}
-          </div>
 
-          {/* Main content */}
-          <div className={styles.mainContent}>
-            <div className={styles.contentHeader}>
-              <div className={styles.contentHeaderIcon}>
-                <i className="pi pi-file-pdf"></i>
-              </div>
-              <h1 className={styles.contentHeaderTitle}>Información del trámite</h1>
-            </div>
-
-            <div className={styles.quickInfo}>
-              <div className={styles.quickInfoItem}>
-                <i className="pi pi-calendar-clock"></i>
-                <div>
-                  <span className={styles.quickInfoLabel}>Duración</span>
-                  <span className={styles.quickInfoValue}>1 dia</span>
-                </div>
-              </div>
-              <div className={styles.quickInfoItem}>
-                <i className="pi pi-money-bill"></i>
-                <div>
-                  <span className={styles.quickInfoLabel}>Costo</span>
-                  <span className={styles.quickInfoValue}>{procedure.cost}</span>
-                </div>
-              </div>
-              <div className={styles.quickInfoItem}>
-                <i className="pi pi-qrcode"></i>
-                <div>
-                  <span className={styles.quickInfoLabel}>Pago</span>
-                  <span className={styles.quickInfoValue}>Código QR</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Example section */}
             <section className={styles.infoSection}>
               <div className={styles.infoContent}>
                 <div className={styles.documentExample}>
@@ -129,9 +94,9 @@ function ApplicantProcedureInformationPage() {
                              alt={`Image sample`} width="220" height="300"
                              preview/>
                     </div>
-                    <p className={styles.documentExampleText}>
-                      Tu diploma debe ser legible y mostrar claramente todos los sellos y firmas oficiales.
-                    </p>
+                    {/*<p className={styles.documentExampleText}>*/}
+                    {/*  Tu diploma debe ser legible y mostrar claramente todos los sellos y firmas oficiales.*/}
+                    {/*</p>*/}
                   </div>
                 </div>
 
@@ -139,13 +104,47 @@ function ApplicantProcedureInformationPage() {
                   <div className={styles.warningIcon}>⚠️</div>
                   <div>
                     <h4 className={styles.importantTitle}>Importante:</h4>
-                    <ul className={styles.importantList}>
-                      <li>Tu documento debe ser legible y mostrar claramente todos los sellos y firmas oficiales.</li>
-                    </ul>
+                    <p className={styles.importantList}>
+                      <p>Tu documento debe ser legible y mostrar claramente todos los sellos y firmas oficiales.</p>
+                    </p>
                   </div>
                 </div>
               </div>
             </section>
+          </div>
+
+          {/* Main content */}
+          <div className={styles.mainContent}>
+            <div className={styles.contentHeader}>
+              <div className={styles.contentHeaderIcon}>
+                <i className="pi pi-file-pdf"></i>
+              </div>
+              <h1 className={styles.contentHeaderTitle}>Información del trámite</h1>
+            </div>
+
+            <div className={styles.quickInfo}>
+              <div className={styles.quickInfoItem}>
+                <i className={`${styles.quickInfoIcon} pi pi-calendar-clock`}></i>
+                <div>
+                  <span className={styles.quickInfoLabel}>Duración</span>
+                  <span className={styles.quickInfoValue}>1 día</span>
+                </div>
+              </div>
+              <div className={styles.quickInfoItem}>
+                <i className={`${styles.quickInfoIcon} pi pi-money-bill`}></i>
+                <div>
+                  <span className={styles.quickInfoLabel}>Costo</span>
+                  <span className={styles.quickInfoValue}>{procedure.cost} Bs.</span>
+                </div>
+              </div>
+              <div className={styles.quickInfoItem}>
+                <i className={`${styles.quickInfoIcon} pi pi-qrcode`}></i>
+                <div>
+                  <span className={styles.quickInfoLabel}>Pago</span>
+                  <span className={styles.quickInfoValue}>Código QR</span>
+                </div>
+              </div>
+            </div>
 
             {/* Process section */}
             <section className={styles.infoSection}>

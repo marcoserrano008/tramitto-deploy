@@ -94,6 +94,9 @@
   padding: 1.5rem;
   border-bottom: 1px solid #e5e7eb;
   background-color: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .stepsHeader {
@@ -109,15 +112,14 @@
 }
 
 .stepsHeaderTitle {
-  font-size: 1.3rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 610;
   color: #111827;
 }
 
 .stepsList {
   display: flex;
   flex-direction: column;
-  margin-bottom: 2rem;
   gap: 1.5rem;
 }
 
@@ -207,8 +209,8 @@
 .contentHeader {
   display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
-  border-bottom: 3px solid #e5e7eb;
+  margin-bottom: 1rem;
+  border-bottom: 2.5px solid #e5e7eb;
   padding-top: 1.5rem;
   transform: translateY(0px);
 }
@@ -231,7 +233,7 @@
   justify-content: center;
   margin-right: 1rem;
   color: #0052cc;
-  margin-top: 8px;
+  margin-top: 12px;
   margin-bottom: 1rem;
 }
 
@@ -239,7 +241,7 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: #111827;
-  margin-top: 4px;
+  margin-top: 11px;
   margin-bottom: 1rem;
 }
 
@@ -268,6 +270,8 @@
 
 .quickInfoIcon {
   color: #0052cc;
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
 }
 
 .quickInfoLabel {
@@ -283,11 +287,12 @@
 }
 
 .infoSection {
-  margin-bottom: 2.5rem;
   background-color: white;
   border-radius: 0.5rem;
   border: 1px solid #e5e7eb;
   overflow: hidden;
+  flex-shrink: 0;
+  min-height: fit-content;
 }
 
 .infoHeader {
@@ -313,43 +318,18 @@
 
 .infoContent {
   padding: 1.25rem;
-}
-
-.requirementsList {
-  list-style-type: none;
-  padding: 0;
-  margin-bottom: 1.5rem;
-}
-
-.requirementItem {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
-  padding: 0.5rem;
-  background-color: #f9fafb;
-  border-radius: 0.375rem;
-  gap: 8px;
-}
-
-.requirementIcon {
-  color: #0052cc;
-  margin-right: 0.75rem;
-  flex-shrink: 0;
-  margin-top: 0.125rem;
-}
-
-.documentExample {
+  flex-direction: column;
+  gap: 1.5rem;
   background-color: #f0f7ff;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
 }
 
 .documentExampleHeader {
   display: flex;
   align-items: center;
-  margin-bottom: 0.75rem;
-  gap: 8px;
+  margin-top: -15px;
+  margin-bottom: 0.5rem;
+  gap: 0.8rem;
 }
 
 .documentExampleIcon {
@@ -368,6 +348,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  text-align: center;
 }
 
 .documentImageContainer {
@@ -376,19 +357,26 @@
   border-radius: 0.375rem;
   padding: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
 }
 
 .documentImage {
   display: block;
-  max-width: 100%;
+  max-width: 90%;
+  max-height: 90%;
   height: auto;
 }
 
-.documentExampleText {
-  font-size: 0.875rem;
-  color: #4b5563;
-  text-align: center;
-}
+//.documentExampleText {
+//  font-size: 0.875rem;
+//  color: #4b5563;
+//  text-align: center;
+//}
 
 .importantNote {
   background-color: #fff8e6;
@@ -397,6 +385,9 @@
   border-radius: 0.25rem;
   display: flex;
   gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: flex-start;
 }
 
 .warningIcon {
@@ -412,13 +403,8 @@
 
 .importantList {
   list-style-type: disc;
-  padding-left: 1.25rem;
   font-size: 0.875rem;
   color: #4b5563;
-}
-
-.importantList li {
-  margin-bottom: 0.375rem;
 }
 
 .processTimeline {
@@ -535,6 +521,7 @@
 
   .documentExampleText {
     text-align: center;
+    font-size: 0.8125rem;
   }
 
   .quickInfo {
