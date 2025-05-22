@@ -316,7 +316,6 @@ const AdminHomePage = () => {
         </div>
       </section>
 
-      {/* 📊 Nueva sección de Reportes */}
       <section className={styles.reportesSection}>
         <div className={styles.processWrapper}>
           <span className={styles.processLabel}>Reportes</span>
