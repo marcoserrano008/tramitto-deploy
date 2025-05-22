@@ -30,6 +30,11 @@ function ApplicantProcedureInformationPage() {
   if (error) return <div>Error: {error}</div>;
   if (!procedure) return <div>No procedure information found</div>;
 
+  const stepDescriptions = [
+    "Realiza el pago del trámite mediante QR",
+    "Sube el documento a ser legalizado escaneado en formato PDF"
+  ];
+
   return (
     <article className={styles.mainContainer}>
       <section className={styles.proceduresListHeader}>
@@ -55,7 +60,9 @@ function ApplicantProcedureInformationPage() {
                   </div>
                   <div className={styles.stepContent}>
                     <h3 className={styles.stepTitle}>{step}</h3>
-                    <p className={styles.stepDescription}>{step}</p>
+                    <p className={styles.stepDescription}>
+                      {stepDescriptions[index] || "Sin descripción disponible"}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -108,23 +115,9 @@ function ApplicantProcedureInformationPage() {
               </div>
             </div>
 
-            {/* Requirements section */}
+            {/* Example section */}
             <section className={styles.infoSection}>
-              <div className={styles.infoHeader}>
-                <i className="pi pi-file-pdf"></i>
-                <h2 className={styles.infoTitle}>REQUISITOS</h2>
-              </div>
-
               <div className={styles.infoContent}>
-                <ul className={styles.requirementsList}>
-                  {procedure.requirements.map((requirement, index) => (
-                    <li key={index} className={styles.requirementItem}>
-                      <i className="pi pi-check-circle"></i>
-                      <span>{requirement}</span>
-                    </li>
-                  ))}
-                </ul>
-
                 <div className={styles.documentExample}>
                   <div className={styles.documentExampleHeader}>
                     <i className="pi pi-info-circle"></i>
@@ -147,15 +140,7 @@ function ApplicantProcedureInformationPage() {
                   <div>
                     <h4 className={styles.importantTitle}>Importante:</h4>
                     <ul className={styles.importantList}>
-                      <li>Tu Cédula de Identidad debe estar vigente, no se aceptarán documentos vencidos.</li>
-                      <li>
-                        La selfie será tomada en el momento a través del sistema, por lo que NO podrás subir imágenes
-                        desde tu galería.
-                      </li>
-                      <li>
-                        Asegúrate de que todas las imágenes sean claras y legibles, sin reflejos, filtros ni
-                        obstrucciones.
-                      </li>
+                      <li>Tu documento debe ser legible y mostrar claramente todos los sellos y firmas oficiales.</li>
                     </ul>
                   </div>
                 </div>
@@ -215,36 +200,6 @@ function ApplicantProcedureInformationPage() {
                       </p>
                     </div>
                   </div>
-                </div>
-              </div>
-            </section>
-
-            {/* FAQ section */}
-            <section className={styles.infoSection}>
-              <div className={styles.infoHeader}>
-                <i className="pi pi-question-circle"></i>
-                <h2 className={styles.infoTitle}>PREGUNTAS FRECUENTES</h2>
-              </div>
-              <div className={styles.infoContent}>
-                <div className={styles.faqItem}>
-                  <h4 className={styles.faqQuestion}>¿Cuánto tiempo tarda el trámite?</h4>
-                  <p className={styles.faqAnswer}>
-                    El trámite se procesa en aproximadamente <strong>1 día hábil</strong> una vez que todos los
-                    documentos han sido verificados.
-                  </p>
-                </div>
-                <div className={styles.faqItem}>
-                  <h4 className={styles.faqQuestion}>¿Puedo realizar este trámite por otra persona?</h4>
-                  <p className={styles.faqAnswer}>
-                    No, este trámite es personal y requiere verificación de identidad del titular del diploma.
-                  </p>
-                </div>
-                <div className={styles.faqItem}>
-                  <h4 className={styles.faqQuestion}>¿Qué hago si mi diploma tiene algún daño?</h4>
-                  <p className={styles.faqAnswer}>
-                    Si tu diploma presenta daños menores pero toda la información es legible, puede ser aceptado. En
-                    caso de daños severos, deberás solicitar un duplicado antes de iniciar este trámite.
-                  </p>
                 </div>
               </div>
             </section>

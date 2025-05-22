@@ -13,7 +13,6 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  padding: 20px;
   max-width: 100%;
 }
 
@@ -37,7 +36,7 @@
 }
 
 .procedureContainer {
-  border: 2px solid variables.$primary8;
+  border: 6px solid variables.$primary8;
   border-radius: 10px;
   display: flex;
   position: relative;
@@ -138,7 +137,7 @@
 .procedureCard {
   display: flex;
   flex-direction: column;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #004e9a;
   border-radius: 0.75rem;
   overflow: hidden;
   background-color: white;
@@ -156,6 +155,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 1.5rem;
+  gap: 12px;
 }
 
 .stepsIcon {
@@ -164,7 +164,7 @@
 }
 
 .stepsHeaderTitle {
-  font-size: 1.125rem;
+  font-size: 1.3rem;
   font-weight: 600;
   color: #111827;
 }
@@ -173,6 +173,7 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
+  gap: 1.5rem;
 }
 
 .stepItem {
@@ -185,44 +186,62 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 0.75rem;
+  margin-right: 1.5rem;
+  position: relative;
+  flex-shrink: 0;
 }
 
 .stepNumber {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   background-color: #0052cc;
   color: white;
   border-radius: 50%;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.125rem;
   flex-shrink: 0;
-  z-index: 1;
+  z-index: 2;
+  position: relative;
 }
 
 .stepConnector {
+  position: absolute;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
   width: 2px;
-  height: 3rem;
+  height: 4.5rem;
   background-color: #0052cc;
-  margin-top: 0.25rem;
+  z-index: 1;
+}
+.stepItem:last-child .stepConnector {
+  display: none;
 }
 
 .stepContent {
   flex: 1;
-  padding-bottom: 1.5rem;
+  padding-top: 0.25rem;
+  min-height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .stepTitle {
   font-weight: 600;
-  margin-bottom: 0.25rem;
+  margin: 0 0 0.5rem 0;
   color: #111827;
+  font-size: 1.1rem;
+  line-height: 1.3;
 }
 
 .stepDescription {
   font-size: 0.875rem;
   color: #4b5563;
+  line-height: 1.5;
 }
 
 .sidebarHelp {
@@ -270,6 +289,7 @@
   padding: 1.5rem;
   flex: 1;
   background-color: white;
+  margin-top: -43px;
 }
 
 .contentHeader {
@@ -351,6 +371,7 @@
   padding: 1rem 1.25rem;
   background-color: #f9fafb;
   border-bottom: 1px solid #e5e7eb;
+  gap: 8px;
 }
 
 .infoIcon {
@@ -382,6 +403,7 @@
   padding: 0.5rem;
   background-color: #f9fafb;
   border-radius: 0.375rem;
+  gap: 8px;
 }
 
 .requirementIcon {
@@ -402,6 +424,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 0.75rem;
+  gap: 8px;
 }
 
 .documentExampleIcon {
@@ -645,6 +668,33 @@
   .startButtonInfo {
     max-width: 100%;
     text-align: center;
+  }
+
+  .stepsList {
+    gap: 1.25rem;
+  }
+
+  .stepNumberContainer {
+    margin-right: 1rem;
+  }
+
+  .stepNumber {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+  }
+
+  .stepConnector {
+    top: 2.5rem;
+    height: 3.24rem;
+  }
+
+  .stepTitle {
+    font-size: 1rem;
+  }
+
+  .stepDescription {
+    font-size: 0.8125rem;
   }
 }
 
