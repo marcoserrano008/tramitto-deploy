@@ -47,7 +47,7 @@ function ApplicantProcedureInformationPage() {
           {/* Left sidebar with steps */}
           <div className={styles.sidebar}>
             <div className={styles.stepsHeader}>
-              <i className="pi pi-list"></i>
+              <i className="pi pi-thumbtack"></i>
               <h2 className={styles.stepsHeaderTitle}>Pasos del trámite</h2>
             </div>
 
@@ -68,18 +68,18 @@ function ApplicantProcedureInformationPage() {
               ))}
             </div>
 
-            <div className={styles.sidebarHelp}>
-              <div className={styles.helpIcon}>
-                <i className="pi pi-question-circle"></i>
-              </div>
-              <div className={styles.helpContent}>
-                <h3 className={styles.helpTitle}>¿Necesitas ayuda?</h3>
-                <p className={styles.helpText}>
-                  Si tienes dudas sobre este trámite, puedes contactar a nuestro equipo de soporte.
-                </p>
-                <button className={styles.helpButton}>Contactar soporte</button>
-              </div>
-            </div>
+            {/*<div className={styles.sidebarHelp}>*/}
+            {/*  <div className={styles.helpIcon}>*/}
+            {/*    <i className="pi pi-question-circle"></i>*/}
+            {/*  </div>*/}
+            {/*  <div className={styles.helpContent}>*/}
+            {/*    <h3 className={styles.helpTitle}>¿Necesitas ayuda?</h3>*/}
+            {/*    <p className={styles.helpText}>*/}
+            {/*      Si tienes dudas sobre este trámite, puedes contactar a nuestro equipo de soporte.*/}
+            {/*    </p>*/}
+            {/*    <button className={styles.helpButton}>Contactar soporte</button>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
           </div>
 
           {/* Main content */}
