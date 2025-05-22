@@ -16,14 +16,12 @@ type StatsItem = {
   color: string;
 };
 
-type ReviewItem = {
-  id: number;
-  applicantName: string;
-  documentType: string;
-  status: string;
-  submissionDate: string;
-  reviewDate?: string;
-  reviewer?: string;
+type ProcessItem = {
+  title: string;
+  subtitle: string;
+  route: string;
+  pendingCount: number;
+  newTodayCount: number;
 };
 
 const statsItems: StatsItem[] = [
@@ -33,12 +31,36 @@ const statsItems: StatsItem[] = [
   { icon: 'pi pi-file', title: 'Total Procesados', value: '1,247', color: '#1890FF' },
 ];
 
+const processItems: ProcessItem[] = [
+  {
+    title: 'Legalización',
+    subtitle: 'Diploma de Bachiller',
+    route: '/admin/solicitudes/diploma-bachiller',
+    pendingCount: 8,
+    newTodayCount: 5
+  },
+  {
+    title: 'Legalización',
+    subtitle: 'Diploma Académico',
+    route: '/admin/solicitudes/diploma-academico',
+    pendingCount: 12,
+    newTodayCount: 7
+  },
+  {
+    title: 'Legalización',
+    subtitle: 'Título Provisión Nacional',
+    route: '/admin/solicitudes/titulo-provision',
+    pendingCount: 3,
+    newTodayCount: 3
+  },
+];
+
 const AdminHomePage = () => {
   const navigate = useNavigate();
   const [reviewHistory, setReviewHistory] = useState<ReviewItem[]>([]);
 
   useEffect(() => {
-    // dabla con datos falsos para relleno nomás
+    // desde aqui la tabla
     const sampleData: ReviewItem[] = [
       {
         id: 1,
@@ -119,6 +141,7 @@ const AdminHomePage = () => {
       </div>
     );
   };
+  //hasta aqui la tabña
 
   return (
     <div className={styles.container}>
@@ -151,6 +174,42 @@ const AdminHomePage = () => {
 
       <section className={styles.processSection}>
         <div className={styles.processWrapper}>
+          <span className={styles.processLabel}>Trámites</span>
+          <div className={styles.processCards}>
+            {processItems.map((item, index) => (
+              <div key={`${item.subtitle}-${index}`} className={styles.processCard}>
+                <div className={styles.processCardHeader}>
+                  <div className={styles.processCardIcon}>
+                    <i className="pi pi-file" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
+                  </div>
+                </div>
+                <div className={styles.processCardContent}>
+                  <div className={styles.processCardTitle}>{item.title}</div>
+                  <div className={styles.processCardSubtitle}>{item.subtitle}</div>
+                  <div className={styles.processCardStats}>
+                    <div className={styles.processCardStat}>
+                      <span className={styles.statLabel}>Solicitudes pendientes:</span>
+                      <span className={styles.statValue}>{item.pendingCount}</span>
+                    </div>
+                    <div className={styles.processCardStat}>
+                      <span className={styles.statLabel}>Solicitudes nuevas hoy:</span>
+                      <span className={`${styles.statValue} ${styles.newToday}`}>{item.newTodayCount}</span>
+                    </div>
+                  </div>
+                  <Button
+                    label="Revisar"
+                    className={styles.processCardButton}
+                    onClick={() => handleNavigation(item.route)}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.processSection}>
+        <div className={styles.processWrapper}>
           <span className={styles.processLabel}>Historial de Revisión</span>
           <div className={styles.tableContainer}>
             <DataTable
@@ -166,43 +225,43 @@ const AdminHomePage = () => {
                 field="applicantName"
                 header="Solicitante"
                 sortable
-                style={{ minWidth: '200px' }}
+                style={{minWidth: '200px'}}
               />
               <Column
                 field="documentType"
                 header="Tipo de Documento"
                 sortable
-                style={{ minWidth: '180px' }}
+                style={{minWidth: '180px'}}
               />
               <Column
                 field="status"
                 header="Estado"
                 body={statusBodyTemplate}
                 sortable
-                style={{ minWidth: '120px' }}
+                style={{minWidth: '120px'}}
               />
               <Column
                 field="submissionDate"
                 header="Fecha de Envío"
                 sortable
-                style={{ minWidth: '140px' }}
+                style={{minWidth: '140px'}}
               />
               <Column
                 field="reviewDate"
                 header="Fecha de Revisión"
                 sortable
-                style={{ minWidth: '140px' }}
+                style={{minWidth: '140px'}}
               />
               <Column
                 field="reviewer"
                 header="Revisor"
                 sortable
-                style={{ minWidth: '150px' }}
+                style={{minWidth: '150px'}}
               />
               <Column
                 body={actionBodyTemplate}
                 header="Acciones"
-                style={{ minWidth: '100px' }}
+                style={{minWidth: '100px'}}
               />
             </DataTable>
           </div>
