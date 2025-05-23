@@ -25,6 +25,16 @@ type ProcessItem = {
   newTodayCount: number;
 };
 
+type ReviewItem = {
+  id: number;
+  applicantName: string;
+  documentType: string;
+  status: string;
+  submissionDate: string;
+  reviewDate?: string;
+  reviewer?: string;
+};
+
 const statsItems: StatsItem[] = [
   { icon: 'pi pi-clock', title: 'Pendientes de Revisión', value: '23', color: '#FF9500' },
   { icon: 'pi pi-check-circle', title: 'Aprobados Hoy', value: '15', color: '#52C41A' },
@@ -180,16 +190,19 @@ const AdminHomePage = () => {
         />
         {rowData.status === 'Pendiente' && (
           <Button
-            icon="pi pi-pencil"
-            className="p-button-text p-button-warning"
-            tooltip="Revisar"
-            onClick={() => navigate(`/admin/revisar/${rowData.id}`)}
+            label="Revisar"
+            className={styles.processCardButton}
+            onClick={() => handleNavigation()}
           />
         )}
       </div>
     );
   };
   //hasta aqui la tabña
+
+  const handleNavigation = () => {
+    navigate('/administrator/procedures-list');
+  };
 
   return (
     <div className={styles.container}>
@@ -247,7 +260,7 @@ const AdminHomePage = () => {
                   <Button
                     label="Revisar"
                     className={styles.processCardButton}
-                    onClick={() => handleNavigation(item.route)}
+                    onClick={() => handleNavigation()}
                   />
                 </div>
               </div>
