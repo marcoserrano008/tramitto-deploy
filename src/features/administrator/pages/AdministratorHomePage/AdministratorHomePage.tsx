@@ -165,6 +165,7 @@ const AdminHomePage = () => {
   }, []);
   //hasta aqui los reportes
 
+  //parte de la tabla
   const statusBodyTemplate = (rowData: ReviewItem) => {
     const getSeverity = (status: string) => {
       switch (status) {
@@ -190,9 +191,10 @@ const AdminHomePage = () => {
         />
         {rowData.status === 'Pendiente' && (
           <Button
-            label="Revisar"
-            className={styles.processCardButton}
-            onClick={() => handleNavigation()}
+            icon="pi pi-pencil"
+            className="p-button-text p-button-warning"
+            tooltip="Editar"
+            onClick={() => navigate(`/admin/revisar/${rowData.id}`)}
           />
         )}
       </div>
@@ -337,8 +339,7 @@ const AdminHomePage = () => {
           </div>
           <div style={{ marginTop: '1rem', textAlign: 'right' }}>
             <Button
-              label="Ver más reportes"
-              icon="pi pi-chart-line"
+              label="Ver reportes"
               className="p-button-outlined p-button-primary"
               onClick={() => navigate('/admin/reports')}
             />
