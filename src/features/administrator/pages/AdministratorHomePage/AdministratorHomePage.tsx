@@ -328,6 +328,13 @@ const AdminHomePage = () => {
               />
             </DataTable>
           </div>
+          <div style={{marginTop: '1rem', textAlign: 'right'}}>
+            <Button
+              label="Ver historial"
+              className="p-button-outlined p-button-primary"
+              onClick={() => navigate('/admin/historial')}
+            />
+          </div>
         </div>
       </section>
 
