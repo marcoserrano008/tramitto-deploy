@@ -5,7 +5,7 @@ import {useProcedureTypeData} from "../../hooks/useProcedureTypeData.ts";
 import {PaymentDetails} from "../../../../types/PaymentDetails.interface.ts";
 import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
 import {Image} from "primereact/image";
-import generatedQrImage from "../../../../assets/images/qr-payment.png";
+import exampleDiplomaBachiller from "../../../../assets/images/diplomaBachiller.png";
 
 function ApplicantProcedureInformationPage() {
   const {procedureType} = useParams<{ procedureType: string }>();
@@ -46,26 +46,27 @@ function ApplicantProcedureInformationPage() {
         <div className={styles.procedureCard}>
           {/* Left sidebar with steps */}
           <div className={styles.sidebar}>
-            <div className={styles.stepsHeader}>
-              <i className="pi pi-thumbtack"></i>
-              <h2 className={styles.stepsHeaderTitle}>Pasos del trámite</h2>
-            </div>
+            <div className={styles.sidebarContent}>
+              <div className={styles.stepsHeader}>
+                <h2 className={styles.stepsHeaderTitle}>Pasos del trámite</h2>
+              </div>
 
-            <div className={styles.stepsList}>
-              {procedure.steps.map((step, index) => (
-                <div key={index} className={styles.stepItem}>
-                  <div className={styles.stepNumberContainer}>
-                    <div className={styles.stepNumber}>{index + 1}</div>
-                    {index < procedure.steps.length - 1 && <div className={styles.stepConnector}></div>}
+              <div className={styles.stepsList}>
+                {procedure.steps.map((step, index) => (
+                  <div key={index} className={styles.stepItem}>
+                    <div className={styles.stepNumberContainer}>
+                      <div className={styles.stepNumber}>{index + 1}</div>
+                      {index < procedure.steps.length - 1 && <div className={styles.stepConnector}></div>}
+                    </div>
+                    <div className={styles.stepContent}>
+                      <h3 className={styles.stepTitle}>{step}</h3>
+                      <p className={styles.stepDescription}>
+                        {stepDescriptions[index] || "Sin descripción disponible"}
+                      </p>
+                    </div>
                   </div>
-                  <div className={styles.stepContent}>
-                    <h3 className={styles.stepTitle}>{step}</h3>
-                    <p className={styles.stepDescription}>
-                      {stepDescriptions[index] || "Sin descripción disponible"}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             {/*<div className={styles.sidebarHelp}>*/}
@@ -85,12 +86,12 @@ function ApplicantProcedureInformationPage() {
               <div className={styles.infoContent}>
                 <div className={styles.documentExample}>
                   <div className={styles.documentExampleHeader}>
-                    <i className="pi pi-info-circle"></i>
+                    {/*<i className="pi pi-info-circle"></i>*/}
                     <h4 className={styles.documentExampleTitle}>Ejemplo de documento</h4>
                   </div>
                   <div className={styles.documentExampleContent}>
                     <div className={styles.documentImageContainer}>
-                      <Image src={generatedQrImage}
+                      <Image src={exampleDiplomaBachiller}
                              alt={`Image sample`} width="220" height="300"
                              preview/>
                     </div>
@@ -99,18 +100,17 @@ function ApplicantProcedureInformationPage() {
                     {/*</p>*/}
                   </div>
                 </div>
-
-                <div className={styles.importantNote}>
-                  <div className={styles.warningIcon}>⚠️</div>
-                  <div>
-                    <h4 className={styles.importantTitle}>Importante:</h4>
-                    <p className={styles.importantList}>
-                      <p>Tu documento debe ser legible y mostrar claramente todos los sellos y firmas oficiales.</p>
-                    </p>
-                  </div>
-                </div>
               </div>
             </section>
+            <div className={styles.importantNote}>
+              <div className={styles.importantHeader}>
+                <div className={styles.warningIcon}>⚠️</div>
+                <h4 className={styles.importantTitle}>Importante:</h4>
+              </div>
+              <p className={styles.importantText}>
+                Tu documento debe ser legible y mostrar claramente todos los sellos y firmas oficiales.
+              </p>
+            </div>
           </div>
 
           {/* Main content */}
@@ -149,7 +149,6 @@ function ApplicantProcedureInformationPage() {
             {/* Process section */}
             <section className={styles.infoSection}>
               <div className={styles.infoHeader}>
-                <i className="pi pi-calendar-clock"></i>
                 <h2 className={styles.infoTitle}>PROCESO</h2>
               </div>
               <div className={styles.infoContent}>
