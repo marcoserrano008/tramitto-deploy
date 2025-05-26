@@ -595,6 +595,10 @@
     padding-top: 0;
   }
 
+  .contentHeaderTitle {
+    margin-top: 0px;
+  }
+
   .stepsList {
     padding: 0.5rem;
   }
@@ -604,8 +608,12 @@
     margin-bottom: 0.1rem;
   }
 
-  .infoSection {
-    width: 100%;
+  .processSection {
+    width: 100% !important;
+  }
+
+  .documentSection {
+    width: 90%;
   }
 }
 

@@ -82,7 +82,7 @@ function ApplicantProcedureInformationPage() {
             {/*  </div>*/}
             {/*</div>*/}
 
-            <section className={styles.infoSection}>
+            <section className={`${styles.infoSection} ${styles.documentSection}`}>
               <div className={styles.infoContent}>
                 <div className={styles.documentExample}>
                   <div className={styles.documentExampleHeader}>
@@ -147,7 +147,7 @@ function ApplicantProcedureInformationPage() {
             </div>
 
             {/* Process section */}
-            <section className={styles.infoSection}>
+            <section className={`${styles.infoSection} ${styles.processSection}`}>
               <div className={styles.infoHeader}>
                 <h2 className={styles.infoTitle}>PROCESO</h2>
               </div>
