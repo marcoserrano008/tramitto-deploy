@@ -55,6 +55,15 @@ function ApplicantStepPaymentPage() {
   }) => step.path === currentPathEnd);
   const stepsActiveIndex = currentStepIndex === 0 ? -1 : currentStepIndex - 1;
 
+  const handleDownloadQR = () => {
+    const link = document.createElement('a');
+    link.href = generatedQrImage;
+    link.download = `qr-pago-${paymentDetails.amount}-${paymentDetails.currency}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   useEffect(() => {
     if (paymentSuccess && paymentResponse) {
       const timer = setTimeout(() => {
@@ -85,7 +94,9 @@ function ApplicantStepPaymentPage() {
         <ProceduresHeader procedure={procedure} createdProcedure={createdProcedure!} user={user!}/>
       </section>
 
-      {stepsActiveIndex > -1 && <Steps model={items} activeIndex={stepsActiveIndex}/>}
+      <div className={styles.stepsContainer}>
+        {stepsActiveIndex > -1 && <Steps model={items} activeIndex={stepsActiveIndex}/>}
+      </div>
 
       <div className={styles.container}>
         <div className={styles.layout}>
@@ -99,7 +110,7 @@ function ApplicantStepPaymentPage() {
 
             {/* Payment type */}
             <div className={styles.paymentType}>
-              <h2 className={styles.paymentTypeTitle}>Pagar Tramite</h2>
+              <h2 className={styles.paymentTypeTitle}>Pagar Trámite</h2>
             </div>
 
             {/* Recommendations */}
@@ -158,7 +169,6 @@ function ApplicantStepPaymentPage() {
             </div>
 
 
-
             {/* QR Code */}
             <div className={styles.qrContainer}>
               <div className={styles.qrCode}>
@@ -171,11 +181,17 @@ function ApplicantStepPaymentPage() {
                   </div>
                 ) : (
                   <Image src={generatedQrImage}
-                         alt={`Código QR para pago de ${paymentDetails.amount} ${paymentDetails.currency}`} width="400"
+                         alt={`Código QR para pago de ${paymentDetails.amount} ${paymentDetails.currency}`}
+                         width="400"
                          preview/>
                 )}
               </div>
-              {!paymentSuccess && <button className={styles.downloadButton}>Descargar QR</button>}
+              {!paymentSuccess && (
+                <button className={styles.downloadButton} onClick={handleDownloadQR}>
+                  {/*<i className="pi pi-download" style={{marginRight: '0.5rem'}}></i>*/}
+                  Descargar QR
+                </button>
+              )}
             </div>
 
             {/* Instructions */}
@@ -214,26 +230,28 @@ function ApplicantStepPaymentPage() {
             )}
 
             {/* Footer note */}
-            <div className={styles.footerNote}>
-              <p>* Una vez confirmado el pago, se habilitará el siguiente paso.</p>
+            <div className={styles.paymentFooterContainer}>
+              <div className={styles.paymentFooterInfo}>
+                <p className={styles.paymentFooterText}>
+                  Una vez confirmado el pago, se habilitará el siguiente paso.
+                </p>
+              </div>
+              <div className={styles.actionButtons}>
+                <button className={styles.cancelButton}>Cancelar</button>
+                <button
+                  className={styles.verifyButton}
+                  onClick={handlePayment}
+                  disabled={paymentProcessing || paymentSuccess}
+                >
+                  {paymentProcessing ? "Procesando..." : paymentSuccess ? "Pago Exitoso" : "Verificar pago"}
+                </button>
+              </div>
             </div>
-
-            {/* Action buttons */}
-            <div className={styles.actionButtons}>
-              <button className={styles.cancelButton}>Cancelar</button>
-              <button
-                className={styles.verifyButton}
-                onClick={handlePayment}
-                disabled={paymentProcessing || paymentSuccess}
-              >
-                {paymentProcessing ? "Procesando..." : paymentSuccess ? "Pago Exitoso" : "Verificar pago"}
-              </button>
             </div>
           </div>
         </div>
-      </div>
     </article>
-  )
+)
 }
 
 export default ApplicantStepPaymentPage;

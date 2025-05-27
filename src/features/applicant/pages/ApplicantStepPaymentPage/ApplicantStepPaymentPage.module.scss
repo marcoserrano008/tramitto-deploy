@@ -1,17 +1,5 @@
 @use "../../../../assets/variables";
 
-//.mainContainer {
-//  display: flex;
-//  flex-direction: column;
-//  width: 100%;
-//  gap: 45px;
-//  align-items: center;
-//}
-//
-//.proceduresListHeader {
-//  width: 100%;
-//}
-
 .mainContainer {
   width: 100%;
   display: flex;
@@ -23,12 +11,18 @@
   margin-bottom: 1.5rem;
 }
 
+.stepsContainer {
+  width: 100%;
+}
+
 .container {
   max-width: 1800px;
   margin: 0 auto;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #004e9a;
   border-radius: 0.5rem;
   overflow: hidden;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
 }
 
 .layout {
@@ -38,7 +32,7 @@
 
 .sidebar {
   width: 100%;
-  border-right: 1px solid #e5e7eb;
+  border-right: 1px solid #004e9a;
 }
 
 .stepHeader {
@@ -177,10 +171,21 @@
   margin-bottom: 1rem;
   display: inline-block;
   position: relative;
+  max-width: 100%;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 .successQr {
   position: relative;
+}
+
+.successGif {
+  max-width: 100%;
+  height: auto;
 }
 
 .successOverlay {
@@ -200,15 +205,22 @@
 .downloadButton {
   background-color: #0052cc;
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
   font-weight: 500;
   border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .downloadButton:hover {
   background-color: #003d99;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .instructions {
@@ -261,53 +273,175 @@
   border-radius: 0.25rem;
 }
 
-.footerNote {
+.paymentFooterContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 2rem;
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+
+  .paymentFooterInfo {
+    flex: 1;
+  }
+}
+
+.paymentFooterText {
   font-size: 0.875rem;
+  color: #4b5563;
+  margin: 0;
+  font-family: Roboto;
+
 }
 
 .actionButtons {
-  margin-top: 1.5rem;
   display: flex;
-  justify-content: flex-end;
   gap: 0.75rem;
+  flex-shrink: 0;
 }
 
 .cancelButton {
   background-color: #e5e7eb;
   color: #374151;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
   font-weight: 500;
   border: 1px solid #d1d5db;
   cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 1rem !important;
 }
 
 .cancelButton:hover {
   background-color: #d1d5db;
+  transform: translateY(-1px);
 }
 
 .verifyButton {
-  background-color: #003d99;
+  background-color: #3B82F6;
   color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  font-weight: 500;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px !important;
   border: none;
   cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 1rem !important;
 }
 
 .verifyButton:hover:not(:disabled) {
-  background-color: #00306b;
+  background-color: #003d99;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .verifyButton:disabled {
   background-color: #9ca3af;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* Media query for responsive layout */
-@media (min-width: 768px) {
+@media screen and (max-width: 700px) {
+  .stepsContainer {
+    //display: none;
+  }
+
+  .container {
+    border: none;
+    border-radius: 0;
+    margin: 0 -1rem;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .stepHeader,
+  .paymentType,
+  .recommendations,
+  .mainContent {
+    padding: 1rem;
+  }
+
+  .stepNumber {
+    font-size: 1.75rem;
+  }
+
+  .paymentTitle {
+    font-size: 1.25rem;
+  }
+
+  .paymentTypeTitle {
+    font-size: 1.125rem;
+  }
+
+  .qrCode {
+    padding: 0.25rem;
+
+    img {
+      width: 280px !important;
+      height: auto;
+    }
+  }
+
+  .successGif {
+    width: 280px !important;
+    height: auto;
+  }
+
+  .paymentFooterContainer {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .paymentFooterInfo {
+    order: 1;
+  }
+
+  .actionButtons {
+    order: 2;
+    justify-content: center;
+    width: 100%;
+
+    button {
+      flex: 1;
+      min-width: 120px;
+    }
+  }
+
+  .instructionItem {
+    align-items: flex-start;
+
+    span {
+      font-size: 0.875rem;
+    }
+  }
+
+  .recommendationsList {
+    font-size: 0.8125rem;
+    margin-left: -10px;
+  }
+
+  .downloadButton {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 701px) {
   .layout {
     flex-direction: row;
   }
