@@ -95,9 +95,6 @@ function ApplicantProcedureInformationPage() {
                              alt={`Image sample`} width="220" height="300"
                              preview/>
                     </div>
-                    {/*<p className={styles.documentExampleText}>*/}
-                    {/*  Tu diploma debe ser legible y mostrar claramente todos los sellos y firmas oficiales.*/}
-                    {/*</p>*/}
                   </div>
                 </div>
               </div>

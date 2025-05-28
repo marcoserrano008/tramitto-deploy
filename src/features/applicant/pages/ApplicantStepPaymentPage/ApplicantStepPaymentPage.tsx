@@ -64,6 +64,10 @@ function ApplicantStepPaymentPage() {
     document.body.removeChild(link);
   };
 
+  const handleCancel = () => {
+    navigate('../informacion');
+  };
+
   useEffect(() => {
     if (paymentSuccess && paymentResponse) {
       const timer = setTimeout(() => {
@@ -114,31 +118,35 @@ function ApplicantStepPaymentPage() {
             </div>
 
             {/* Recommendations */}
-            <div className={styles.recommendations}>
-              <h3 className={styles.recommendationsTitle}>Recomendaciones:</h3>
+            <section className={`${styles.infoSection} ${styles.recommendationsSection}`}>
+              <div className={styles.infoHeader}>
+                <i className={`pi pi-info-circle ${styles.infoHeaderIcon}`}></i>
+                <h3 className={styles.infoTitle}>Recomendaciones</h3>
+              </div>
+              <div className={styles.infoContent}>
               <p className={styles.recommendationsIntro}>Antes de realizar el pago, ten en cuenta:</p>
-
-              <ul className={styles.recommendationsList}>
-                <li className={styles.recommendationItem}>
-                  <span className={styles.bullet}>•</span>
-                  <span>
-                    El valorado tiene un costo de {paymentDetails.amount} {paymentDetails.currency}.
-                  </span>
-                </li>
-                <li className={styles.recommendationItem}>
-                  <span className={styles.bullet}>•</span>
-                  <span>El pago debe realizarse exclusivamente mediante QR.</span>
-                </li>
-                <li className={styles.recommendationItem}>
-                  <span className={styles.bullet}>•</span>
-                  <span>Escanea el QR con una app bancaria.</span>
-                </li>
-                <li className={styles.recommendationItem}>
-                  <span className={styles.bullet}>•</span>
-                  <span>Tras realizar el pago, descarga o toma captura del comprobante.</span>
-                </li>
-              </ul>
-            </div>
+                <ul className={styles.recommendationsList}>
+                  <li className={styles.recommendationItem}>
+                    <span className={styles.bullet}>•</span>
+                    <span>
+          El valorado tiene un costo de {paymentDetails.amount} {paymentDetails.currency}.
+        </span>
+                  </li>
+                  <li className={styles.recommendationItem}>
+                    <span className={styles.bullet}>•</span>
+                    <span>El pago debe realizarse exclusivamente mediante QR.</span>
+                  </li>
+                  <li className={styles.recommendationItem}>
+                    <span className={styles.bullet}>•</span>
+                    <span>Escanea el QR con una app bancaria.</span>
+                  </li>
+                  <li className={styles.recommendationItem}>
+                    <span className={styles.bullet}>•</span>
+                    <span>Tras realizar el pago, descarga o toma captura del comprobante.</span>
+                  </li>
+                </ul>
+              </div>
+            </section>
           </div>
 
           {/* Main content */}
@@ -152,22 +160,24 @@ function ApplicantStepPaymentPage() {
               <h2 className={styles.paymentTitle}>Pago</h2>
             </div>
 
-            <p className={styles.paymentDescription}>Realiza el pago escaneando el siguiente código QR:</p>
-
-            <div className={styles.paymentDetails}>
-
-              <div className={styles.paymentDetail}>
-                <span className={styles.detailLabel}>Monto:</span>
-                <span>
-                  {paymentDetails.amount} {paymentDetails.currency}
-                </span>
+            <div className={styles.quickInfo}>
+              <div className={styles.quickInfoItem}>
+                <i className={`${styles.quickInfoIcon} pi pi-money-bill`}></i>
+                <div>
+                  <span className={styles.quickInfoLabel}>Monto</span>
+                  <span className={styles.quickInfoValue}>{procedure.cost} Bs.</span>
+                </div>
               </div>
-              <div className={styles.paymentDetail}>
-                <span className={styles.detailLabel}>Método de pago:</span>
-                <span>Código QR</span>
+              <div className={styles.quickInfoItem}>
+                <i className={`${styles.quickInfoIcon} pi pi-qrcode`}></i>
+                <div>
+                  <span className={styles.quickInfoLabel}>Método de pago</span>
+                  <span className={styles.quickInfoValue}>Código QR</span>
+                </div>
               </div>
             </div>
 
+            <p className={styles.paymentDescription}>Realiza el pago escaneando el siguiente código QR:</p>
 
             {/* QR Code */}
             <div className={styles.qrContainer}>
@@ -232,12 +242,15 @@ function ApplicantStepPaymentPage() {
             {/* Footer note */}
             <div className={styles.paymentFooterContainer}>
               <div className={styles.paymentFooterInfo}>
+                {/*<p className={styles.paymentFooterText}>*/}
+                {/*  Una vez confirmado el pago, se habilitará el siguiente paso.*/}
+                {/*</p>*/}
                 <p className={styles.paymentFooterText}>
                   Una vez confirmado el pago, se habilitará el siguiente paso.
                 </p>
               </div>
               <div className={styles.actionButtons}>
-                <button className={styles.cancelButton}>Cancelar</button>
+                <button className={styles.cancelButton} onClick={handleCancel}>Cancelar</button>
                 <button
                   className={styles.verifyButton}
                   onClick={handlePayment}
@@ -247,11 +260,11 @@ function ApplicantStepPaymentPage() {
                 </button>
               </div>
             </div>
-            </div>
           </div>
         </div>
+      </div>
     </article>
-)
+  )
 }
 
 export default ApplicantStepPaymentPage;
