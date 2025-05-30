@@ -7,38 +7,6 @@ import {RoleEnum} from "../../types/enum/Role.enum.ts";
 import IdentityValidationPage from "./pages/IdentityValidationPage/IdentityValidationPage.tsx";
 import CompleteProfilePage from "./pages/CompleteProfilePage/CompleteProfilePage.tsx";
 import RegisterPage from "./pages/RegisterPage/RegisterPage.tsx";
-import {RegisterRequest} from "../../types/RegisterRequest.interface.ts";
-
-// 1. Define a function to handle the registration
-const handleActualRegistration = async (
-  data: RegisterRequest,
-): Promise<void> => {
-  console.log("Registering user:", data);
-  // Here you would typically make an API call to your backend
-  // For example:
-  // try {
-  //   const response = await fetch('/api/register', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(data),
-  //   });
-  //   if (!response.ok) {
-  //     const errorData = await response.json();
-  //     throw new Error(errorData.message || 'Registration failed');
-  //   }
-  //   console.log('Registration successful!');
-  //   // Handle successful registration (e.g., redirect to login)
-  // } catch (error) {
-  //   console.error('Registration error:', error);
-  //   // Handle registration error (e.g., show an error message)
-  //   throw error; // Re-throw to be caught by the RegisterPage if needed
-  // }
-  // Simulate API call
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  console.log("User registration processed for:", data.email);
-};
 
 const authenticationRoutes: RouteObject[] = [
   {
@@ -64,7 +32,7 @@ const authenticationRoutes: RouteObject[] = [
   },
   {
     path: "register",
-    element: <RegisterPage onRegister={handleActualRegistration}/>
+    element: <RegisterPage/>
   },
   {
     path: "complete-profile",
