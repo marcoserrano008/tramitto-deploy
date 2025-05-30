@@ -8,4 +8,9 @@ export interface UserResponse {
   secondLastName?: string;
   role: RoleEnum;
   imageUrl: string;
+  avatarId?: string;
+  identificationNumber: string;
+  isIdentityValidated?: boolean;
+  sisCode: number;
+  birthdate: string;
 }

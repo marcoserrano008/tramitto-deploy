@@ -1,0 +1,601 @@
+.mainContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.container {
+  width: 100%;
+  position: relative;
+}
+
+.validationCard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Camera Modal Styles */
+.cameraModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.cameraModalContent {
+  background-color: white;
+  border-radius: 0.75rem;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cameraModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cameraModalTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.cameraModalClose {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.cameraModalClose:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+.cameraContainer {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background-color: #000;
+}
+
+.cameraVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cameraOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.idCardGuide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.idCardFrame {
+  width: 460px;
+  height: 300px;
+  border: 3px solid #0052cc;
+  border-radius: 0.5rem;
+  background-color: rgba(0, 82, 204, 0.1);
+}
+
+.selfieGuide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selfieFrame {
+  width: 200px;
+  height: 200px;
+  border: 3px solid #0052cc;
+  border-radius: 50%;
+  background-color: rgba(0, 82, 204, 0.1);
+  margin-bottom: 1rem;
+}
+
+.cameraInstructions {
+  color: white;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  max-width: 300px;
+}
+
+.cameraControls {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cameraButton {
+  background-color: #0052cc;
+  color: white;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid white;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.cameraButton:hover {
+  background-color: #003d99;
+}
+
+.cancelCameraButton {
+  background-color: #ef4444;
+  color: white;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.cancelCameraButton:hover {
+  background-color: #dc2626;
+}
+
+/* Sidebar styles */
+.sidebar {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.sidebarHeader {
+  margin-bottom: 1.5rem;
+}
+
+.sidebarTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.recommendations {
+  margin-bottom: 2rem;
+}
+
+.recommendationsTitle {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.recommendationsIntro {
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.recommendationsList {
+  font-size: 0.875rem;
+}
+
+.recommendationItem {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.bullet {
+  margin-right: 0.5rem;
+}
+
+.exampleSection {
+  margin-top: 1.5rem;
+}
+
+.exampleTitle {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.exampleItem {
+  margin-bottom: 1.5rem;
+}
+
+.exampleItemTitle {
+  font-size: 0.9375rem;
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+.exampleImageContainer {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  display: inline-block;
+}
+
+.exampleImage {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Main content styles */
+.mainContent {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+.validationHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.iconContainer {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background-color: #e6f0ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+}
+
+.icon {
+  color: #0052cc;
+}
+
+.validationTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.validationDescription {
+  margin-bottom: 2rem;
+  color: #4b5563;
+}
+
+.uploadSection {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.uploadSection:last-of-type {
+  border-bottom: none;
+}
+
+.uploadHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  background-color: #0052cc;
+  color: white;
+  border-radius: 50%;
+  font-weight: 600;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.uploadTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.uploadWarning {
+  display: flex;
+  align-items: center;
+  background-color: #fff8e6;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.warningIcon {
+  color: #f59e0b;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.uploadInstructions {
+  margin-bottom: 1.5rem;
+  color: #4b5563;
+  font-size: 0.9375rem;
+}
+
+.uploadContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.exampleContainer {
+  flex: 1;
+}
+
+.exampleLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.exampleImageWrapper {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.uploadPreviewContainer {
+  flex: 1;
+}
+
+.uploadPreviewLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.uploadPreviewWrapper {
+  border: 2px dashed #d1d5db;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.uploadPreviewWrapper.hasPreview {
+  padding: 0;
+  border-style: solid;
+}
+
+.selfiePreviewWrapper {
+  min-height: 220px;
+}
+
+.uploadPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.uploadIcon {
+  color: #0052cc;
+}
+
+.fileInput {
+  display: none;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 0.375rem;
+}
+
+.removeImageButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e5e7eb;
+  border-radius: 9999px;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ef4444;
+  transition: all 0.2s ease;
+}
+
+.removeImageButton:hover {
+  background-color: #ef4444;
+  color: white;
+}
+
+.takePhotoButton {
+  background-color: #0052cc;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.takePhotoButton:hover {
+  background-color: #003d99;
+}
+
+.orText {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.uploadButton {
+  background: none;
+  border: none;
+  color: #0052cc;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0.25rem 0.5rem;
+}
+
+.uploadButton:hover {
+  color: #003d99;
+}
+
+.errorMessage {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1.5rem;
+}
+
+.validationNote {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.cancelButton {
+  background-color: #e5e7eb;
+  color: #374151;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  border: 1px solid #d1d5db;
+  cursor: pointer;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: #d1d5db;
+}
+
+.validateButton {
+  background-color: #0052cc;
+  color: white;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.validateButton:hover:not(:disabled) {
+  background-color: #003d99;
+}
+
+.validateButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive styles */
+@media (min-width: 768px) {
+  .validationCard {
+    flex-direction: row;
+  }
+
+  .sidebar {
+    width: 300px;
+    border-right: 1px solid #e5e7eb;
+    border-bottom: none;
+  }
+
+  .uploadContainer {
+    flex-direction: row;
+  }
+
+  .cameraModalContent {
+    max-width: 700px;
+  }
+
+  .cameraContainer {
+    height: 515px;
+  }
+}
+
+@media (max-width: 767px) {
+  .cameraModal {
+    padding: 0.5rem;
+  }
+
+  .cameraContainer {
+    height: 350px;
+  }
+
+  .idCardFrame {
+    width: 240px;
+    height: 150px;
+  }
+
+  .selfieFrame {
+    width: 160px;
+    height: 160px;
+  }
+
+  .cameraInstructions {
+    font-size: 0.8rem;
+  }
+}

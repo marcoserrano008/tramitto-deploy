@@ -60,12 +60,17 @@
 }
 
 .loginButton:hover {
-  background-color: #3367d6;
+  opacity: 0.8;
 }
 
 .loginButton:disabled {
   background-color: #a4c1f4;
   cursor: not-allowed;
+}
+
+.registerButton {
+  margin-top: 10px;
+  background-color: #2c7040;
 }
 
 .divider {
