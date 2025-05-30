@@ -1,0 +1,472 @@
+.container {
+  left: 0;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+}
+
+.heroSection {
+  background: linear-gradient(90deg, #003A8C 44%, #80DCF3 98%);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5rem;
+  flex-wrap: wrap;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.heroText {
+  flex: 1;
+  max-width: 50%;
+  margin-right: 1rem;
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+  }
+
+  p {
+    font-size: 1.3rem;
+    line-height: 1.5;
+    font-family: 'Roboto', sans-serif;
+  }
+}
+
+.heroLogos {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  .logoImage {
+    max-width: 110px;
+    height: auto;
+  }
+}
+
+.statsSection {
+  width: 100%;
+  padding: 0 5rem;
+  box-sizing: border-box;
+  margin-top: 3.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.statsCards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.statsCard {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.statsCardIcon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.statsIcon {
+  font-size: 1.8rem;
+}
+
+.statsCardContent {
+  flex: 1;
+  text-align: center;
+}
+
+.statsCardValue {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #004e9a;
+  margin-bottom: 0.25rem;
+}
+
+.statsCardTitle {
+  font-size: 1rem;
+  color: #666;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.2;
+}
+
+.processSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0 8rem;
+  position: relative;
+}
+
+.processWrapper {
+  position: relative;
+  border: 1px solid #0050B3;
+  border-radius: 1.5rem;
+  padding: 2.2rem 5% 2.2rem 5%;
+  box-shadow: 1px 2px 10px 0px #f1f1f1;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.processLabel {
+  position: absolute;
+  top: -18px;
+  left: 30px;
+  background-color: #fff;
+  color: #004e9a;
+  padding: 0.3rem 1rem;
+  border-radius: 999px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  z-index: 2;
+  border: 1px solid #0050B3;
+}
+
+.processCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+}
+
+.processCard {
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid var(--Neutral-6, #BFBFBF);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 0;
+  margin-top: 0.6rem;
+
+  :global {
+    .p-card {
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: none;
+    }
+
+    .p-card-body, .p-card-content {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+  }
+}
+
+.processCardHeader {
+  border-radius: 1rem 1rem 0 0;
+  width: 100%;
+  background: linear-gradient(90deg, #004e9a, #58c5f5);
+  height: 80px;
+  position: relative;
+  margin: 0;
+}
+
+.processCardIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.processCardContent {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.processCardTitle {
+  font-size: 1.2rem;
+  color: #004e9a;
+  font-weight: 600;
+  margin-top: 1.5rem;
+}
+.processCardSubtitle {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 1rem;
+  font-weight: 550;
+  font-family: 'Roboto', sans-serif;
+}
+
+.processCardStats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+  align-items: center;
+}
+
+.processCardStat {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem;
+  background:#f1f3f5;
+  border-radius: 0.5rem;
+}
+
+.processCardButton {
+  background-color: #003A8C !important;
+  border-radius: 8px !important;
+  font-size: 1rem !important;
+  padding: 0.5rem 1.5rem !important;
+  color: white !important;
+  font-family: 'Roboto', sans-serif;
+  margin: 0 auto 1rem auto !important;
+  width: auto !important;
+  max-width: 140px !important;
+  min-width: 130px !important;
+  display: block !important;
+}
+
+.statLabel {
+  font-size: 1.1rem;
+  color: #000;
+  font-family: 'Roboto', sans-serif;
+  padding: 0 1.5rem;
+}
+
+.statValue {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #000;
+  padding: 0 1.5rem;
+
+  &.newToday {
+    color: #1890FF;
+  }
+}
+
+.tableContainer {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.reviewTable {
+  :global {
+    .p-datatable {
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .p-datatable-header {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      color: #004e9a;
+      font-weight: 600;
+    }
+
+    .p-datatable-thead > tr > th {
+      background: #004e9a;
+      color: white;
+      font-weight: 600;
+      border-color: #003a8c;
+    }
+
+    .p-datatable-tbody > tr {
+      &:nth-child(even) {
+        background: #f8f9fa;
+      }
+
+      &:hover {
+        background: #e3f2fd !important;
+      }
+    }
+
+    .p-datatable-tbody > tr > td {
+      border-color: #dee2e6;
+      padding: 0.75rem;
+    }
+
+    .p-paginator {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-top: none;
+    }
+
+    .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+      background: #004e9a;
+      border-color: #004e9a;
+    }
+  }
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.reportesSection {
+  @extend .processSection;
+  margin-bottom: 2.5rem;
+}
+
+.reportChartContainer {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reportChart {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1200px) {
+  .statsSection {
+    padding: 0 3rem;
+  }
+
+  .processSection {
+    padding: 0 3rem;
+  }
+
+  .statsCards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 601px) and (max-width: 800px) {
+  .heroSection {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.7rem 2rem;
+  }
+
+  .heroText {
+    flex: 1;
+    max-width: 70%;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .heroLogos {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+
+    .logoImage {
+      max-width: 60px;
+    }
+  }
+
+  .statsSection {
+    padding: 0 2rem;
+  }
+
+  .statsCards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .statsCard {
+    padding: 1rem;
+  }
+
+  .statsCardValue {
+    font-size: 1.5rem;
+  }
+
+  .processSection {
+    padding: 0 2rem;
+  }
+
+  .processWrapper {
+    padding: 2rem 3% 2rem 3%;
+  }
+
+  .tableContainer {
+    overflow-x: auto;
+  }
+
+  .reviewTable {
+    :global {
+      .p-datatable-tbody > tr > td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .p-datatable-thead > tr > th {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .actionButtons {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .processCardStat {
+    gap: 0.1rem;
+  }
+
+  .statLabel {
+    padding: 0 1rem;
+  }
+
+  .statValue {
+    padding: 0 1rem;
+  }
+}

@@ -5,6 +5,7 @@
   flex-direction: column;
   width: 100%;
   align-items: center;
+  margin: 0 auto;
 }
 
 .container {
@@ -12,8 +13,7 @@
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  padding: 60px;
-  max-width: 1200px;
+  max-width: 100%;
 }
 
 .proceduresListHeader {
@@ -21,7 +21,7 @@
   background-color: variables.$primary1;
   display: flex;
   flex-direction: column;
-  padding: 25px 60px;
+  padding: 30px 80px;
 }
 
 .proceduresListTitle {
@@ -36,7 +36,7 @@
 }
 
 .procedureContainer {
-  border: 2px solid variables.$primary8;
+  border: 6px solid variables.$primary8;
   border-radius: 10px;
   display: flex;
   position: relative;
@@ -51,53 +51,12 @@
   left: 90px;
   background-color: variables.$neutral;
 }
-//
-//.stepsContainer {
-//  border-right: 2px solid variables.$primary8;
-//  display: flex;
-//  flex-direction: column;
-//  padding: 40px 20px;
-//}
-//
-//.steps {
-//  display: flex;
-//  flex-direction: column;
-//}
-//
-//.information {
-//  display: flex;
-//  flex-direction: column;
-//  padding: 40px;
-//  gap: 20px;
-//}
-//
-//.informationDetail {
-//  display: flex;
-//  flex-direction: column;
-//}
-//
-//.informationTitle {
-//  font-weight: 700;
-//}
-//
-//.startButtonContainer {
-//  display: flex;
-//  justify-content: flex-end;
-//}
-//
-//.startButton {
-//  width: 140px;
-//}
 
 .mainContainer {
   width: 100%;
   margin: 0 auto;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
-
-//.proceduresListHeader {
-//  margin-bottom: 1.5rem;
-//}
 
 .headerContent {
   display: flex;
@@ -106,20 +65,6 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
-
-//.proceduresListTitle {
-//  font-size: 1.5rem;
-//  font-weight: 700;
-//  color: #0052cc;
-//  display: block;
-//}
-//
-//.proceduresListSubtitle {
-//  font-size: 1rem;
-//  color: #6b7280;
-//  display: block;
-//  margin-top: 0.25rem;
-//}
 
 .headerBadge {
   background-color: #e6f0ff;
@@ -137,7 +82,7 @@
 .procedureCard {
   display: flex;
   flex-direction: column;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #004e9a;
   border-radius: 0.75rem;
   overflow: hidden;
   background-color: white;
@@ -149,12 +94,16 @@
   padding: 1.5rem;
   border-bottom: 1px solid #e5e7eb;
   background-color: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .stepsHeader {
   display: flex;
   align-items: center;
   margin-bottom: 1.5rem;
+  gap: 12px;
 }
 
 .stepsIcon {
@@ -163,15 +112,15 @@
 }
 
 .stepsHeaderTitle {
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 610;
   color: #111827;
 }
 
 .stepsList {
   display: flex;
   flex-direction: column;
-  margin-bottom: 2rem;
+  gap: 1.5rem;
 }
 
 .stepItem {
@@ -184,44 +133,62 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 0.75rem;
+  margin-right: 1.5rem;
+  position: relative;
+  flex-shrink: 0;
 }
 
 .stepNumber {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   background-color: #0052cc;
   color: white;
   border-radius: 50%;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.125rem;
   flex-shrink: 0;
-  z-index: 1;
+  z-index: 2;
+  position: relative;
 }
 
 .stepConnector {
+  position: absolute;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
   width: 2px;
-  height: 3rem;
+  height: 4.5rem;
   background-color: #0052cc;
-  margin-top: 0.25rem;
+  z-index: 1;
+}
+.stepItem:last-child .stepConnector {
+  display: none;
 }
 
 .stepContent {
   flex: 1;
-  padding-bottom: 1.5rem;
+  padding-top: 0.25rem;
+  min-height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .stepTitle {
   font-weight: 600;
-  margin-bottom: 0.25rem;
+  margin: 0 0 0.5rem 0;
   color: #111827;
+  font-size: 1.1rem;
+  line-height: 1.3;
 }
 
 .stepDescription {
   font-size: 0.875rem;
   color: #4b5563;
+  line-height: 1.5;
 }
 
 .sidebarHelp {
@@ -232,41 +199,9 @@
   gap: 0.75rem;
 }
 
-.helpIcon {
-  color: #0052cc;
-  flex-shrink: 0;
-}
-
-.helpTitle {
-  font-weight: 600;
-  font-size: 0.9375rem;
-  margin-bottom: 0.5rem;
-  color: #0052cc;
-}
-
-.helpText {
-  font-size: 0.875rem;
-  color: #4b5563;
-  margin-bottom: 0.75rem;
-}
-
-.helpButton {
-  background-color: #0052cc;
-  color: white;
-  font-size: 0.875rem;
-  padding: 0.375rem 0.75rem;
-  border-radius: 0.25rem;
-  border: none;
-  cursor: pointer;
-}
-
-.helpButton:hover {
-  background-color: #003d99;
-}
-
 /* Main content styles */
 .mainContent {
-  padding: 1.5rem;
+  padding: 0 1.5rem 1.5rem 1.5rem;
   flex: 1;
   background-color: white;
 }
@@ -274,12 +209,21 @@
 .contentHeader {
   display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+  border-bottom: 2.5px solid #e5e7eb;
+  padding-top: 1.5rem;
+  transform: translateY(0px);
 }
 
-.contentHeaderIcon {
+.stepsHeader,
+.contentHeader {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.contentHeaderIcon i {
+  font-size: 1.7rem;
   width: 3rem;
   height: 3rem;
   border-radius: 0.5rem;
@@ -289,12 +233,16 @@
   justify-content: center;
   margin-right: 1rem;
   color: #0052cc;
+  margin-top: 12px;
+  margin-bottom: 1rem;
 }
 
 .contentHeaderTitle {
   font-size: 1.5rem;
   font-weight: 700;
   color: #111827;
+  margin-top: 11px;
+  margin-bottom: 1rem;
 }
 
 .quickInfo {
@@ -305,6 +253,7 @@
   background-color: #f9fafb;
   border-radius: 0.5rem;
   padding: 1rem;
+  flex-direction: column;
 }
 
 .quickInfoItem {
@@ -321,6 +270,8 @@
 
 .quickInfoIcon {
   color: #0052cc;
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
 }
 
 .quickInfoLabel {
@@ -336,11 +287,12 @@
 }
 
 .infoSection {
-  margin-bottom: 2.5rem;
   background-color: white;
   border-radius: 0.5rem;
   border: 1px solid #e5e7eb;
   overflow: hidden;
+  flex-shrink: 0;
+  min-height: fit-content;
 }
 
 .infoHeader {
@@ -349,6 +301,7 @@
   padding: 1rem 1.25rem;
   background-color: #f9fafb;
   border-bottom: 1px solid #e5e7eb;
+  gap: 8px;
 }
 
 .infoIcon {
@@ -365,41 +318,18 @@
 
 .infoContent {
   padding: 1.25rem;
-}
-
-.requirementsList {
-  list-style-type: none;
-  padding: 0;
-  margin-bottom: 1.5rem;
-}
-
-.requirementItem {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 0.75rem;
-  padding: 0.5rem;
-  background-color: #f9fafb;
-  border-radius: 0.375rem;
-}
-
-.requirementIcon {
-  color: #0052cc;
-  margin-right: 0.75rem;
-  flex-shrink: 0;
-  margin-top: 0.125rem;
-}
-
-.documentExample {
+  flex-direction: column;
+  gap: 1.5rem;
   background-color: #f0f7ff;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
 }
 
 .documentExampleHeader {
   display: flex;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-top: -15px;
+  margin-bottom: 0.5rem;
+  gap: 0.8rem;
 }
 
 .documentExampleIcon {
@@ -418,6 +348,7 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  text-align: center;
 }
 
 .documentImageContainer {
@@ -426,19 +357,26 @@
   border-radius: 0.375rem;
   padding: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
 }
 
 .documentImage {
   display: block;
-  max-width: 100%;
+  max-width: 90%;
+  max-height: 90%;
   height: auto;
 }
 
-.documentExampleText {
-  font-size: 0.875rem;
-  color: #4b5563;
-  text-align: center;
-}
+//.documentExampleText {
+//  font-size: 0.875rem;
+//  color: #4b5563;
+//  text-align: center;
+//}
 
 .importantNote {
   background-color: #fff8e6;
@@ -447,6 +385,9 @@
   border-radius: 0.25rem;
   display: flex;
   gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: flex-start;
 }
 
 .warningIcon {
@@ -462,13 +403,8 @@
 
 .importantList {
   list-style-type: disc;
-  padding-left: 1.25rem;
   font-size: 0.875rem;
   color: #4b5563;
-}
-
-.importantList li {
-  margin-bottom: 0.375rem;
 }
 
 .processTimeline {
@@ -520,39 +456,6 @@
   color: #4b5563;
 }
 
-.faqItem {
-  margin-bottom: 1.25rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.faqItem:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-.faqQuestion {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #111827;
-  display: flex;
-  align-items: center;
-}
-
-.faqQuestion::before {
-  content: "Q:";
-  color: #0052cc;
-  font-weight: 700;
-  margin-right: 0.5rem;
-}
-
-.faqAnswer {
-  font-size: 0.9375rem;
-  color: #4b5563;
-  padding-left: 1.5rem;
-}
-
 .startButtonContainer {
   display: flex;
   justify-content: space-between;
@@ -590,15 +493,125 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive styles */
+@media screen and (max-width: 700px) {
+  .container {
+    padding: 15px;
+  }
+
+  .proceduresListHeader {
+    padding: 20px 30px;
+  }
+
+  .proceduresListTitle {
+    font-size: 22px;
+  }
+
+  .proceduresListSubtitle {
+    font-size: 28px;
+  }
+
+  .procedureCard {
+    flex-direction: column;
+  }
+
+  .documentExampleContent {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .documentExampleText {
+    text-align: center;
+    font-size: 0.8125rem;
+  }
+
+  .quickInfo {
+    flex-direction: column;
+  }
+
+  .quickInfoItem {
+    width: 100%;
+  }
+
+  .startButtonContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .startButtonInfo {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .stepsList {
+    gap: 1.25rem;
+  }
+
+  .stepNumberContainer {
+    margin-right: 1rem;
+  }
+
+  .stepNumber {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+  }
+
+  .stepConnector {
+    top: 2.5rem;
+    height: 3.24rem;
+  }
+
+  .stepTitle {
+    font-size: 1rem;
+  }
+
+  .stepDescription {
+    font-size: 0.8125rem;
+  }
+
+  .mainContent {
+    padding: 1.5rem;
+  }
+
+  .contentHeader {
+    padding-top: 0;
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    padding: 30px;
+    max-width: 100%;
+  }
+
+  .quickInfo {
+    flex-direction: row;
+  }
+
+  .quickInfoItem {
+    width: auto;
+  }
+
+  .startButtonContainer {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
 @media (min-width: 768px) {
+  .container {
+    padding: 40px;
+    max-width: 900px;
+  }
+
   .procedureCard {
     flex-direction: row;
   }
 
   .sidebar {
     width: 300px;
-    border-right: 1px solid #e5e7eb;
+    border-right: 1px solid #003d99;
     border-bottom: none;
   }
 
@@ -609,5 +622,16 @@
 
   .documentExampleText {
     text-align: left;
+  }
+
+  .contentHeader {
+    padding-top: 1.5rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    padding: 60px;
+    max-width: 1200px;
   }
 }

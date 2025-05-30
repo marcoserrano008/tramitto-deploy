@@ -30,6 +30,11 @@ function ApplicantProcedureInformationPage() {
   if (error) return <div>Error: {error}</div>;
   if (!procedure) return <div>No procedure information found</div>;
 
+  const stepDescriptions = [
+    "Realiza el pago del trámite mediante QR",
+    "Sube el documento a ser legalizado escaneado en formato PDF"
+  ];
+
   return (
     <article className={styles.mainContainer}>
       <section className={styles.proceduresListHeader}>
@@ -42,7 +47,7 @@ function ApplicantProcedureInformationPage() {
           {/* Left sidebar with steps */}
           <div className={styles.sidebar}>
             <div className={styles.stepsHeader}>
-              <i className="pi pi-list"></i>
+              <i className="pi pi-thumbtack"></i>
               <h2 className={styles.stepsHeaderTitle}>Pasos del trámite</h2>
             </div>
 
@@ -55,24 +60,57 @@ function ApplicantProcedureInformationPage() {
                   </div>
                   <div className={styles.stepContent}>
                     <h3 className={styles.stepTitle}>{step}</h3>
-                    <p className={styles.stepDescription}>{step}</p>
+                    <p className={styles.stepDescription}>
+                      {stepDescriptions[index] || "Sin descripción disponible"}
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className={styles.sidebarHelp}>
-              <div className={styles.helpIcon}>
-                <i className="pi pi-question-circle"></i>
+            {/*<div className={styles.sidebarHelp}>*/}
+            {/*  <div className={styles.helpIcon}>*/}
+            {/*    <i className="pi pi-question-circle"></i>*/}
+            {/*  </div>*/}
+            {/*  <div className={styles.helpContent}>*/}
+            {/*    <h3 className={styles.helpTitle}>¿Necesitas ayuda?</h3>*/}
+            {/*    <p className={styles.helpText}>*/}
+            {/*      Si tienes dudas sobre este trámite, puedes contactar a nuestro equipo de soporte.*/}
+            {/*    </p>*/}
+            {/*    <button className={styles.helpButton}>Contactar soporte</button>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
+
+            <section className={styles.infoSection}>
+              <div className={styles.infoContent}>
+                <div className={styles.documentExample}>
+                  <div className={styles.documentExampleHeader}>
+                    <i className="pi pi-info-circle"></i>
+                    <h4 className={styles.documentExampleTitle}>Ejemplo de documento</h4>
+                  </div>
+                  <div className={styles.documentExampleContent}>
+                    <div className={styles.documentImageContainer}>
+                      <Image src={generatedQrImage}
+                             alt={`Image sample`} width="220" height="300"
+                             preview/>
+                    </div>
+                    {/*<p className={styles.documentExampleText}>*/}
+                    {/*  Tu diploma debe ser legible y mostrar claramente todos los sellos y firmas oficiales.*/}
+                    {/*</p>*/}
+                  </div>
+                </div>
+
+                <div className={styles.importantNote}>
+                  <div className={styles.warningIcon}>⚠️</div>
+                  <div>
+                    <h4 className={styles.importantTitle}>Importante:</h4>
+                    <p className={styles.importantList}>
+                      <p>Tu documento debe ser legible y mostrar claramente todos los sellos y firmas oficiales.</p>
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className={styles.helpContent}>
-                <h3 className={styles.helpTitle}>¿Necesitas ayuda?</h3>
-                <p className={styles.helpText}>
-                  Si tienes dudas sobre este trámite, puedes contactar a nuestro equipo de soporte.
-                </p>
-                <button className={styles.helpButton}>Contactar soporte</button>
-              </div>
-            </div>
+            </section>
           </div>
 
           {/* Main content */}
@@ -86,81 +124,27 @@ function ApplicantProcedureInformationPage() {
 
             <div className={styles.quickInfo}>
               <div className={styles.quickInfoItem}>
-                <i className="pi pi-calendar-clock"></i>
+                <i className={`${styles.quickInfoIcon} pi pi-calendar-clock`}></i>
                 <div>
                   <span className={styles.quickInfoLabel}>Duración</span>
-                  <span className={styles.quickInfoValue}>1 dia</span>
+                  <span className={styles.quickInfoValue}>1 día</span>
                 </div>
               </div>
               <div className={styles.quickInfoItem}>
-                <i className="pi pi-money-bill"></i>
+                <i className={`${styles.quickInfoIcon} pi pi-money-bill`}></i>
                 <div>
                   <span className={styles.quickInfoLabel}>Costo</span>
-                  <span className={styles.quickInfoValue}>{procedure.cost}</span>
+                  <span className={styles.quickInfoValue}>{procedure.cost} Bs.</span>
                 </div>
               </div>
               <div className={styles.quickInfoItem}>
-                <i className="pi pi-qrcode"></i>
+                <i className={`${styles.quickInfoIcon} pi pi-qrcode`}></i>
                 <div>
                   <span className={styles.quickInfoLabel}>Pago</span>
                   <span className={styles.quickInfoValue}>Código QR</span>
                 </div>
               </div>
             </div>
-
-            {/* Requirements section */}
-            <section className={styles.infoSection}>
-              <div className={styles.infoHeader}>
-                <i className="pi pi-file-pdf"></i>
-                <h2 className={styles.infoTitle}>REQUISITOS</h2>
-              </div>
-
-              <div className={styles.infoContent}>
-                <ul className={styles.requirementsList}>
-                  {procedure.requirements.map((requirement, index) => (
-                    <li key={index} className={styles.requirementItem}>
-                      <i className="pi pi-check-circle"></i>
-                      <span>{requirement}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className={styles.documentExample}>
-                  <div className={styles.documentExampleHeader}>
-                    <i className="pi pi-info-circle"></i>
-                    <h4 className={styles.documentExampleTitle}>Ejemplo de documento</h4>
-                  </div>
-                  <div className={styles.documentExampleContent}>
-                    <div className={styles.documentImageContainer}>
-                      <Image src={generatedQrImage}
-                             alt={`Image sample`} width="220" height="300"
-                             preview/>
-                    </div>
-                    <p className={styles.documentExampleText}>
-                      Tu diploma debe ser legible y mostrar claramente todos los sellos y firmas oficiales.
-                    </p>
-                  </div>
-                </div>
-
-                <div className={styles.importantNote}>
-                  <div className={styles.warningIcon}>⚠️</div>
-                  <div>
-                    <h4 className={styles.importantTitle}>Importante:</h4>
-                    <ul className={styles.importantList}>
-                      <li>Tu Cédula de Identidad debe estar vigente, no se aceptarán documentos vencidos.</li>
-                      <li>
-                        La selfie será tomada en el momento a través del sistema, por lo que NO podrás subir imágenes
-                        desde tu galería.
-                      </li>
-                      <li>
-                        Asegúrate de que todas las imágenes sean claras y legibles, sin reflejos, filtros ni
-                        obstrucciones.
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </section>
 
             {/* Process section */}
             <section className={styles.infoSection}>
@@ -215,36 +199,6 @@ function ApplicantProcedureInformationPage() {
                       </p>
                     </div>
                   </div>
-                </div>
-              </div>
-            </section>
-
-            {/* FAQ section */}
-            <section className={styles.infoSection}>
-              <div className={styles.infoHeader}>
-                <i className="pi pi-question-circle"></i>
-                <h2 className={styles.infoTitle}>PREGUNTAS FRECUENTES</h2>
-              </div>
-              <div className={styles.infoContent}>
-                <div className={styles.faqItem}>
-                  <h4 className={styles.faqQuestion}>¿Cuánto tiempo tarda el trámite?</h4>
-                  <p className={styles.faqAnswer}>
-                    El trámite se procesa en aproximadamente <strong>1 día hábil</strong> una vez que todos los
-                    documentos han sido verificados.
-                  </p>
-                </div>
-                <div className={styles.faqItem}>
-                  <h4 className={styles.faqQuestion}>¿Puedo realizar este trámite por otra persona?</h4>
-                  <p className={styles.faqAnswer}>
-                    No, este trámite es personal y requiere verificación de identidad del titular del diploma.
-                  </p>
-                </div>
-                <div className={styles.faqItem}>
-                  <h4 className={styles.faqQuestion}>¿Qué hago si mi diploma tiene algún daño?</h4>
-                  <p className={styles.faqAnswer}>
-                    Si tu diploma presenta daños menores pero toda la información es legible, puede ser aceptado. En
-                    caso de daños severos, deberás solicitar un duplicado antes de iniciar este trámite.
-                  </p>
                 </div>
               </div>
             </section>
