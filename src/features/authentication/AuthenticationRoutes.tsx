@@ -6,6 +6,7 @@ import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler/OAuth2Redi
 import {RoleEnum} from "../../types/enum/Role.enum.ts";
 import IdentityValidationPage from "./pages/IdentityValidationPage/IdentityValidationPage.tsx";
 import CompleteProfilePage from "./pages/CompleteProfilePage/CompleteProfilePage.tsx";
+import RegisterPage from "./pages/RegisterPage/RegisterPage.tsx";
 
 const authenticationRoutes: RouteObject[] = [
   {
@@ -30,9 +31,14 @@ const authenticationRoutes: RouteObject[] = [
     element: <IdentityValidationPage/>
   },
   {
+    path: "register",
+    element: <RegisterPage/>
+  },
+  {
     path: "complete-profile",
     element: <CompleteProfilePage/>
   },
 ];
 
 export default authenticationRoutes;
+
