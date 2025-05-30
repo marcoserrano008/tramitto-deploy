@@ -15,7 +15,7 @@ import {MenuItem} from "primereact/menuitem";
 import ProceduresHeader from "../../components/ProceduresHeader/ProceduresHeader.tsx";
 import {useAuth} from "../../../../context/AuthContext.tsx";
 import {Image} from "primereact/image";
-import generatedQrImage from "../../../../assets/images/qr-payment.png";
+import exampleDiplomaBachiller from "../../../../assets/images/diplomaBachiller.png";
 
 function ApplicantStepUploadDocumentPage() {
   const {procedureType} = useParams<{ procedureType: string }>();
@@ -211,28 +211,38 @@ function ApplicantStepUploadDocumentPage() {
                 </div>
               </section>
 
-              <div className={styles.sampleDocumentSection}>
-                <h3 className={styles.sampleDocumentTitle}>Documento de Ejemplo</h3>
-                <p className={styles.sampleDocumentDescription}>Tu documento debe ser similar al siguiente ejemplo:</p>
-                <div className={styles.sampleImageContainer}>
-                  <Image src={generatedQrImage}
-                         alt={`Image sample`} width="220" height="300"
-                         preview/>
-                </div>
-                <p className={styles.sampleDocumentNote}>
-                  Asegúrate que todos los campos estén visibles y la imagen sea clara.
-                </p>
-
-                <div className={styles.importantNote}>
-                  <div className={styles.importantHeader}>
-                    <div className={styles.warningIcon}>⚠️</div>
-                    <h4 className={styles.importantTitle}>Importante:</h4>
+              <section className={`${styles.documentSection}`}>
+                <div className={styles.documentExampleContent}>
+                  <div className={styles.documentExample}>
+                    <div className={styles.documentExampleHeader}>
+                      {/*<i className="pi pi-info-circle"></i>*/}
+                      <h4 className={styles.documentExampleTitle}>Documento de Ejemplo</h4>
+                    </div>
+                    <p className={styles.sampleDocumentDescription}>Tu documento debe ser similar al siguiente
+                      ejemplo:</p>
+                    <div className={styles.sampleImageContainer}>
+                      <div className={styles.documentImageContainer}>
+                        <Image src={exampleDiplomaBachiller}
+                               alt={`Image sample`} width="220" height="300"
+                               preview/>
+                      </div>
+                      </div>
+                      <p className={styles.sampleDocumentNote}>
+                        Asegúrate que todos los campos estén visibles y la imagen sea clara.
+                      </p>
+                    </div>
                   </div>
-                  <p className={styles.importantText}>
-                    Tu documento debe ser legible y mostrar claramente todos los sellos y firmas oficiales.
-                  </p>
+              </section>
+
+              <div className={styles.importantNote}>
+                <div className={styles.importantHeader}>
+                  <div className={styles.warningIcon}>⚠️</div>
+                  <h4 className={styles.importantTitle}>Importante:</h4>
                 </div>
-              </div>
+                <p className={styles.importantText}>
+                      Tu documento debe ser legible y mostrar claramente todos los sellos y firmas oficiales.
+                    </p>
+                  </div>
             </div>
 
             {/* Main content */}
