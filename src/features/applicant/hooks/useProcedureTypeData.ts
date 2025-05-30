@@ -2,12 +2,7 @@ import {useEffect, useState} from 'react';
 import {ProcedureTypeEnum} from "../../../types/enum/ProcedureType.enum.ts";
 import {ProcedureTypeResponse} from "../../../types/ProcedureTypeResponse.interface.ts";
 import {procedureTypeService} from "../../../services/ProcedureType.http.service.ts";
-
-const PROCEDURE_TYPE_MAP: Record<ProcedureTypeEnum, number> = {
-  [ProcedureTypeEnum.HIGH_SCHOOL_DIPLOMA]: 1,
-  [ProcedureTypeEnum.ACADEMIC_DIPLOMA]: 2,
-  [ProcedureTypeEnum.NATIONAL_PROVISION_DEGREE]: 3
-};
+import {PROCEDURE_TYPE_MAP} from "../../../types/record/procedureTypeMap.ts";
 
 export interface ProcedureHookResult {
   procedure: ProcedureTypeResponse | null;

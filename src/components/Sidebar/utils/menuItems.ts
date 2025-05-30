@@ -8,12 +8,28 @@ const administratorMenuItems: MenuItem[] = [
     url: '/administrator',
   },
   {
-    label: 'Revisar tramites',
+    label: 'Revisar Tramites',
     icon: 'pi pi-fw pi-book',
-    url: '/administrator/procedures-list',
+    items: [
+      {
+        label: 'Legalizacion de Diploma de bachiller',
+        icon: 'pi pi-fw pi-file',
+        url: '/administrator/procedures-list/diploma-bachiller',
+      },
+      {
+        label: 'Legalizacion de Diploma Academico',
+        icon: 'pi pi-fw pi-file',
+        url: '/administrator/procedures-list/diploma-academico',
+      },
+      {
+        label: 'Legalizacion de Titulo en provision nacional',
+        icon: 'pi pi-fw pi-file',
+        url: '/administrator/procedures-list/titulo-provision',
+      },
+    ],
   },
   {
-    label: 'Tramites en proceso',
+    label: 'Revision Final',
     icon: 'pi pi-fw pi-folder',
     url: '/administrator/procedures-status',
   },

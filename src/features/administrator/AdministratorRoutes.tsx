@@ -20,7 +20,7 @@ const administratorRoutes: RouteObject[] = [
     children: [
       {index: true, element: <AdministratorHomePage/>},
 
-      {path: 'procedures-list', element: <AdministratorProceduresListPage/>},
+      { path: 'procedures-list/:procedureType', element: <AdministratorProceduresListPage /> },
 
       {path: 'procedures-status', element: <AdministratorProceduresStatusPage/>},
 
