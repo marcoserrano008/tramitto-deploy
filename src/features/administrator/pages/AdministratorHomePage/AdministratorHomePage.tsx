@@ -202,8 +202,10 @@ const AdminHomePage = () => {
   };
   //hasta aqui la tabña
 
-  const handleNavigation = () => {
-    navigate('/administrator/procedures-list');
+  const procedureRoutes: Record<string, string> = {
+    'Diploma de Bachiller': '/administrator/procedures-list/diploma-bachiller',
+    'Diploma Académico': '/administrator/procedures-list/diploma-academico',
+    'Título Provisión Nacional': '/administrator/procedures-list/titulo-provision'
   };
 
   return (
@@ -262,7 +264,7 @@ const AdminHomePage = () => {
                   <Button
                     label="Revisar"
                     className={styles.processCardButton}
-                    onClick={() => handleNavigation()}
+                    onClick={() => navigate(procedureRoutes[item.subtitle] || '/administrator/procedures-list')}
                   />
                 </div>
               </div>

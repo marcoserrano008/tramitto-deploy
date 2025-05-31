@@ -7,22 +7,26 @@ import styles from "./UserValidation.module.scss";
 import {Image} from "primereact/image";
 import exampleSelfie from "../../../../../../assets/images/example_selfie.webp";
 import exampleCi from "../../../../../../assets/images/example_ci.webp";
+import backExampleCi from "../../../../../../assets/images/back_example_ci.png";
 
 interface UserValidationProps {
   onValidate: (idCardImage: File, selfieImage: File) => Promise<void>
   onCancel: () => void
 }
 
-type CameraMode = "idCard" | "selfie" | null
+type CameraMode = "idCard" | "idCardBack" | "selfie" | null
 
 export default function UserValidation({ onValidate, onCancel }: UserValidationProps) {
   const idCardInputRef = useRef<HTMLInputElement>(null)
+  const idCardBackInputRef = useRef<HTMLInputElement>(null)
   const selfieInputRef = useRef<HTMLInputElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const [idCardImage, setIdCardImage] = useState<File | null>(null)
   const [idCardPreview, setIdCardPreview] = useState<string | null>(null)
+  const [idCardBackImage, setIdCardBackImage] = useState<File | null>(null)
+  const [idCardBackPreview, setIdCardBackPreview] = useState<string | null>(null)
   const [selfieImage, setSelfieImage] = useState<File | null>(null)
   const [selfiePreview, setSelfiePreview] = useState<string | null>(null)
   const [cameraMode, setCameraMode] = useState<CameraMode>(null)
@@ -42,6 +46,22 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
     setIdCardImage(file)
     const fileUrl = URL.createObjectURL(file)
     setIdCardPreview(fileUrl)
+    setError(null)
+  }
+
+  const handleIdCardBackUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (!files || files.length === 0) return
+
+    const file = files[0]
+    if (!file.type.startsWith("image/")) {
+      setError("El archivo debe ser una imagen (JPG, PNG)")
+      return
+    }
+
+    setIdCardBackImage(file)
+    const fileUrl = URL.createObjectURL(file)
+    setIdCardBackPreview(fileUrl)
     setError(null)
   }
 
@@ -112,7 +132,9 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
         }
 
         // Create a File from the blob
-        const fileName = cameraMode === "idCard" ? "cedula.jpg" : "selfie.jpg"
+        const fileName = cameraMode === "idCard" ? "cedula_frente.jpg"
+          : cameraMode === "idCardBack" ? "cedula_reverso.jpg"
+            : "selfie.jpg"
         const photoFile = new File([blob], fileName, { type: "image/jpeg" })
 
         // Create and set preview URL
@@ -121,6 +143,9 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
         if (cameraMode === "idCard") {
           setIdCardImage(photoFile)
           setIdCardPreview(previewUrl)
+        } else if (cameraMode === "idCardBack") {
+          setIdCardBackImage(photoFile)
+          setIdCardBackPreview(previewUrl)
         } else if (cameraMode === "selfie") {
           setSelfieImage(photoFile)
           setSelfiePreview(previewUrl)
@@ -153,6 +178,17 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
     setIdCardPreview(null)
     if (idCardInputRef.current) {
       idCardInputRef.current.value = ""
+    }
+  }
+
+  const removeIdCardBackImage = () => {
+    if (idCardBackPreview) {
+      URL.revokeObjectURL(idCardBackPreview)
+    }
+    setIdCardBackImage(null)
+    setIdCardBackPreview(null)
+    if (idCardBackInputRef.current) {
+      idCardBackInputRef.current.value = ""
     }
   }
 
@@ -195,7 +231,9 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
               <div className={styles.cameraModalContent}>
                 <div className={styles.cameraModalHeader}>
                   <h3 className={styles.cameraModalTitle}>
-                    {cameraMode === "idCard" ? "Fotografiar Cédula de Identidad" : "Tomar Selfie"}
+                    {cameraMode === "idCard" ? "Fotografiar Cédula de Identidad (Frente)"
+                      : cameraMode === "idCardBack" ? "Fotografiar Cédula de Identidad (Reverso)"
+                        : "Tomar Selfie"}
                   </h3>
                   <button className={styles.cameraModalClose} onClick={closeCamera}>
                     <i className="pi pi-times" style={{fontSize: '1.5rem'}}></i>
@@ -204,7 +242,7 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
                 <div className={styles.cameraContainer}>
                   <video ref={videoRef} className={styles.cameraVideo} autoPlay playsInline muted />
                   <div className={styles.cameraOverlay}>
-                    {cameraMode === "idCard" && (
+                    {(cameraMode === "idCard" || cameraMode === "idCardBack") && (
                       <div className={styles.idCardGuide}>
                         <div className={styles.idCardFrame}></div>
                         <p className={styles.cameraInstructions}>
@@ -355,16 +393,87 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
               </div>
             </section>
 
-            {/* Selfie Upload Section */}
             <section className={styles.uploadSection}>
               <div className={styles.uploadHeader}>
                 <div className={styles.stepNumber}>2</div>
+                <h3 className={styles.uploadTitle}>Cédula de Identidad (Reverso)</h3>
+              </div>
+
+              <div className={styles.uploadWarning}>
+                <i className="pi pi-info-circle" style={{fontSize: '1.5rem'}}></i>
+                <span>Recuerda que debe estar vigente (no se aceptarán documentos vencidos).</span>
+              </div>
+
+              <p className={styles.uploadInstructions}>
+                Toma una foto o sube una imagen del reverso de tu Cédula de Identidad.
+              </p>
+
+              <div className={styles.uploadContainer}>
+                <div className={styles.exampleContainer}>
+                  <h4 className={styles.exampleLabel}>EJEMPLO</h4>
+                  <div className={styles.exampleImageWrapper}>
+                    <Image
+                      src={backExampleCi}
+                      alt="Ejemplo de cédula de identidad"
+                      width="300"
+                      height="180"
+                      preview
+                      className={styles.exampleImage}
+                    />
+                  </div>
+                </div>
+
+                <div className={styles.uploadPreviewContainer}>
+                  <h4 className={styles.uploadPreviewLabel}>REVERSO</h4>
+                  <div className={`${styles.uploadPreviewWrapper} ${idCardBackPreview ? styles.hasPreview : ""}`}>
+                    {idCardBackPreview ? (
+                      <>
+                        <Image
+                          src={idCardBackPreview || "/placeholder.svg"}
+                          alt="Vista previa de cédula reverso"
+                          width="300"
+                          height="200"
+                          preview
+                          className={styles.previewImage}
+                        />
+                        <button className={styles.removeImageButton} onClick={removeIdCardBackImage}>
+                          <i className="pi pi-times" style={{fontSize: '1.5rem'}}></i>
+                        </button>
+                      </>
+                    ) : (
+                      <div className={styles.uploadPlaceholder}>
+                        <i className="pi pi-camera" style={{fontSize: '1.5rem'}}></i>
+                        <button className={styles.takePhotoButton} onClick={() => openCamera("idCardBack")}>
+                          Tomar foto
+                        </button>
+                        <span className={styles.orText}>o</span>
+                        <button className={styles.uploadButton} onClick={() => idCardBackInputRef.current?.click()}>
+                          Subir archivo
+                        </button>
+                      </div>
+                    )}
+                    <input
+                      type="file"
+                      ref={idCardBackInputRef}
+                      onChange={handleIdCardBackUpload}
+                      accept="image/*"
+                      className={styles.fileInput}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Selfie Upload Section */}
+            <section className={styles.uploadSection}>
+              <div className={styles.uploadHeader}>
+                <div className={styles.stepNumber}>3</div>
                 <h3 className={styles.uploadTitle}>Selfie (Frente)</h3>
               </div>
 
               <p className={styles.uploadInstructions}>
                 La foto debe tomarse en este momento desde la cámara de tu dispositivo.
-                <br />
+                <br/>
                 Tómate una foto de frente, mirando a la cámara con rostro neutro.
               </p>
 
