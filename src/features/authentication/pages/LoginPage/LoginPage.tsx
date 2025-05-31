@@ -130,7 +130,7 @@ const LoginPage = () => {
         </form>
 
         <div className={styles.divider}>
-          <span>o tambien</span>
+          <span>o también</span>
         </div>
 
         <button
