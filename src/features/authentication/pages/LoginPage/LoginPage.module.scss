@@ -40,11 +40,73 @@
   border-radius: 4px;
   font-size: 16px;
   transition: border-color 0.3s;
+  box-sizing: border-box;
 }
 
 .formGroup input:focus {
   border-color: #8ecfff;
   outline: none;
+}
+
+.passwordField {
+  width: 100% !important;
+  display: block !important;
+
+  :global {
+    .p-password {
+      width: 100% !important;
+      display: block !important;
+    }
+
+    .p-password .p-inputtext {
+      width: 100% !important;
+      padding: 12px !important;
+      padding-right: 45px !important;
+      border: 1px solid #ddd !important;
+      border-radius: 4px !important;
+      font-size: 16px !important;
+      transition: border-color 0.3s !important;
+      box-sizing: border-box !important;
+      display: block !important;
+
+      &:focus {
+        border-color: #8ecfff !important;
+        outline: none !important;
+      }
+    }
+
+    .p-password .p-password-toggle-mask {
+      position: absolute !important;
+      right: 12px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      background: none !important;
+      border: none !important;
+      cursor: pointer !important;
+      color: #6b7280 !important;
+      z-index: 2 !important;
+
+      &:hover {
+        color: #4b5563 !important;
+      }
+    }
+  }
+}
+
+.passwordInput {
+  width: 100% !important;
+  padding: 12px !important;
+  padding-right: 45px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  font-size: 16px !important;
+  transition: border-color 0.3s !important;
+  box-sizing: border-box !important;
+
+  &:focus {
+    border-color: #8ecfff !important;
+    outline: none !important;
+  }
 }
 
 .loginButton {
@@ -60,6 +122,7 @@
   transition: all 0.2s;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   font-size: 1rem !important;
+  box-sizing: border-box;
 }
 
 .loginButton:hover {
@@ -177,9 +240,25 @@
     margin-bottom: 1rem;
   }
 
+  .passwordField {
+    :global {
+      .p-password .p-inputtext {
+        padding: 0.875rem !important;
+        padding-right: 45px !important;
+        font-size: 1rem !important;
+      }
+    }
+  }
+
   .formGroup input {
     padding: 0.875rem;
     font-size: 1rem;
+  }
+
+  .passwordInput {
+    padding: 0.875rem !important;
+    padding-right: 45px !important;
+    font-size: 1rem !important;
   }
 
   .loginButton,

@@ -5,6 +5,7 @@ import {useAuth} from "../../../../context/AuthContext.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import {RoleEnum} from "../../../../types/enum/Role.enum.ts";
 import {classNames} from "primereact/utils";
+import {Password} from "primereact/password";
 
 interface LoginState {
   email?: string;
@@ -113,11 +114,15 @@ const LoginPage = () => {
 
           <div className={styles.formGroup}>
             <label htmlFor="password">Contraseña</label>
-            <input
-              type="password"
-              id="password"
+            <Password
+              inputId="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Ingresa tu contraseña"
+              toggleMask
+              feedback={false}
+              className={styles.passwordField}
+              inputClassName={styles.passwordInput}
               required
             />
           </div>
