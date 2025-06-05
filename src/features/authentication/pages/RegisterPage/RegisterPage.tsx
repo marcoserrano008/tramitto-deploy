@@ -66,11 +66,13 @@ export default function RegisterPage() {
 
       const validationData = response.data;
 
-      if (validationData.verified) {
+      if (validationData.verified && validationData.idNumber) {
         setValidationResult(validationData);
         setFormData((prev) => ({
           ...prev,
-          identificationNumber: validationData.idNumber,
+          identificationNumber: validationData.idNumber?.startsWith('0')
+              ? validationData.idNumber.substring(1)
+              : validationData.idNumber || "",
           isIdentityValidated: true,
         }));
       } else {
@@ -264,12 +266,7 @@ export default function RegisterPage() {
                     <div className={styles.validationSuccessInfo}>
                       <p className={styles.validationMessage}>¡Validación exitosa!</p>
                       <p className={styles.validationSubmessage}>
-                        {/*Carnet de Identidad: <strong>{validationResult.idNumber}</strong>*/}
-                        Carnet de Identidad: <strong>
-                        {validationResult.idNumber?.startsWith('0')
-                          ? validationResult.idNumber.substring(1)
-                          : validationResult.idNumber}
-                      </strong>
+                        Carnet de Identidad: <strong>{validationResult.idNumber}</strong>
                       </p>
                     </div>
                   </div>
@@ -308,6 +305,16 @@ export default function RegisterPage() {
                   </button>
                 </div>
               )}
+              {/* Modificacion idNumber */}
+              {validationResult && !validationResult.idNumber && (
+                <div className={styles.validationError}>
+                  <div className={styles.validationErrorContent}>
+                    <div>
+                      <p className={styles.validationSubmessage}>No se encontró un número en el carnet</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Registration Form */}
@@ -331,13 +338,7 @@ export default function RegisterPage() {
                   <div className={styles.validatedInputContainer}>
                     <input
                       type="text"
-                      // value={formData.identificationNumber || ""}
-                      // className={`${styles.input} ${styles.validatedInput}`}
-                      // placeholder={isFormDisabled ? "Pendiente de validación" : ""}
-                      // readOnly
-                      value={formData.identificationNumber?.startsWith('0')
-                        ? formData.identificationNumber.substring(1)
-                        : formData.identificationNumber || ""}
+                      value={formData.identificationNumber || ""}
                       className={`${styles.input} ${styles.validatedInput}`}
                       placeholder={isFormDisabled ? "Pendiente de validación" : ""}
                       readOnly
