@@ -13,6 +13,7 @@
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid #8ecfff;
 }
 
 .loginForm h2 {
@@ -39,38 +40,110 @@
   border-radius: 4px;
   font-size: 16px;
   transition: border-color 0.3s;
+  box-sizing: border-box;
 }
 
 .formGroup input:focus {
-  border-color: #4285f4;
+  border-color: #8ecfff;
   outline: none;
+}
+
+.passwordField {
+  width: 100% !important;
+  display: block !important;
+
+  :global {
+    .p-password {
+      width: 100% !important;
+      display: block !important;
+    }
+
+    .p-password .p-inputtext {
+      width: 100% !important;
+      padding: 12px !important;
+      padding-right: 45px !important;
+      border: 1px solid #ddd !important;
+      border-radius: 4px !important;
+      font-size: 16px !important;
+      transition: border-color 0.3s !important;
+      box-sizing: border-box !important;
+      display: block !important;
+
+      &:focus {
+        border-color: #8ecfff !important;
+        outline: none !important;
+      }
+    }
+
+    .p-password .p-password-toggle-mask {
+      position: absolute !important;
+      right: 12px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      background: none !important;
+      border: none !important;
+      cursor: pointer !important;
+      color: #6b7280 !important;
+      z-index: 2 !important;
+
+      &:hover {
+        color: #4b5563 !important;
+      }
+    }
+  }
+}
+
+.passwordInput {
+  width: 100% !important;
+  padding: 12px !important;
+  padding-right: 45px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  font-size: 16px !important;
+  transition: border-color 0.3s !important;
+  box-sizing: border-box !important;
+
+  &:focus {
+    border-color: #8ecfff !important;
+    outline: none !important;
+  }
 }
 
 .loginButton {
   width: 100%;
   padding: 12px;
-  background-color: #4285f4;
+  background-color: #3B82F6;
   color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px !important;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 1rem !important;
+  box-sizing: border-box;
 }
 
 .loginButton:hover {
-  opacity: 0.8;
+  background-color: #2563EB;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .loginButton:disabled {
-  background-color: #a4c1f4;
+  background-color: #9CA3AF;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .registerButton {
   margin-top: 10px;
-  background-color: #2c7040;
+  background-color: #059669;
+
+  &:hover {
+    background-color: #047857;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .divider {
@@ -99,12 +172,14 @@
   padding: 12px;
   background-color: white;
   color: #555;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
 }
 
 .googleButton svg {
@@ -112,12 +187,15 @@
 }
 
 .googleButton:hover {
-  background-color: #f5f5f5;
+  background-color: #f8fafc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border-color: #8ecfff;
 }
 
 .googleButton:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .errorMessage {
@@ -136,4 +214,66 @@
   color: #2e7d32;
   border-radius: 4px;
   font-size: 14px;
+}
+
+@media screen and (max-width: 700px) {
+  .loginContainer {
+    padding: 1rem;
+    align-items: flex-start;
+    padding-top: 2rem;
+  }
+
+  .loginForm {
+    max-width: 100%;
+    padding: 1.5rem;
+    margin: 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .loginForm h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .formGroup {
+    margin-bottom: 1rem;
+  }
+
+  .passwordField {
+    :global {
+      .p-password .p-inputtext {
+        padding: 0.875rem !important;
+        padding-right: 45px !important;
+        font-size: 1rem !important;
+      }
+    }
+  }
+
+  .formGroup input {
+    padding: 0.875rem;
+    font-size: 1rem;
+  }
+
+  .passwordInput {
+    padding: 0.875rem !important;
+    padding-right: 45px !important;
+    font-size: 1rem !important;
+  }
+
+  .loginButton,
+  .googleButton {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .divider {
+    margin: 1.5rem 0;
+  }
+
+  .errorMessage,
+  .successMessage {
+    padding: 0.875rem;
+    font-size: 0.875rem;
+  }
 }
