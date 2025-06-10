@@ -266,7 +266,12 @@ export default function RegisterPage() {
                     <div className={styles.validationSuccessInfo}>
                       <p className={styles.validationMessage}>¡Validación exitosa!</p>
                       <p className={styles.validationSubmessage}>
-                        Carnet de Identidad: <strong>{validationResult.idNumber}</strong>
+                        {/*Carnet de Identidad: <strong>{validationResult.idNumber}</strong>*/}
+                        Carnet de Identidad: <strong>
+                        {validationResult.idNumber?.startsWith('0')
+                          ? validationResult.idNumber.substring(1)
+                          : validationResult.idNumber}
+                      </strong>
                       </p>
                     </div>
                   </div>
@@ -318,7 +323,7 @@ export default function RegisterPage() {
             </div>
 
             {/* Registration Form */}
-            <div className={styles.formSection}>
+            <div className={`${styles.formSection} ${validationResult?.verified ? styles.enabled : ''}`}>
               <div className={styles.formHeader}>
                 <h2 className={styles.formTitle}>Información Personal</h2>
                 <p className={styles.formDescription}>

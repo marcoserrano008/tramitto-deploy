@@ -242,8 +242,14 @@
 
 /* Form Section */
 .formSection {
-  opacity: 1;
+  //opacity: 1;
+  opacity: 0.5;
   transition: opacity 0.3s ease;
+}
+
+.formSection.enabled {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .formHeader {
