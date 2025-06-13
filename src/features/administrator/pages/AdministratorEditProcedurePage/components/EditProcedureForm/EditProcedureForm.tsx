@@ -1,0 +1,510 @@
+"use client"
+
+import type React from "react";
+import {useRef, useState} from "react";
+import styles from "./EditProcedureForm.module.scss";
+import {Image} from "primereact/image";
+
+export interface UpdateProcedureTypeRequest {
+  name?: string // max 100 characters
+  description?: string
+  cost?: number // > 0, max 8 integer digits, 2 decimal places
+  imageId?: string
+  steps?: string[]
+  requirements?: string[]
+  durationDays?: number // >= 1
+}
+
+export interface ProcedureTypeResponse {
+  id: number
+  name: string
+  description: string
+  cost: string // BigDecimal
+  isActive: boolean
+  steps: string[]
+  requirements: string[]
+  durationDays: number
+  createdAt: string // ISO string
+  updatedAt: string
+  imageId: string
+}
+
+export interface FileResponse {
+  id: string
+  filename: string
+  fileDownloadUri: string
+  fileType: string
+  size: number
+}
+
+interface EditProcedureProps {
+  procedure: ProcedureTypeResponse
+  onUpdate: (data: UpdateProcedureTypeRequest) => Promise<void>
+  onUploadImage: (file: File) => Promise<FileResponse>
+  onBack: () => void
+  onCancel: () => void
+}
+
+export default function EditProcedureForm({procedure, onUpdate, onUploadImage, onBack, onCancel}: EditProcedureProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+
+  // Form data state with preloaded values
+  const [formData, setFormData] = useState<UpdateProcedureTypeRequest>({
+    name: procedure.name,
+    description: procedure.description,
+    cost: Number.parseFloat(procedure.cost),
+    durationDays: procedure.durationDays,
+    steps: [...procedure.steps],
+    requirements: [...procedure.requirements],
+    imageId: procedure.imageId,
+  })
+
+  const handleInputChange = (field: keyof UpdateProcedureTypeRequest, value: string | number) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }))
+  }
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (!files || files.length === 0) return
+
+    const file = files[0]
+    if (!file.type.startsWith("image/")) {
+      setError("El archivo debe ser una imagen (JPG, PNG, etc.)")
+      return
+    }
+
+    // Check file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("El archivo no debe superar los 5MB")
+      return
+    }
+
+    setSelectedImage(file)
+    const fileUrl = URL.createObjectURL(file)
+    setImagePreview(fileUrl)
+    setError(null)
+  }
+
+  const removeSelectedImage = () => {
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview)
+    }
+    setSelectedImage(null)
+    setImagePreview(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+  }
+
+  const addStep = () => {
+    setFormData((prev) => ({
+      ...prev,
+      steps: [...(prev.steps || []), ""],
+    }))
+  }
+
+  const updateStep = (index: number, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      steps: prev.steps?.map((step, i) => (i === index ? value : step)) || [],
+    }))
+  }
+
+  const removeStep = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      steps: prev.steps?.filter((_, i) => i !== index) || [],
+    }))
+  }
+
+  const addRequirement = () => {
+    setFormData((prev) => ({
+      ...prev,
+      requirements: [...(prev.requirements || []), ""],
+    }))
+  }
+
+  const updateRequirement = (index: number, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      requirements: prev.requirements?.map((req, i) => (i === index ? value : req)) || [],
+    }))
+  }
+
+  const removeRequirement = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      requirements: prev.requirements?.filter((_, i) => i !== index) || [],
+    }))
+  }
+
+  const validateForm = (): string | null => {
+    // All fields are optional, but if provided, they should meet certain criteria
+
+    // Validate name if provided
+    if (formData.name && formData.name.length > 100) {
+      return "El nombre no puede superar los 100 caracteres"
+    }
+
+    // Validate cost if provided
+    if (formData.cost !== undefined && formData.cost !== null) {
+      if (formData.cost <= 0) {
+        return "El costo debe ser mayor a 0"
+      }
+      if (formData.cost > 99999999.99) {
+        return "El costo no puede superar los 99,999,999.99"
+      }
+    }
+
+    // Validate duration if provided
+    if (formData.durationDays !== undefined && formData.durationDays !== null && formData.durationDays < 1) {
+      return "La duración debe ser de al menos 1 día"
+    }
+
+    // Validate steps if provided
+    if (formData.steps && formData.steps.length > 0) {
+      const emptySteps = formData.steps.filter((step) => !step.trim())
+      if (emptySteps.length > 0) {
+        return "Los pasos no pueden estar vacíos"
+      }
+    }
+
+    // Validate requirements if provided
+    if (formData.requirements && formData.requirements.length > 0) {
+      const emptyRequirements = formData.requirements.filter((req) => !req.trim())
+      if (emptyRequirements.length > 0) {
+        return "Los requisitos no pueden estar vacíos"
+      }
+    }
+
+    return null
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    const validationError = validateForm()
+    if (validationError) {
+      setError(validationError)
+      return
+    }
+
+    setIsProcessing(true)
+    setError(null)
+
+    try {
+      const updateData = {...formData}
+
+      // Upload new image if selected
+      if (selectedImage) {
+        const imageResponse = await onUploadImage(selectedImage)
+        updateData.imageId = imageResponse.id
+      }
+
+      // Remove unchanged fields to only send modified data
+      const changedData: UpdateProcedureTypeRequest = {}
+
+      if (updateData.name !== procedure.name) changedData.name = updateData.name
+      if (updateData.description !== procedure.description) changedData.description = updateData.description
+      if (updateData.cost !== Number.parseFloat(procedure.cost)) changedData.cost = updateData.cost
+      if (updateData.durationDays !== procedure.durationDays) changedData.durationDays = updateData.durationDays
+      if (updateData.imageId !== procedure.imageId) changedData.imageId = updateData.imageId
+
+      // Check if arrays have changed
+      const stepsChanged =
+        JSON.stringify(updateData.steps) !== JSON.stringify(procedure.steps) ||
+        updateData.steps?.length !== procedure.steps.length
+      if (stepsChanged) changedData.steps = updateData.steps
+
+      const requirementsChanged =
+        JSON.stringify(updateData.requirements) !== JSON.stringify(procedure.requirements) ||
+        updateData.requirements?.length !== procedure.requirements.length
+      if (requirementsChanged) changedData.requirements = updateData.requirements
+
+      // Only send update if there are changes
+      if (Object.keys(changedData).length > 0) {
+        await onUpdate(changedData)
+      } else {
+        setError("No se detectaron cambios para guardar")
+      }
+    } catch (err) {
+      setError("Error al actualizar el procedimiento. Por favor, intenta nuevamente.")
+    } finally {
+      setIsProcessing(false)
+    }
+  }
+
+  return (
+    <article className={styles.mainContainer}>
+      <div className={styles.container}>
+        <div className={styles.editCard}>
+          {/* Left sidebar */}
+          <div className={styles.sidebar}>
+            <div className={styles.sidebarHeader}>
+              <button className={styles.backButton} onClick={onBack}>
+                <i className="pi pi-check-circle"></i>
+                <span>Volver a la lista</span>
+              </button>
+              <h2 className={styles.sidebarTitle}>Información del Procedimiento</h2>
+            </div>
+
+            <div className={styles.procedureInfo}>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>ID:</span>
+                <span className={styles.infoValue}>{procedure.id}</span>
+              </div>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>Estado:</span>
+                <span className={`${styles.statusBadge} ${procedure.isActive ? styles.active : styles.inactive}`}>
+                  {procedure.isActive ? "Activo" : "Inactivo"}
+                </span>
+              </div>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>Creado:</span>
+                <span className={styles.infoValue}>{new Date(procedure.createdAt).toLocaleDateString()}</span>
+              </div>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>Actualizado:</span>
+                <span className={styles.infoValue}>{new Date(procedure.updatedAt).toLocaleDateString()}</span>
+              </div>
+            </div>
+
+            <div className={styles.guidelines}>
+              <h3 className={styles.guidelinesTitle}>Pautas de Edición:</h3>
+              <ul className={styles.guidelinesList}>
+                <li className={styles.guidelineItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>Todos los campos son opcionales</span>
+                </li>
+                <li className={styles.guidelineItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>Solo se enviarán los campos modificados</span>
+                </li>
+                <li className={styles.guidelineItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>El nombre no puede superar los 100 caracteres</span>
+                </li>
+                <li className={styles.guidelineItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>El costo debe ser mayor a 0 si se especifica</span>
+                </li>
+                <li className={styles.guidelineItem}>
+                  <span className={styles.bullet}>•</span>
+                  <span>Las imágenes no deben superar los 5MB</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Main content */}
+          <div className={styles.mainContent}>
+            <div className={styles.editHeader}>
+              <div className={styles.iconContainer}>
+                <i className={`pi pi-file-edit ${styles.icon}`}></i>
+              </div>
+              <div className={styles.headerContent}>
+                <h2 className={styles.editTitle}>Editar: {procedure.name}</h2>
+                <p className={styles.editSubtitle}>Modifica solo los campos que necesites cambiar</p>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className={styles.form}>
+              {/* Basic Information */}
+              <section className={styles.formSection}>
+                <h3 className={styles.sectionTitle}>Información Básica</h3>
+
+                <div className={styles.inputGroup}>
+                  <label className={styles.label}>Nombre</label>
+                  <input
+                    type="text"
+                    value={formData.name || ""}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    className={styles.input}
+                    maxLength={100}
+                    placeholder="Nombre del procedimiento"
+                  />
+                  <p className={styles.inputHelp}>{(formData.name || "").length}/100 caracteres</p>
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label className={styles.label}>Descripción</label>
+                  <textarea
+                    value={formData.description || ""}
+                    onChange={(e) => handleInputChange("description", e.target.value)}
+                    className={styles.textarea}
+                    rows={4}
+                    placeholder="Descripción detallada del procedimiento"
+                  />
+                </div>
+
+                <div className={styles.inputRow}>
+                  <div className={styles.inputGroup}>
+                    <label className={styles.label}>Costo (Bs.)</label>
+                    <div className={styles.inputWithIcon}>
+                      <i className={`pi pi-money-bill ${styles.inputIcon}`}></i>
+                      <input
+                        type="number"
+                        value={formData.cost || ""}
+                        onChange={(e) => handleInputChange("cost", Number.parseFloat(e.target.value) || 0)}
+                        className={styles.inputWithIconField}
+                        min="0.01"
+                        max="99999999.99"
+                        step="0.01"
+                        placeholder="0.00"
+                      />
+                    </div>
+                  </div>
+                  <div className={styles.inputGroup}>
+                    <label className={styles.label}>Duración (días)</label>
+                    <div className={styles.inputWithIcon}>
+                      <i className={`pi pi-calendar ${styles.inputIcon}`}></i>
+                      <input
+                        type="number"
+                        value={formData.durationDays || ""}
+                        onChange={(e) => handleInputChange("durationDays", Number.parseInt(e.target.value) || 1)}
+                        className={styles.inputWithIconField}
+                        min="1"
+                        placeholder="1"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Image Upload */}
+              <section className={styles.formSection}>
+                <h3 className={styles.sectionTitle}>Imagen del Procedimiento</h3>
+
+                <div className={styles.imageUploadContainer}>
+                  <div className={styles.currentImageContainer}>
+                    <h4 className={styles.imageLabel}>Imagen Actual</h4>
+                    <div className={styles.imageWrapper}>
+                      <Image
+                        src={`/placeholder.svg?height=200&width=300`}
+                        alt="Imagen actual del procedimiento"
+                        width="300"
+                        height="200"
+                        className={styles.currentImage}
+                      />
+                    </div>
+                  </div>
+
+                  <div className={styles.newImageContainer}>
+                    <h4 className={styles.imageLabel}>Nueva Imagen (Opcional)</h4>
+                    <div className={styles.uploadArea}>
+                      {imagePreview ? (
+                        <div className={styles.previewContainer}>
+                          <Image
+                            src={imagePreview || "/placeholder.svg"}
+                            alt="Vista previa de nueva imagen"
+                            width="300"
+                            height="200"
+                            className={styles.previewImage}
+                          />
+                          <button type="button" className={styles.removeImageButton} onClick={removeSelectedImage}>
+                            <i className="pi pi-times"></i>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className={styles.uploadPlaceholder} onClick={() => fileInputRef.current?.click()}>
+                          <i className={`pi pi-image ${styles.uploadIcon}`}></i>
+
+                          <p className={styles.uploadText}>Haz clic para seleccionar una nueva imagen</p>
+                          <p className={styles.uploadSubtext}>JPG, PNG (max. 5MB)</p>
+                        </div>
+                      )}
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleImageChange}
+                        accept="image/*"
+                        className={styles.fileInput}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Steps */}
+              <section className={styles.formSection}>
+                <div className={styles.sectionHeader}>
+                  <h3 className={styles.sectionTitle}>Pasos del Procedimiento</h3>
+                  <button type="button" className={styles.addButton} onClick={addStep}>
+                    <i className="pi pi-plus"></i>
+                    Agregar Paso
+                  </button>
+                </div>
+
+                <div className={styles.listContainer}>
+                  {formData.steps?.map((step, index) => (
+                    <div key={index} className={styles.listItem}>
+                      <div className={styles.listItemNumber}>{index + 1}</div>
+                      <input
+                        type="text"
+                        value={step}
+                        onChange={(e) => updateStep(index, e.target.value)}
+                        className={styles.listInput}
+                        placeholder={`Paso ${index + 1}`}
+                      />
+                      <button type="button" className={styles.removeButton} onClick={() => removeStep(index)}>
+                        <i className="pi pi-delete-left"></i>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Requirements */}
+              <section className={styles.formSection}>
+                <div className={styles.sectionHeader}>
+                  <h3 className={styles.sectionTitle}>Requisitos</h3>
+                  <button type="button" className={styles.addButton} onClick={addRequirement}>
+                    <i className="pi pi-plus"></i>
+                    Agregar Requisito
+                  </button>
+                </div>
+
+                <div className={styles.listContainer}>
+                  {formData.requirements?.map((requirement, index) => (
+                    <div key={index} className={styles.listItem}>
+                      <div className={styles.listItemNumber}>{index + 1}</div>
+                      <input
+                        type="text"
+                        value={requirement}
+                        onChange={(e) => updateRequirement(index, e.target.value)}
+                        className={styles.listInput}
+                        placeholder={`Requisito ${index + 1}`}
+                      />
+                      <button type="button" className={styles.removeButton} onClick={() => removeRequirement(index)}>
+                        <i className="pi pi-delete-left"></i>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {error && <div className={styles.errorMessage}>{error}</div>}
+
+              {/* Action buttons */}
+              <div className={styles.actionButtons}>
+                <button type="button" className={styles.cancelButton} onClick={onCancel} disabled={isProcessing}>
+                  Cancelar
+                </button>
+                <button type="submit" className={styles.submitButton} disabled={isProcessing}>
+                  {isProcessing ? "Guardando..." : "Guardar Cambios"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </article>
+  )
+}

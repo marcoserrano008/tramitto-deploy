@@ -15,7 +15,7 @@ import {MenuItem} from "primereact/menuitem";
 import ProceduresHeader from "../../components/ProceduresHeader/ProceduresHeader.tsx";
 import {useAuth} from "../../../../context/AuthContext.tsx";
 import {Image} from "primereact/image";
-import exampleDiplomaBachiller from "../../../../assets/images/diplomaBachiller.png";
+import {buildUrl} from "../../../../services/Url.service.ts";
 
 function ApplicantStepUploadDocumentPage() {
   const {procedureType} = useParams<{ procedureType: string }>();
@@ -40,7 +40,10 @@ function ApplicantStepUploadDocumentPage() {
 
   const pathSegments = location.pathname.split('/').filter(Boolean);
   const currentPathEnd = pathSegments[pathSegments.length - 1];
-  const currentStepIndex = procedureSteps.findIndex((step: {path: string, name: string}) => step.path === currentPathEnd);
+  const currentStepIndex = procedureSteps.findIndex((step: {
+    path: string,
+    name: string
+  }) => step.path === currentPathEnd);
   const stepsActiveIndex = currentStepIndex === 0 ? -1 : currentStepIndex - 1;
   const items: MenuItem[] = procedureSteps.filter((step) => step.path !== '')
     .map((step) => ({label: step.name}));
@@ -167,201 +170,203 @@ function ApplicantStepUploadDocumentPage() {
         {stepsActiveIndex > -1 && <Steps model={items} activeIndex={stepsActiveIndex}/>}
       </div>
 
-        <div className={styles.container}>
-          <div className={styles.layout}>
-            {/* Left sidebar */}
-            <div className={styles.sidebar}>
-              {/* Step header */}
-              <div className={styles.stepHeader}>
-                <div className={styles.stepLabel}>Paso</div>
-                <div className={styles.stepNumber}>2</div>
-              </div>
-
-              {/* Document type */}
-              <div className={styles.uploadType}>
-                <h2 className={styles.uploadTypeTitle}>Subir Documento</h2>
-              </div>
-
-              {/* Recommendations */}
-              <section className={`${styles.infoSection} ${styles.recommendationsSection}`}>
-                <div className={styles.infoHeader}>
-                  <i className={`pi pi-info-circle ${styles.infoHeaderIcon}`}></i>
-                  <h3 className={styles.infoTitle}>Recomendaciones</h3>
-                </div>
-                <div className={styles.infoContent}>
-                  <p className={styles.recommendationsIntro}>Antes de subir el documento, ten en cuenta:</p>
-                  <ul className={styles.recommendationsList}>
-                    <li className={styles.recommendationItem}>
-                      <span className={styles.bullet}>•</span>
-                      <span>El documento debe estar en formato PDF.</span>
-                    </li>
-                    <li className={styles.recommendationItem}>
-                      <span className={styles.bullet}>•</span>
-                      <span>El tamaño máximo permitido es de 5MB.</span>
-                    </li>
-                    <li className={styles.recommendationItem}>
-                      <span className={styles.bullet}>•</span>
-                      <span>Asegúrate que el documento sea legible y esté completo.</span>
-                    </li>
-                    <li className={styles.recommendationItem}>
-                      <span className={styles.bullet}>•</span>
-                      <span>Verifica que la información sea correcta antes de procesar.</span>
-                    </li>
-                  </ul>
-                </div>
-              </section>
-
-              <section className={`${styles.documentSection}`}>
-                <div className={styles.documentExampleContent}>
-                  <div className={styles.documentExample}>
-                    <div className={styles.documentExampleHeader}>
-                      {/*<i className="pi pi-info-circle"></i>*/}
-                      <h4 className={styles.documentExampleTitle}>Documento de Ejemplo</h4>
-                    </div>
-                    <p className={styles.sampleDocumentDescription}>Tu documento debe ser similar al siguiente
-                      ejemplo:</p>
-                    <div className={styles.sampleImageContainer}>
-                      <div className={styles.documentImageContainer}>
-                        <Image src={exampleDiplomaBachiller}
-                               alt={`Image sample`} width="220" height="300"
-                               preview/>
-                      </div>
-                      </div>
-                      <p className={styles.sampleDocumentNote}>
-                        Asegúrate que todos los campos estén visibles y la imagen sea clara.
-                      </p>
-                    </div>
-                  </div>
-              </section>
-
-              <div className={styles.importantNote}>
-                <div className={styles.importantHeader}>
-                  <div className={styles.warningIcon}>⚠️</div>
-                  <h4 className={styles.importantTitle}>Importante:</h4>
-                </div>
-                <p className={styles.importantText}>
-                      Tu documento debe ser legible y mostrar claramente todos los sellos y firmas oficiales.
-                    </p>
-                  </div>
+      <div className={styles.container}>
+        <div className={styles.layout}>
+          {/* Left sidebar */}
+          <div className={styles.sidebar}>
+            {/* Step header */}
+            <div className={styles.stepHeader}>
+              <div className={styles.stepLabel}>Paso</div>
+              <div className={styles.stepNumber}>2</div>
             </div>
 
-            {/* Main content */}
-            <div className={styles.mainContent}>
-              <div className={styles.documentHeader}>
-                <div className={styles.iconContainer}>
-                  <i className="pi pi-file-arrow-up" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
+            {/* Document type */}
+            <div className={styles.uploadType}>
+              <h2 className={styles.uploadTypeTitle}>Subir Documento</h2>
+            </div>
+
+            {/* Recommendations */}
+            <section className={`${styles.infoSection} ${styles.recommendationsSection}`}>
+              <div className={styles.infoHeader}>
+                <i className={`pi pi-info-circle ${styles.infoHeaderIcon}`}></i>
+                <h3 className={styles.infoTitle}>Recomendaciones</h3>
+              </div>
+              <div className={styles.infoContent}>
+                <p className={styles.recommendationsIntro}>Antes de subir el documento, ten en cuenta:</p>
+                <ul className={styles.recommendationsList}>
+                  <li className={styles.recommendationItem}>
+                    <span className={styles.bullet}>•</span>
+                    <span>El documento debe estar en formato PDF.</span>
+                  </li>
+                  <li className={styles.recommendationItem}>
+                    <span className={styles.bullet}>•</span>
+                    <span>El tamaño máximo permitido es de 5MB.</span>
+                  </li>
+                  <li className={styles.recommendationItem}>
+                    <span className={styles.bullet}>•</span>
+                    <span>Asegúrate que el documento sea legible y esté completo.</span>
+                  </li>
+                  <li className={styles.recommendationItem}>
+                    <span className={styles.bullet}>•</span>
+                    <span>Verifica que la información sea correcta antes de procesar.</span>
+                  </li>
+                </ul>
+              </div>
+            </section>
+
+            <section className={`${styles.documentSection}`}>
+              <div className={styles.documentExampleContent}>
+                <div className={styles.documentExample}>
+                  <div className={styles.documentExampleHeader}>
+                    {/*<i className="pi pi-info-circle"></i>*/}
+                    <h4 className={styles.documentExampleTitle}>Documento de Ejemplo</h4>
+                  </div>
+                  <p className={styles.sampleDocumentDescription}>Tu documento debe ser similar al siguiente
+                    ejemplo:</p>
+                  <div className={styles.sampleImageContainer}>
+                    <div className={styles.documentImageContainer}>
+                      {procedure?.imageId &&
+                          <Image src={buildUrl(procedure?.imageId)}
+                                 alt={`Image sample`} width="220" height="300"
+                                 preview/>
+                      }
+                    </div>
+                  </div>
+                  <p className={styles.sampleDocumentNote}>
+                    Asegúrate que todos los campos estén visibles y la imagen sea clara.
+                  </p>
                 </div>
-                <h2 className={styles.documentTitle}>Subir Documento</h2>
+              </div>
+            </section>
+
+            <div className={styles.importantNote}>
+              <div className={styles.importantHeader}>
+                <div className={styles.warningIcon}>⚠️</div>
+                <h4 className={styles.importantTitle}>Importante:</h4>
+              </div>
+              <p className={styles.importantText}>
+                Tu documento debe ser legible y mostrar claramente todos los sellos y firmas oficiales.
+              </p>
+            </div>
+          </div>
+
+          {/* Main content */}
+          <div className={styles.mainContent}>
+            <div className={styles.documentHeader}>
+              <div className={styles.iconContainer}>
+                <i className="pi pi-file-arrow-up" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
+              </div>
+              <h2 className={styles.documentTitle}>Subir Documento</h2>
+            </div>
+
+            {procedureData && (
+              <div className={styles.procedureInfo}>
+                <div className={styles.procedureInfoGrid}>
+                  <div className={styles.procedureDetail}>
+                    <span className={styles.detailLabel}>Procedimiento:</span>
+                    <span className={styles.detailValue}>{procedureData.procedureTypeName}</span>
+                  </div>
+                  <div className={styles.procedureDetail}>
+                    <span className={styles.detailLabel}>ID:</span>
+                    <span className={styles.detailValue}>{procedureData.id}</span>
+                  </div>
+                  <div className={styles.procedureDetail}>
+                    <span className={styles.detailLabel}>Estado:</span>
+                    <span className={styles.statusBadge}>{procedureData.status}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className={styles.uploadSection}>
+              <h3 className={styles.uploadSectionTitle}>Subir Documento Requerido</h3>
+
+              <div className={styles.fileInputContainer}>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  disabled={isProcessing}
+                  accept=".pdf"
+                  style={{display: "none"}}
+                />
+
+                {!selectedFile && (
+                  <div className={styles.dropZone} onClick={() => fileInputRef.current?.click()}>
+                    <div className={styles.dropZoneContent}>
+                      <i className="pi pi-cloud-upload" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
+                      <p className={styles.dropZoneText}>Haz clic para seleccionar un archivo</p>
+                      <p className={styles.dropZoneSubtext}>o arrastra y suelta aquí</p>
+                      <p className={styles.dropZoneFormats}>PDF (max. 5MB)</p>
+                    </div>
+                  </div>
+                )}
+
+                {selectedFile && (
+                  <div className={styles.selectedFileInfo}>
+                    <i className="pi pi-file-check" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
+                    <span className={styles.fileName}>{selectedFile.name}</span>
+                    <span className={styles.fileSize}>({(selectedFile.size / 1024).toFixed(2)} KB)</span>
+                    <button
+                      className={styles.changeFileButton}
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={isProcessing}
+                    >
+                      Cambiar
+                    </button>
+                  </div>
+                )}
               </div>
 
-              {procedureData && (
-                <div className={styles.procedureInfo}>
-                  <div className={styles.procedureInfoGrid}>
-                    <div className={styles.procedureDetail}>
-                      <span className={styles.detailLabel}>Procedimiento:</span>
-                      <span className={styles.detailValue}>{procedureData.procedureTypeName}</span>
-                    </div>
-                    <div className={styles.procedureDetail}>
-                      <span className={styles.detailLabel}>ID:</span>
-                      <span className={styles.detailValue}>{procedureData.id}</span>
-                    </div>
-                    <div className={styles.procedureDetail}>
-                      <span className={styles.detailLabel}>Estado:</span>
-                      <span className={styles.statusBadge}>{procedureData.status}</span>
-                    </div>
+              {/* Preview section appears immediately after file selection */}
+              {previewUrl && selectedFile && (
+                <div className={styles.documentPreview}>
+                  <h4 className={styles.previewTitle}>Vista Previa del Documento</h4>
+                  <div className={styles.previewContainer}>
+                    {selectedFile.type.startsWith("image/") ? (
+                      <img
+                        src={previewUrl || "/placeholder.svg"}
+                        alt="Vista previa del documento"
+                        className={styles.imagePreview}
+                      />
+                    ) : selectedFile.type === "application/pdf" ? (
+                      <iframe src={previewUrl} className={styles.pdfPreview} title="Vista previa del PDF"/>
+                    ) : (
+                      <p className={styles.noPreviewMessage}>Vista previa no disponible para este tipo de archivo.</p>
+                    )}
                   </div>
                 </div>
               )}
 
-              <div className={styles.uploadSection}>
-                <h3 className={styles.uploadSectionTitle}>Subir Documento Requerido</h3>
+              {error && <div className={styles.errorMessage}>{error}</div>}
 
-                <div className={styles.fileInputContainer}>
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    disabled={isProcessing}
-                    accept=".pdf"
-                    style={{display: "none"}}
-                  />
-
-                  {!selectedFile && (
-                    <div className={styles.dropZone} onClick={() => fileInputRef.current?.click()}>
-                      <div className={styles.dropZoneContent}>
-                        <i className="pi pi-cloud-upload" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
-                        <p className={styles.dropZoneText}>Haz clic para seleccionar un archivo</p>
-                        <p className={styles.dropZoneSubtext}>o arrastra y suelta aquí</p>
-                        <p className={styles.dropZoneFormats}>PDF (max. 5MB)</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {selectedFile && (
-                    <div className={styles.selectedFileInfo}>
-                      <i className="pi pi-file-check" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
-                      <span className={styles.fileName}>{selectedFile.name}</span>
-                      <span className={styles.fileSize}>({(selectedFile.size / 1024).toFixed(2)} KB)</span>
-                      <button
-                        className={styles.changeFileButton}
-                        onClick={() => fileInputRef.current?.click()}
-                        disabled={isProcessing}
-                      >
-                        Cambiar
-                      </button>
-                    </div>
-                  )}
+              {isProcessing && (
+                <div className={styles.progressIndicator}>
+                  <div className={styles.spinner}></div>
+                  <p className={styles.processingStep}>{currentStep}</p>
                 </div>
+              )}
 
-                {/* Preview section appears immediately after file selection */}
-                {previewUrl && selectedFile && (
-                  <div className={styles.documentPreview}>
-                    <h4 className={styles.previewTitle}>Vista Previa del Documento</h4>
-                    <div className={styles.previewContainer}>
-                      {selectedFile.type.startsWith("image/") ? (
-                        <img
-                          src={previewUrl || "/placeholder.svg"}
-                          alt="Vista previa del documento"
-                          className={styles.imagePreview}
-                        />
-                      ) : selectedFile.type === "application/pdf" ? (
-                        <iframe src={previewUrl} className={styles.pdfPreview} title="Vista previa del PDF"/>
-                      ) : (
-                        <p className={styles.noPreviewMessage}>Vista previa no disponible para este tipo de archivo.</p>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {error && <div className={styles.errorMessage}>{error}</div>}
-
-                {isProcessing && (
-                  <div className={styles.progressIndicator}>
-                    <div className={styles.spinner}></div>
-                    <p className={styles.processingStep}>{currentStep}</p>
-                  </div>
-                )}
-
-                {/* Action buttons */}
-                <div className={styles.actionButtons}>
-                  <div className={styles.actionButtonsLeft}>
-                    <p className={styles.paymentFooterText}>
-                      Presiona "Procesar Documento" para completar el proceso.
-                    </p>
-                    <button className={styles.cancelButton}>Cancelar</button>
-                  </div>
-                  <button
-                    className={styles.processButton}
-                    onClick={handleProcessDocument}
-                    disabled={!selectedFile || isProcessing}
-                  >
-                    {isProcessing ? currentStep : "Procesar Documento"}
-                  </button>
+              {/* Action buttons */}
+              <div className={styles.actionButtons}>
+                <div className={styles.actionButtonsLeft}>
+                  <p className={styles.paymentFooterText}>
+                    Presiona "Procesar Documento" para completar el proceso.
+                  </p>
+                  <button className={styles.cancelButton}>Cancelar</button>
                 </div>
+                <button
+                  className={styles.processButton}
+                  onClick={handleProcessDocument}
+                  disabled={!selectedFile || isProcessing}
+                >
+                  {isProcessing ? currentStep : "Procesar Documento"}
+                </button>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </article>
   )
 }

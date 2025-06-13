@@ -9,4 +9,5 @@ export interface ProcedureTypeResponse {
   durationDays: number;
   createdAt: string; // ISO string
   updatedAt: string;
+  imageId: string;
 }

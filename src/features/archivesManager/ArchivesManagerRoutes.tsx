@@ -18,7 +18,7 @@ const archivesManagerRoutes: RouteObject[] = [
     children: [
       {index: true, element: <ArchivesManagerHomePage/>},
 
-      {path: 'procedures-list', element: <ArchivesManagerProceduresListPage/>},
+      {path: 'procedures-list/:procedureType', element: <ArchivesManagerProceduresListPage/>},
 
       {path: 'reports', element: <ArchivesManagerReportsPage/>}
     ],
