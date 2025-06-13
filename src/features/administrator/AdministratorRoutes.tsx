@@ -8,6 +8,7 @@ import AdministratorProceduresStatusPage
 import AdministratorReportsPage from "./pages/AdministratorReportsPage/AdministratorReportsPage.tsx";
 import AdministratorProceduresListPage
   from "./pages/AdministratorProceduresListPage/AdministratorProceduresListPage.tsx";
+import AdministratorEditProcedurePage from "./pages/AdministratorEditProcedurePage/AdministratorEditProcedurePage.tsx";
 
 const administratorRoutes: RouteObject[] = [
   {
@@ -20,9 +21,11 @@ const administratorRoutes: RouteObject[] = [
     children: [
       {index: true, element: <AdministratorHomePage/>},
 
-      { path: 'procedures-list/:procedureType', element: <AdministratorProceduresListPage /> },
+      {path: 'procedures-list/:procedureType', element: <AdministratorProceduresListPage/>},
 
       {path: 'procedures-status', element: <AdministratorProceduresStatusPage/>},
+
+      {path: 'editar-tramites', element: <AdministratorEditProcedurePage/>},
 
       {path: 'reports', element: <AdministratorReportsPage/>}
     ],

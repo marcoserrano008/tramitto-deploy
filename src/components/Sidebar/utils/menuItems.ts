@@ -39,6 +39,11 @@ const administratorMenuItems: MenuItem[] = [
     url: '/administrator/reports',
   },
   {
+    label: 'Editar Tramites',
+    icon: 'pi pi-fw pi-file-edit',
+    url: '/administrator/editar-tramites',
+  },
+  {
     label: 'Preguntas Frecuentes',
     icon: 'pi pi-fw pi-question-circle',
     url: '/faq',
@@ -93,7 +98,23 @@ const archivesManagerMenuItems: MenuItem[] = [
   {
     label: 'Revisar Tramites',
     icon: 'pi pi-fw pi-book',
-    url: '/archives-manager/procedures-list',
+    items: [
+      {
+        label: 'Legalizacion de Diploma de bachiller',
+        icon: 'pi pi-fw pi-file',
+        url: '/archives-manager/procedures-list/diploma-bachiller',
+      },
+      {
+        label: 'Legalizacion de Diploma Academico',
+        icon: 'pi pi-fw pi-file',
+        url: '/archives-manager/procedures-list/diploma-academico',
+      },
+      {
+        label: 'Legalizacion de Titulo en provision nacional',
+        icon: 'pi pi-fw pi-file',
+        url: '/archives-manager/procedures-list/titulo-provision',
+      },
+    ],
   },
   {
     label: 'Reportes',

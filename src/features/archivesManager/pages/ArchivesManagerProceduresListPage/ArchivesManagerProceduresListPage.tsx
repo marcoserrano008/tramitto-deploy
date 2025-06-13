@@ -14,8 +14,13 @@ import DocumentPreview
 import {ProcedureResponse} from "../../../../types/ProcedureResponse.interface.ts";
 import {useEffect, useState} from "react";
 import {ProcedureTypeEnum} from "../../../../types/enum/ProcedureType.enum.ts";
+import {useParams} from "react-router-dom";
+import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
 
 const ArchivesManagerProceduresListPage = () => {
+  const {procedureType} = useParams<{ procedureType: string }>();
+  const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
+
   const [selectedWorkflowStep, setSelectedWorkflowStep] = useState<WorkflowStepNameEnum>(WorkflowStepNameEnum.ARCHIVES_REVIEW);
   const [selectedProcedure, setSelectedProcedure] = useState<ProcedureResponse | null>(null);
   const [dates, setDates] = useState(undefined)
@@ -26,7 +31,7 @@ const ArchivesManagerProceduresListPage = () => {
     loading: loadingProcedures,
     error: fetchError,
     refetch: refetchProcedures,
-  } = useFetchProcedures(WorkflowStepNameEnum.ARCHIVES_REVIEW);
+  } = useFetchProcedures(WorkflowStepNameEnum.ARCHIVES_REVIEW, procedureTypeEnum!);
 
   const {
     handleReview,
@@ -151,6 +156,7 @@ const ArchivesManagerProceduresListPage = () => {
                 procedures={procedures}
                 onProcedureSelect={handleProcedureSelect}
                 selectedProcedureId={selectedProcedure?.id || null}
+                showProcedureColumn={true}
               />
             </SplitterPanel>
 

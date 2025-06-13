@@ -5,7 +5,7 @@ import {useProcedureTypeData} from "../../hooks/useProcedureTypeData.ts";
 import {PaymentDetails} from "../../../../types/PaymentDetails.interface.ts";
 import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
 import {Image} from "primereact/image";
-import exampleDiplomaBachiller from "../../../../assets/images/diplomaBachiller.png";
+import {buildUrl} from "../../../../services/Url.service.ts";
 
 function ApplicantProcedureInformationPage() {
   const {procedureType} = useParams<{ procedureType: string }>();
@@ -91,7 +91,7 @@ function ApplicantProcedureInformationPage() {
                   </div>
                   <div className={styles.documentExampleContent}>
                     <div className={styles.documentImageContainer}>
-                      <Image src={exampleDiplomaBachiller}
+                      <Image src={buildUrl(procedure.imageId)}
                              alt={`Image sample`} width="220" height="300"
                              preview/>
                     </div>
