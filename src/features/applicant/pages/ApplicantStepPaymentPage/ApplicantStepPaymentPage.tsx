@@ -65,7 +65,7 @@ function ApplicantStepPaymentPage() {
   };
 
   const handleCancel = () => {
-    navigate('../informacion');
+    navigate('../');
   };
 
   useEffect(() => {

@@ -1,48 +1,31 @@
 "use client"
 
-import type React from "react";
+import React, {useEffect} from "react";
 import {useRef, useState} from "react";
 import styles from "./EditProcedureForm.module.scss";
 import {Image} from "primereact/image";
-
-export interface UpdateProcedureTypeRequest {
-  name?: string // max 100 characters
-  description?: string
-  cost?: number // > 0, max 8 integer digits, 2 decimal places
-  imageId?: string
-  steps?: string[]
-  requirements?: string[]
-  durationDays?: number // >= 1
-}
-
-export interface ProcedureTypeResponse {
-  id: number
-  name: string
-  description: string
-  cost: string // BigDecimal
-  isActive: boolean
-  steps: string[]
-  requirements: string[]
-  durationDays: number
-  createdAt: string // ISO string
-  updatedAt: string
-  imageId: string
-}
-
-export interface FileResponse {
-  id: string
-  filename: string
-  fileDownloadUri: string
-  fileType: string
-  size: number
-}
+import {ProcedureTypeResponse} from "../../../../../../types/ProcedureTypeResponse.interface.ts";
+import {UpdateProcedureTypeRequest} from "../../../../../../types/UpdateProcedureRequest.interface.ts";
+import {FileResponse} from "../../../../../../types/FileResponse.interface.ts";
+import {buildUrl} from "../../../../../../services/Url.service.ts";
+import { Button } from 'primereact/button';
 
 interface EditProcedureProps {
   procedure: ProcedureTypeResponse
   onUpdate: (data: UpdateProcedureTypeRequest) => Promise<void>
-  onUploadImage: (file: File) => Promise<FileResponse>
+  onUploadImage: (file: File) => Promise<FileResponse | void>
   onBack: () => void
   onCancel: () => void
+}
+
+interface ProcedureFormData {
+  name: string
+  description: string
+  cost: number
+  durationDays: number
+  imageId: string
+  steps: string[]
+  requirements: string[]
 }
 
 export default function EditProcedureForm({procedure, onUpdate, onUploadImage, onBack, onCancel}: EditProcedureProps) {
@@ -51,9 +34,39 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
   const [error, setError] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [currentImageId, setCurrentImageId] = useState<string>(procedure.imageId)
+
+
+  const [baselineData, setBaselineData] = useState<ProcedureFormData>({
+    name: procedure.name,
+    description: procedure.description,
+    cost: parseFloat(procedure.cost),
+    durationDays: procedure.durationDays,
+    imageId: procedure.imageId,
+    steps: procedure.steps,
+    requirements: procedure.requirements
+  })
+
+  useEffect(() => {
+    setCurrentImageId(procedure.imageId)
+  }, [procedure.imageId])
+
+  useEffect(() => {
+    const newData = {
+      name: procedure.name,
+      description: procedure.description,
+      cost: parseFloat(procedure.cost),
+      durationDays: procedure.durationDays,
+      imageId: procedure.imageId,
+      steps: procedure.steps,
+      requirements: procedure.requirements
+    }
+    setFormData(newData)
+    setBaselineData(newData)
+  }, [procedure])
 
   // Form data state with preloaded values
-  const [formData, setFormData] = useState<UpdateProcedureTypeRequest>({
+  const [formData, setFormData] = useState<ProcedureFormData>({
     name: procedure.name,
     description: procedure.description,
     cost: Number.parseFloat(procedure.cost),
@@ -103,48 +116,48 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
     }
   }
 
-  const addStep = () => {
-    setFormData((prev) => ({
-      ...prev,
-      steps: [...(prev.steps || []), ""],
-    }))
-  }
-
-  const updateStep = (index: number, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      steps: prev.steps?.map((step, i) => (i === index ? value : step)) || [],
-    }))
-  }
-
-  const removeStep = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      steps: prev.steps?.filter((_, i) => i !== index) || [],
-    }))
-  }
-
-  const addRequirement = () => {
-    setFormData((prev) => ({
-      ...prev,
-      requirements: [...(prev.requirements || []), ""],
-    }))
-  }
-
-  const updateRequirement = (index: number, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      requirements: prev.requirements?.map((req, i) => (i === index ? value : req)) || [],
-    }))
-  }
-
-  const removeRequirement = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      requirements: prev.requirements?.filter((_, i) => i !== index) || [],
-    }))
-  }
-
+  // const addStep = () => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     steps: [...(prev.steps || []), ""],
+  //   }))
+  // }
+  //
+  // const updateStep = (index: number, value: string) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     steps: prev.steps?.map((step, i) => (i === index ? value : step)) || [],
+  //   }))
+  // }
+  //
+  // const removeStep = (index: number) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     steps: prev.steps?.filter((_, i) => i !== index) || [],
+  //   }))
+  // }
+  //
+  // const addRequirement = () => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     requirements: [...(prev.requirements || []), ""],
+  //   }))
+  // }
+  //
+  // const updateRequirement = (index: number, value: string) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     requirements: prev.requirements?.map((req, i) => (i === index ? value : req)) || [],
+  //   }))
+  // }
+  //
+  // const removeRequirement = (index: number) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     requirements: prev.requirements?.filter((_, i) => i !== index) || [],
+  //   }))
+  // }
+  //
   const validateForm = (): string | null => {
     // All fields are optional, but if provided, they should meet certain criteria
 
@@ -158,8 +171,8 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
       if (formData.cost <= 0) {
         return "El costo debe ser mayor a 0"
       }
-      if (formData.cost > 99999999.99) {
-        return "El costo no puede superar los 99,999,999.99"
+      if (formData.cost > 999.99) {
+        return "El costo no puede superar los 999.99"
       }
     }
 
@@ -201,36 +214,54 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
 
     try {
       const updateData = {...formData}
+      let newImageId: string = baselineData.imageId // Use baseline instead of procedure
 
       // Upload new image if selected
       if (selectedImage) {
-        const imageResponse = await onUploadImage(selectedImage)
-        updateData.imageId = imageResponse.id
+        const imageResponse: FileResponse | void = await onUploadImage(selectedImage)
+        if (imageResponse?.id) {
+          updateData.imageId = imageResponse.id
+          newImageId = imageResponse.id
+        }
       }
 
-      // Remove unchanged fields to only send modified data
+// Build the update request with only changed fields
       const changedData: UpdateProcedureTypeRequest = {}
 
-      if (updateData.name !== procedure.name) changedData.name = updateData.name
-      if (updateData.description !== procedure.description) changedData.description = updateData.description
-      if (updateData.cost !== Number.parseFloat(procedure.cost)) changedData.cost = updateData.cost
-      if (updateData.durationDays !== procedure.durationDays) changedData.durationDays = updateData.durationDays
-      if (updateData.imageId !== procedure.imageId) changedData.imageId = updateData.imageId
+      if (updateData.name !== baselineData.name) changedData.name = updateData.name
+      if (updateData.description !== baselineData.description) changedData.description = updateData.description
+      if (updateData.cost !== baselineData.cost) changedData.cost = updateData.cost
+      if (updateData.durationDays !== baselineData.durationDays) changedData.durationDays = updateData.durationDays
+      if (updateData.imageId !== baselineData.imageId) changedData.imageId = updateData.imageId
 
       // Check if arrays have changed
       const stepsChanged =
-        JSON.stringify(updateData.steps) !== JSON.stringify(procedure.steps) ||
-        updateData.steps?.length !== procedure.steps.length
+        JSON.stringify(updateData.steps) !== JSON.stringify(baselineData.steps) ||
+        updateData.steps?.length !== baselineData.steps.length
       if (stepsChanged) changedData.steps = updateData.steps
 
       const requirementsChanged =
-        JSON.stringify(updateData.requirements) !== JSON.stringify(procedure.requirements) ||
-        updateData.requirements?.length !== procedure.requirements.length
+        JSON.stringify(updateData.requirements) !== JSON.stringify(baselineData.requirements) ||
+        updateData.requirements?.length !== baselineData.requirements.length
       if (requirementsChanged) changedData.requirements = updateData.requirements
 
       // Only send update if there are changes
       if (Object.keys(changedData).length > 0) {
         await onUpdate(changedData)
+
+        // Update both formData and baselineData after successful update
+        setFormData(updateData)
+        setBaselineData(updateData)
+
+        // Clear the "Nueva Imagen" section after successful update
+        if (selectedImage && newImageId) {
+          setCurrentImageId(newImageId)
+          setSelectedImage(null)
+          setImagePreview(null)
+          if (fileInputRef.current) {
+            fileInputRef.current.value = ''
+          }
+        }
       } else {
         setError("No se detectaron cambios para guardar")
       }
@@ -248,10 +279,7 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
           {/* Left sidebar */}
           <div className={styles.sidebar}>
             <div className={styles.sidebarHeader}>
-              <button className={styles.backButton} onClick={onBack}>
-                <i className="pi pi-check-circle"></i>
-                <span>Volver a la lista</span>
-              </button>
+              <Button label="Volver a la lista" icon="pi pi-arrow-left" size="small" onClick={onBack} outlined/>
               <h2 className={styles.sidebarTitle}>Información del Procedimiento</h2>
             </div>
 
@@ -262,8 +290,8 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
               </div>
               <div className={styles.infoItem}>
                 <span className={styles.infoLabel}>Estado:</span>
-                <span className={`${styles.statusBadge} ${procedure.isActive ? styles.active : styles.inactive}`}>
-                  {procedure.isActive ? "Activo" : "Inactivo"}
+                <span className={`${styles.statusBadge} ${procedure.active ? styles.active : styles.inactive}`}>
+                  {procedure.active ? "Activo" : "Inactivo"}
                 </span>
               </div>
               <div className={styles.infoItem}>
@@ -386,13 +414,11 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
                   <div className={styles.currentImageContainer}>
                     <h4 className={styles.imageLabel}>Imagen Actual</h4>
                     <div className={styles.imageWrapper}>
-                      <Image
-                        src={`/placeholder.svg?height=200&width=300`}
-                        alt="Imagen actual del procedimiento"
-                        width="300"
-                        height="200"
-                        className={styles.currentImage}
-                      />
+                      <Image src={buildUrl(currentImageId)}
+                             className={styles.nextImage}
+                             alt={`Image sample`}
+                             width="200"
+                             preview/>
                     </div>
                   </div>
 
@@ -404,9 +430,9 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
                           <Image
                             src={imagePreview || "/placeholder.svg"}
                             alt="Vista previa de nueva imagen"
-                            width="300"
-                            height="200"
+                            width="200"
                             className={styles.previewImage}
+                            preview
                           />
                           <button type="button" className={styles.removeImageButton} onClick={removeSelectedImage}>
                             <i className="pi pi-times"></i>
@@ -432,69 +458,69 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
                 </div>
               </section>
 
-              {/* Steps */}
-              <section className={styles.formSection}>
-                <div className={styles.sectionHeader}>
-                  <h3 className={styles.sectionTitle}>Pasos del Procedimiento</h3>
-                  <button type="button" className={styles.addButton} onClick={addStep}>
-                    <i className="pi pi-plus"></i>
-                    Agregar Paso
-                  </button>
-                </div>
+              {/*/!* Steps *!/*/}
+              {/*<section className={styles.formSection}>*/}
+              {/*  <div className={styles.sectionHeader}>*/}
+              {/*    <h3 className={styles.sectionTitle}>Pasos del Procedimiento</h3>*/}
+              {/*    <button type="button" className={styles.addButton} onClick={addStep}>*/}
+              {/*      <i className="pi pi-plus"></i>*/}
+              {/*      Agregar Paso*/}
+              {/*    </button>*/}
+              {/*  </div>*/}
 
-                <div className={styles.listContainer}>
-                  {formData.steps?.map((step, index) => (
-                    <div key={index} className={styles.listItem}>
-                      <div className={styles.listItemNumber}>{index + 1}</div>
-                      <input
-                        type="text"
-                        value={step}
-                        onChange={(e) => updateStep(index, e.target.value)}
-                        className={styles.listInput}
-                        placeholder={`Paso ${index + 1}`}
-                      />
-                      <button type="button" className={styles.removeButton} onClick={() => removeStep(index)}>
-                        <i className="pi pi-delete-left"></i>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </section>
+              {/*  <div className={styles.listContainer}>*/}
+              {/*    {formData.steps?.map((step, index) => (*/}
+              {/*      <div key={index} className={styles.listItem}>*/}
+              {/*        <div className={styles.listItemNumber}>{index + 1}</div>*/}
+              {/*        <input*/}
+              {/*          type="text"*/}
+              {/*          value={step}*/}
+              {/*          onChange={(e) => updateStep(index, e.target.value)}*/}
+              {/*          className={styles.listInput}*/}
+              {/*          placeholder={`Paso ${index + 1}`}*/}
+              {/*        />*/}
+              {/*        <button type="button" className={styles.removeButton} onClick={() => removeStep(index)}>*/}
+              {/*          <i className="pi pi-delete-left"></i>*/}
+              {/*        </button>*/}
+              {/*      </div>*/}
+              {/*    ))}*/}
+              {/*  </div>*/}
+              {/*</section>*/}
 
-              {/* Requirements */}
-              <section className={styles.formSection}>
-                <div className={styles.sectionHeader}>
-                  <h3 className={styles.sectionTitle}>Requisitos</h3>
-                  <button type="button" className={styles.addButton} onClick={addRequirement}>
-                    <i className="pi pi-plus"></i>
-                    Agregar Requisito
-                  </button>
-                </div>
+              {/*/!* Requirements *!/*/}
+              {/*<section className={styles.formSection}>*/}
+              {/*  <div className={styles.sectionHeader}>*/}
+              {/*    <h3 className={styles.sectionTitle}>Requisitos</h3>*/}
+              {/*    <button type="button" className={styles.addButton} onClick={addRequirement}>*/}
+              {/*      <i className="pi pi-plus"></i>*/}
+              {/*      Agregar Requisito*/}
+              {/*    </button>*/}
+              {/*  </div>*/}
 
-                <div className={styles.listContainer}>
-                  {formData.requirements?.map((requirement, index) => (
-                    <div key={index} className={styles.listItem}>
-                      <div className={styles.listItemNumber}>{index + 1}</div>
-                      <input
-                        type="text"
-                        value={requirement}
-                        onChange={(e) => updateRequirement(index, e.target.value)}
-                        className={styles.listInput}
-                        placeholder={`Requisito ${index + 1}`}
-                      />
-                      <button type="button" className={styles.removeButton} onClick={() => removeRequirement(index)}>
-                        <i className="pi pi-delete-left"></i>
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </section>
+              {/*  <div className={styles.listContainer}>*/}
+              {/*    {formData.requirements?.map((requirement, index) => (*/}
+              {/*      <div key={index} className={styles.listItem}>*/}
+              {/*        <div className={styles.listItemNumber}>{index + 1}</div>*/}
+              {/*        <input*/}
+              {/*          type="text"*/}
+              {/*          value={requirement}*/}
+              {/*          onChange={(e) => updateRequirement(index, e.target.value)}*/}
+              {/*          className={styles.listInput}*/}
+              {/*          placeholder={`Requisito ${index + 1}`}*/}
+              {/*        />*/}
+              {/*        <button type="button" className={styles.removeButton} onClick={() => removeRequirement(index)}>*/}
+              {/*          <i className="pi pi-delete-left"></i>*/}
+              {/*        </button>*/}
+              {/*      </div>*/}
+              {/*    ))}*/}
+              {/*  </div>*/}
+              {/*</section>*/}
 
               {error && <div className={styles.errorMessage}>{error}</div>}
 
               {/* Action buttons */}
               <div className={styles.actionButtons}>
-                <button type="button" className={styles.cancelButton} onClick={onCancel} disabled={isProcessing}>
+                <button type="button" className={styles.cancelButton} onClick={onBack} disabled={isProcessing}>
                   Cancelar
                 </button>
                 <button type="submit" className={styles.submitButton} disabled={isProcessing}>

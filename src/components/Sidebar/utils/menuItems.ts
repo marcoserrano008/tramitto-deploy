@@ -29,7 +29,7 @@ const administratorMenuItems: MenuItem[] = [
     ],
   },
   {
-    label: 'Revision Final',
+    label: 'Historial de revision',
     icon: 'pi pi-fw pi-folder',
     url: '/administrator/procedures-status',
   },

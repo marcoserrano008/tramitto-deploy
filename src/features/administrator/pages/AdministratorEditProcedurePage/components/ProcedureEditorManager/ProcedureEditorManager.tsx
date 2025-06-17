@@ -1,14 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import type { FileResponse, ProcedureTypeResponse, UpdateProcedureTypeRequest } from "../EditProcedureForm/EditProcedureForm.tsx"
 import EditProcedureForm from "../EditProcedureForm/EditProcedureForm.tsx";
 import ProceduresSelector from "../ProceduresSelector/ProceduresSelector.tsx";
+import {ProcedureTypeResponse} from "../../../../../../types/ProcedureTypeResponse.interface.ts";
+import {UpdateProcedureTypeRequest} from "../../../../../../types/UpdateProcedureRequest.interface.ts";
+import {FileResponse} from "../../../../../../types/FileResponse.interface.ts";
 
 interface ProcedureEditorManagerProps {
   procedures: ProcedureTypeResponse[]
   onUpdate: (procedureId: number, data: UpdateProcedureTypeRequest) => Promise<void>
-  onUploadImage: (file: File) => Promise<FileResponse>
+  onUploadImage: (file: File) => Promise<FileResponse | void>
   onCancel?: () => void
 }
 

@@ -3,7 +3,7 @@ export interface ProcedureTypeResponse {
   name: string;
   description: string;
   cost: string; // BigDecimal
-  isActive: boolean;
+  active: boolean;
   steps: string[];
   requirements: string[];
   durationDays: number;
