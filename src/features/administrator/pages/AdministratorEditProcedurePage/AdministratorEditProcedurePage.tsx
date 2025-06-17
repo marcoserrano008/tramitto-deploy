@@ -1,124 +1,66 @@
 import ProcedureEditorManager from "./components/ProcedureEditorManager/ProcedureEditorManager.tsx";
-
-const mockProcedures = [
-  {
-    id: 1,
-    name: "Legalización de Diploma de Bachiller",
-    description:
-      "Proceso de legalización oficial de diplomas de bachiller emitidos por instituciones educativas reconocidas.",
-    cost: "150.00",
-    isActive: true,
-    steps: [
-      "Realizar el pago del trámite",
-      "Subir documentos requeridos",
-      "Verificación de documentos",
-      "Proceso de legalización",
-      "Entrega del documento legalizado",
-    ],
-    requirements: [
-      "Cédula de Identidad vigente",
-      "Diploma de Bachiller original",
-      "Selfie para verificación de identidad",
-      "Comprobante de pago",
-    ],
-    durationDays: 3,
-    createdAt: "2024-01-15T10:30:00Z",
-    updatedAt: "2024-01-20T14:45:00Z",
-    imageId: "img_123456789",
-  },
-  {
-    id: 2,
-    name: "Legalización de Diploma Academico",
-    description:
-      "Proceso de legalización oficial de diplomas academicos.",
-    cost: "150.00",
-    isActive: true,
-    steps: [
-      "Realizar el pago del trámite",
-      "Subir documentos requeridos",
-      "Verificación de documentos",
-      "Proceso de legalización",
-      "Entrega del documento legalizado",
-    ],
-    requirements: [
-      "Cédula de Identidad vigente",
-      "Diploma de Bachiller original",
-      "Selfie para verificación de identidad",
-      "Comprobante de pago",
-    ],
-    durationDays: 3,
-    createdAt: "2024-01-15T10:30:00Z",
-    updatedAt: "2024-01-20T14:45:00Z",
-    imageId: "img_123456789",
-  },
-  {
-    id: 3,
-    name: "Legalización de Titulo en provision nacional",
-    description:
-      "Proceso de legalización oficial de diplomas de Titulo en provision nacional.",
-    cost: "150.00",
-    isActive: true,
-    steps: [
-      "Realizar el pago del trámite",
-      "Subir documentos requeridos",
-      "Verificación de documentos",
-      "Proceso de legalización",
-      "Entrega del documento legalizado",
-    ],
-    requirements: [
-      "Cédula de Identidad vigente",
-      "Diploma de Bachiller original",
-      "Selfie para verificación de identidad",
-      "Comprobante de pago",
-    ],
-    durationDays: 3,
-    createdAt: "2024-01-15T10:30:00Z",
-    updatedAt: "2024-01-20T14:45:00Z",
-    imageId: "img_123456789",
-  },
-]
+import {useEffect, useState} from "react";
+import {ProcedureTypeResponse} from "../../../../types/ProcedureTypeResponse.interface.ts";
+import {procedureTypesService} from "../../../../services/ProcedureTypes.http.service.ts";
+import {FileResponse} from "../../../../types/FileResponse.interface.ts";
+import {uploadFileService} from "../../../../services/UploadFile.http.service.ts";
+import {useNavigate} from "react-router-dom";
+import {useToast} from "../../../../context/ToastContext.tsx";
 
 export default function AdministratorEditProcedurePage() {
-  const handleUpdate = async (procedureId: number, data: any) => {
-    console.log(`Updating procedure ${procedureId}:`, data)
+  const {showSuccess} = useToast();
+  const [procedures, setProcedures] = useState<ProcedureTypeResponse[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
 
-    // Simulate API call
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        console.log("Procedure updated successfully!")
-        alert(`¡Procedimiento ${procedureId} actualizado exitosamente!`)
-        resolve()
-      }, 2000)
-    })
-  }
+  useEffect(() => {
+    (async () => {
+      try {
+        const procedures: ProcedureTypeResponse[] = await procedureTypesService.getAllProcedures();
+        procedures.sort((a, b) => a.id - b.id);
+        setProcedures(procedures);
 
-  const handleUploadImage = async (file: File) => {
-    console.log("Uploading image:", file.name)
+      } catch (err) {
+        console.error('Failed to load procedure types', err);
+        setError(`${err}`);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
 
-    // Simulate image upload
-    return new Promise<any>((resolve) => {
-      setTimeout(() => {
-        const mockResponse = {
-          id: `img_${Date.now()}`,
-          filename: file.name,
-          fileDownloadUri: `https://example.com/files/${file.name}`,
-          fileType: file.type,
-          size: file.size,
-        }
-        console.log("Image uploaded:", mockResponse)
-        resolve(mockResponse)
-      }, 1500)
-    })
-  }
+  const handleUpdate = async (procedureId: number, data: Partial<ProcedureTypeResponse>) => {
+    try {
+      const updated = await procedureTypesService.updateProcedure(procedureId, data,);
+      setProcedures((prev) => prev.map((p) => (p.id === updated.id ? updated : p)),);
+      showSuccess('Procedimiento', 'Actualizado correctamente');
+    } catch (err) {
+      console.error('Error updating procedure', err);
+      alert('No se pudo actualizar el procedimiento. Intenta de nuevo.');
+    }
+  };
+
+  const handleUploadImage = async (file: File, description?: string): Promise<FileResponse | void> => {
+    try {
+      const fileUploaded: FileResponse = await uploadFileService.upload(file, description);
+      return fileUploaded;
+    } catch (err) {
+      console.error('Error uploading image', err);
+      alert('No se pudo subir la imagen. Intenta de nuevo.');
+    }
+  };
 
   const handleCancel = () => {
-    console.log("Operation cancelled")
-    // Navigate back or close modal
+    navigate('/');
   }
+
+  if (loading) return <p>Cargando procedimientos…</p>;
+  if (error) return <p>Error cargando datos. Inténtalo de nuevo.</p>;
 
   return (
     <ProcedureEditorManager
-      procedures={mockProcedures}
+      procedures={procedures}
       onUpdate={handleUpdate}
       onUploadImage={handleUploadImage}
       onCancel={handleCancel}

@@ -16,8 +16,10 @@ import ProceduresHeader from "../../components/ProceduresHeader/ProceduresHeader
 import {useAuth} from "../../../../context/AuthContext.tsx";
 import {Image} from "primereact/image";
 import {buildUrl} from "../../../../services/Url.service.ts";
+import {useToast} from "../../../../context/ToastContext.tsx";
 
 function ApplicantStepUploadDocumentPage() {
+  const {showSuccess} = useToast();
   const {procedureType} = useParams<{ procedureType: string }>();
   const {user} = useAuth();
 
@@ -137,6 +139,7 @@ function ApplicantStepUploadDocumentPage() {
       setTimeout(() => {
         navigate('/usuario/personal-procedures');
       }, 1000);
+      showSuccess('Tramite enviado', 'Enviado correctamente');
 
     } catch (error) {
       console.error('Error processing document:', error);
@@ -144,6 +147,11 @@ function ApplicantStepUploadDocumentPage() {
       setIsProcessing(false);
     }
   };
+
+  const handleCancel = () => {
+    // navigate('/');
+    navigate("/usuario/personal-procedures");
+  }
 
   if (error && !procedureData) {
     return (
@@ -351,16 +359,16 @@ function ApplicantStepUploadDocumentPage() {
               <div className={styles.actionButtons}>
                 <div className={styles.actionButtonsLeft}>
                   <p className={styles.paymentFooterText}>
-                    Presiona "Procesar Documento" para completar el proceso.
+                    Presiona "Enviar tramite" para completar el proceso.
                   </p>
-                  <button className={styles.cancelButton}>Cancelar</button>
+                  <button className={styles.cancelButton} onClick={handleCancel}>Cancelar</button>
                 </div>
                 <button
                   className={styles.processButton}
                   onClick={handleProcessDocument}
                   disabled={!selectedFile || isProcessing}
                 >
-                  {isProcessing ? currentStep : "Procesar Documento"}
+                  {isProcessing ? currentStep : "Enviar tramite"}
                 </button>
               </div>
             </div>

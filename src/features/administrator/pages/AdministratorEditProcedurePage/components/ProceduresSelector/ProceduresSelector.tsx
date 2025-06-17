@@ -2,20 +2,7 @@
 
 import {useState} from "react";
 import styles from "./ProceduresSelector.module.scss";
-
-export interface ProcedureTypeResponse {
-  id: number
-  name: string
-  description: string
-  cost: string // BigDecimal
-  isActive: boolean
-  steps: string[]
-  requirements: string[]
-  durationDays: number
-  createdAt: string // ISO string
-  updatedAt: string
-  imageId: string
-}
+import {ProcedureTypeResponse} from "../../../../../../types/ProcedureTypeResponse.interface.ts";
 
 interface ProcedureSelectorProps {
   procedures: ProcedureTypeResponse[]
@@ -34,8 +21,8 @@ export default function ProceduresSelector({procedures, onSelectProcedure, onCan
 
     const matchesStatus =
       selectedStatus === "all" ||
-      (selectedStatus === "active" && procedure.isActive) ||
-      (selectedStatus === "inactive" && !procedure.isActive)
+      (selectedStatus === "active" && procedure.active) ||
+      (selectedStatus === "inactive" && !procedure.active)
 
     return matchesSearch && matchesStatus
   })
@@ -50,45 +37,45 @@ export default function ProceduresSelector({procedures, onSelectProcedure, onCan
               <i className={`pi pi-file-edit ${styles.icon}`}></i>
             </div>
             <div className={styles.headerContent}>
-              <h1 className={styles.title}>Editar Procedimiento</h1>
-              <p className={styles.subtitle}>Selecciona el procedimiento que deseas modificar</p>
+              <h1 className={styles.title}>Editar Tramites</h1>
+              <p className={styles.subtitle}>Selecciona el tramite que deseas modificar</p>
             </div>
           </div>
 
-          {/* Filters */}
-          <div className={styles.filtersSection}>
-            <div className={styles.searchContainer}>
-              <div className={styles.searchInputContainer}>
-                <i className={`pi pi-search ${styles.searchIcon}`}></i>
-                <input
-                  type="text"
-                  placeholder="Buscar procedimiento por nombre o descripción..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className={styles.searchInput}
-                />
-              </div>
-            </div>
+          {/*/!* Filters *!/*/}
+          {/*<div className={styles.filtersSection}>*/}
+          {/*  <div className={styles.searchContainer}>*/}
+          {/*    <div className={styles.searchInputContainer}>*/}
+          {/*      <i className={`pi pi-search ${styles.searchIcon}`}></i>*/}
+          {/*      <input*/}
+          {/*        type="text"*/}
+          {/*        placeholder="Buscar procedimiento por nombre o descripción..."*/}
+          {/*        value={searchTerm}*/}
+          {/*        onChange={(e) => setSearchTerm(e.target.value)}*/}
+          {/*        className={styles.searchInput}*/}
+          {/*      />*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
 
-            <div className={styles.statusFilter}>
-              <label className={styles.filterLabel}>Estado:</label>
-              <select
-                value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value as "all" | "active" | "inactive")}
-                className={styles.statusSelect}
-              >
-                <option value="all">Todos</option>
-                <option value="active">Activos</option>
-                <option value="inactive">Inactivos</option>
-              </select>
-            </div>
-          </div>
+          {/*  <div className={styles.statusFilter}>*/}
+          {/*    <label className={styles.filterLabel}>Estado:</label>*/}
+          {/*    <select*/}
+          {/*      value={selectedStatus}*/}
+          {/*      onChange={(e) => setSelectedStatus(e.target.value as "all" | "active" | "inactive")}*/}
+          {/*      className={styles.statusSelect}*/}
+          {/*    >*/}
+          {/*      <option value="all">Todos</option>*/}
+          {/*      <option value="active">Activos</option>*/}
+          {/*      <option value="inactive">Inactivos</option>*/}
+          {/*    </select>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
 
           {/* Results */}
           <div className={styles.resultsSection}>
-            <div className={styles.resultsHeader}>
-              <h2 className={styles.resultsTitle}>Procedimientos Disponibles ({filteredProcedures.length})</h2>
-            </div>
+            {/*<div className={styles.resultsHeader}>*/}
+            {/*  <h2 className={styles.resultsTitle}>Procedimientos Disponibles ({filteredProcedures.length})</h2>*/}
+            {/*</div>*/}
 
             {filteredProcedures.length === 0 ? (
               <div className={styles.noResults}>
@@ -104,9 +91,9 @@ export default function ProceduresSelector({procedures, onSelectProcedure, onCan
                       <div className={styles.procedureInfo}>
                         <h3 className={styles.procedureName}>{procedure.name}</h3>
                         <span
-                          className={`${styles.statusBadge} ${procedure.isActive ? styles.active : styles.inactive}`}
+                          className={`${styles.statusBadge} ${procedure.active ? styles.active : styles.inactive}`}
                         >
-                          {procedure.isActive ? "Activo" : "Inactivo"}
+                          {procedure.active ? "Activo" : "Inactivo"}
                         </span>
                       </div>
                       <div className={styles.procedureId}>ID: {procedure.id}</div>

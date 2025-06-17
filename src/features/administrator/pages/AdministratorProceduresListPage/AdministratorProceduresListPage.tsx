@@ -14,8 +14,10 @@ import {InputSwitch, InputSwitchChangeEvent} from "primereact/inputswitch";
 import {useParams} from "react-router-dom";
 import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
 import {useProcedureTypeData} from "../../../applicant/hooks/useProcedureTypeData.ts";
+import {useToast} from "../../../../context/ToastContext.tsx";
 
 function AdministratorProceduresListPage() {
+  const {showSuccess} = useToast();
   const {procedureType} = useParams<{ procedureType: string }>();
   const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
   const {procedure} = useProcedureTypeData(procedureTypeEnum as ProcedureTypeEnum);
@@ -31,11 +33,13 @@ function AdministratorProceduresListPage() {
     refetch: refetchProcedures,
   } = useFetchProcedures(WorkflowStepNameEnum.ADMIN_REVIEW, procedureTypeEnum!);
 
-  const {
-    handleReview,
-    isReviewing,
-    reviewError,
-  } = useReviewProcedure({onSuccess: refetchProcedures});
+  const {handleReview, isReviewing, reviewError} = useReviewProcedure({
+    onSuccess: () => {
+      refetchProcedures();
+      setSelectedProcedure(null);
+      showSuccess('Revision', 'Completada');
+    }
+  });
 
   const handleProcedureSelect = (procedure: ProcedureResponse) => {
     setSelectedProcedure(procedure);
