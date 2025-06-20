@@ -5,6 +5,7 @@ import type React from "react";
 import { useRef, useState } from "react";
 import styles from "./UserValidation.module.scss";
 import {Image} from "primereact/image";
+import { ProgressSpinner } from "primereact/progressspinner";
 import exampleSelfie from "../../../../../../assets/images/example_selfie.webp";
 import exampleCi from "../../../../../../assets/images/example_ci.webp";
 import backExampleCi from "../../../../../../assets/images/back_example_ci.png";
@@ -32,6 +33,8 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
   const [cameraMode, setCameraMode] = useState<CameraMode>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  const [showValidationOverlay, setShowValidationOverlay] = useState(false);
 
   const handleIdCardUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
@@ -210,6 +213,7 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
     }
 
     setIsProcessing(true)
+    setShowValidationOverlay(true)
     setError(null)
 
     try {
@@ -218,11 +222,25 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
       setError("Ocurrió un error durante la validación. Por favor, intenta nuevamente.")
     } finally {
       setIsProcessing(false)
+      setShowValidationOverlay(false)
     }
   }
 
   return (
     <article className={styles.mainContainer}>
+      {showValidationOverlay && (
+        <div className={styles.validationOverlay}>
+          <div className={styles.validationOverlayContent}>
+            <ProgressSpinner
+              style={{width: "40px", height: "40px"}}
+              strokeWidth="6"
+              fill="var(--surface-ground)"
+              animationDuration=".8s"
+            />
+            <span className={styles.validationMessage}>Validando información...</span>
+          </div>
+        </div>
+      )}
       <div className={styles.container}>
         <div className={styles.validationCard}>
           {/* Camera Modal */}
