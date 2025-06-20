@@ -5,62 +5,72 @@ import {Tag} from "primereact/tag";
 import {useNavigate} from "react-router-dom";
 import {handlePreview} from "../../../../../../utils/documentActions.ts";
 import React from "react";
+import styles from "./ProceduresTable.module.scss";
 
 interface ProceduresTableProps {
   procedures: ProcedureResponse[];
 }
 
-function ProceduresTable({procedures}: ProceduresTableProps) {
-
+function ProceduresTable({ procedures }: ProceduresTableProps) {
   //TODO: Change this value to an enum
   const PROCEDURE_TYPE_MAP: Record<number, string> = {
-    1: 'diploma-bachiller',
-    2: 'diploma-academico',
-    3: 'titulo-provision',
-  };
+    1: "diploma-bachiller",
+    2: "diploma-academico",
+    3: "titulo-provision",
+  }
 
-  const getProcedureRoute = (procedureTypeId: number): string => PROCEDURE_TYPE_MAP[procedureTypeId] ?? 'unknown';
+  const getProcedureRoute = (procedureTypeId: number): string => PROCEDURE_TYPE_MAP[procedureTypeId] ?? "unknown"
 
-  const [expandedRows, setExpandedRows] = useState<number[]>([]);
-  const navigate = useNavigate();
+  const [expandedRows, setExpandedRows] = useState<number[]>([])
+  const navigate = useNavigate()
 
   const toggleRow = (procedureId: number) => {
     setExpandedRows((prevExpandedRows) => {
       if (prevExpandedRows.includes(procedureId)) {
-        return prevExpandedRows.filter((id) => id !== procedureId);
+        return prevExpandedRows.filter((id) => id !== procedureId)
       } else {
-        return [...prevExpandedRows, procedureId];
+        return [...prevExpandedRows, procedureId]
       }
-    });
-  };
+    })
+  }
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return `${date.getDate()} de ${getMonthName(date.getMonth())} de ${date.getFullYear()}`;
-  };
+    const date = new Date(dateString)
+    return `${date.getDate()} de ${getMonthName(date.getMonth())} de ${date.getFullYear()}`
+  }
 
   const getMonthName = (monthIndex: number) => {
     const months = [
-      "enero", "febrero", "marzo", "abril", "mayo", "junio",
-      "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
-    ];
-    return months[monthIndex];
-  };
+      "enero",
+      "febrero",
+      "marzo",
+      "abril",
+      "mayo",
+      "junio",
+      "julio",
+      "agosto",
+      "septiembre",
+      "octubre",
+      "noviembre",
+      "diciembre",
+    ]
+    return months[monthIndex]
+  }
 
   const handleUploadNewFile = (procedure: ProcedureResponse) => {
-    const procedureRouter = getProcedureRoute(procedure.procedureTypeId);
+    const procedureRouter = getProcedureRoute(procedure.procedureTypeId)
 
     navigate(`../informacion-tramite/${procedureRouter}/subir-archivos`, {
-      state: {procedureData: procedure}
-    });
-  };
+      state: { procedureData: procedure },
+    })
+  }
 
   const handleSendDocument = (procedure: ProcedureResponse) => {
-    const procedureRouter = getProcedureRoute(procedure.procedureTypeId);
+    const procedureRouter = getProcedureRoute(procedure.procedureTypeId)
 
     navigate(`../informacion-tramite/${procedureRouter}/subir-archivos`, {
-      state: {procedureData: procedure}
-    });
+      state: { procedureData: procedure },
+    })
   }
 
   const getStatusDisplay = (procedure: ProcedureResponse) => {
@@ -99,129 +109,139 @@ function ProceduresTable({procedures}: ProceduresTableProps) {
           </div>
         );
       default:
-        return <div>{procedure.status}</div>;
+        return <div>{procedure.status}</div>
     }
-  };
+  }
 
   const getExpandedContent = (procedure: ProcedureResponse) => {
     switch (procedure.status) {
       case "COMPLETED": {
-        const documentId: string | undefined = procedure.documents.at(-1)?.documentId;
+        const documentId: string | undefined = procedure.documents.at(-1)?.documentId
 
         return (
-          <div className="expanded-content">
-            <div className="document-info">
+          <div className={styles.expandedContent}>
+            <div className={styles.documentInfo}>
               Diploma de Bachiller legalizado el{" "}
               {formatDate(procedure.workflowSteps[0]?.completedAt || procedure.createdAt)}
             </div>
-            <button className="download-btn" onClick={() => documentId && handlePreview(documentId)}>Abrir Documento
+            <button
+              className={`${styles.button} ${styles.downloadBtn}`}
+              onClick={() => documentId && handlePreview(documentId)}
+            >
+              Abrir Documento
             </button>
           </div>
-        );
+        )
       }
 
       case "REJECTED": {
-        const lastStep = procedure.workflowSteps[procedure.workflowSteps.length - 1];
-        const documentId: string | undefined = procedure.documents.at(-1)?.documentId;
+        const lastStep = procedure.workflowSteps[procedure.workflowSteps.length - 1]
+        const documentId: string | undefined = procedure.documents.at(-1)?.documentId
 
         return (
-          <div className="expanded-content">
-            <div className="rejection-reason">
+          <div className={styles.expandedContent}>
+            <div className={styles.rejectionReason}>
               <strong>Motivo de rechazo:</strong>
-              <ul>
-                {/* Ensure lastStep exists before accessing rejectionReasons */}
-                {lastStep?.rejectionReasons?.map((reason, index) => (
-                  <li key={index}>{reason}</li>
-                )) || <li>No se especificó un motivo</li>}
+              <ul className={styles.rejectionList}>
+                {lastStep?.rejectionReasons?.map((reason, index) => <li key={index}>{reason}</li>) || (
+                  <li>No se especificó un motivo</li>
+                )}
               </ul>
             </div>
-            <div className="action-buttons">
-              <button className="view-btn" onClick={() => documentId && handlePreview(documentId)}>Abrir Documento
+            <div className={styles.actionButtons}>
+              <button
+                className={`${styles.button} ${styles.viewBtn}`}
+                onClick={() => documentId && handlePreview(documentId)}
+              >
+                Abrir Documento
               </button>
-              <button className="upload-btn" onClick={() => handleUploadNewFile(procedure)}>Subir nuevo archivo</button>
+              <button className={`${styles.button} ${styles.uploadBtn}`} onClick={() => handleUploadNewFile(procedure)}>
+                Subir nuevo archivo
+              </button>
             </div>
           </div>
-        );
+        )
       }
 
       case "ADMIN_REVIEW":
       case "ARCHIVES_REVIEW":
       case "SECRETARY_REVIEW":
       case "ADMIN_FINAL_REVIEW": {
-        const documentId: string | undefined = procedure.documents.at(-1)?.documentId;
+        const documentId: string | undefined = procedure.documents.at(-1)?.documentId
 
         return (
-          <div className="expanded-content">
-            <button className="view-btn" onClick={() => documentId && handlePreview(documentId)}>Abrir Documento
+          <div className={styles.expandedContent}>
+            <button
+              className={`${styles.button} ${styles.viewBtn}`}
+              onClick={() => documentId && handlePreview(documentId)}
+            >
+              Abrir Documento
             </button>
           </div>
-        );
+        )
       }
 
       case "DRAFT": {
         return (
-          <div className="expanded-content">
-            <div className="action-buttons">
-              <button className="upload-btn" onClick={() => handleSendDocument(procedure)}>Enviar Documento</button>
+          <div className={styles.expandedContent}>
+            <div className={styles.actionButtons}>
+              <button className={`${styles.button} ${styles.uploadBtn}`} onClick={() => handleSendDocument(procedure)}>
+                Enviar Documento
+              </button>
             </div>
           </div>
-        );
+        )
       }
 
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
-    <div className="procedures-table-container">
-      <table className="procedures-table">
-        <thead>
-        <tr>
-          <th>Código</th>
-          <th>Trámite</th>
-          <th>Fecha de inicio</th>
-          <th>Estado</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {procedures.map((procedure: ProcedureResponse) => (
-          <React.Fragment key={procedure.id}>
-            <tr
-              className={
-                procedure.status === "REJECTED"
-                  ? "procedure-row rejected"
-                  : "procedure-row"
-              }
-              onClick={() => toggleRow(procedure.id)}
-            >
-              <td>{`TR-${procedure.id}`}</td>
-              <td>{procedure.procedureTypeName}</td>
-              <td>{formatDate(procedure.createdAt)}</td>
-              <td>
-                {getStatusDisplay(procedure)}
-              </td>
-              <td>
-                <span className="expand-icon">
-                    {expandedRows.includes(procedure.id) ? "▲" : "▼"}
-                  </span>
-              </td>
-
-            </tr>
-            {expandedRows.includes(procedure.id) && (
-              <tr className="expanded-row">
-                <td colSpan={5}>
-                  {getExpandedContent(procedure)}
+    <div className={styles.proceduresTableContainer}>
+      <div className={styles.tableWrapper}>
+        <table className={styles.proceduresTable}>
+          <thead>
+          <tr className={styles.headerRow}>
+            <th className={styles.headerCell}>Código</th>
+            <th className={styles.headerCell}>Trámite</th>
+            <th className={styles.headerCell}>Fecha de inicio</th>
+            <th className={styles.headerCell}>Estado</th>
+            <th className={styles.headerCell}></th>
+          </tr>
+          </thead>
+          <tbody>
+          {procedures.map((procedure: ProcedureResponse) => (
+            <React.Fragment key={procedure.id}>
+              <tr
+                className={`${styles.procedureRow} ${
+                  procedure.status === "REJECTED" ? styles.rejected : ""
+                } ${expandedRows.includes(procedure.id) ? styles.expanded : ""}`}
+                onClick={() => toggleRow(procedure.id)}
+              >
+                <td className={styles.cell}>{`TR-${procedure.id}`}</td>
+                <td className={styles.cell}>{procedure.procedureTypeName}</td>
+                <td className={styles.cell}>{formatDate(procedure.createdAt)}</td>
+                <td className={styles.cell}>{getStatusDisplay(procedure)}</td>
+                <td className={styles.cell}>
+                  <span className={styles.expandIcon}>{expandedRows.includes(procedure.id) ? "▲" : "▼"}</span>
                 </td>
               </tr>
-            )}
-          </React.Fragment>
-        ))}
-        </tbody>
-      </table>
+              {expandedRows.includes(procedure.id) && (
+                <tr className={styles.expandedRow}>
+                  <td colSpan={5} className={styles.expandedCell}>
+                    {getExpandedContent(procedure)}
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
+          ))}
+          </tbody>
+        </table>
+      </div>
     </div>
-  );
+  )
 }
 
-export default ProceduresTable;
+export default ProceduresTable

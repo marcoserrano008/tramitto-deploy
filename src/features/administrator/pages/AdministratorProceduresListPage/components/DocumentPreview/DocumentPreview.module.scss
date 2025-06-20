@@ -479,30 +479,136 @@
 }
 
 
-/* styles signature */
+/* Signature footer styles */
 .singleSignature {
-  background: linear-gradient(90deg, #003A8C 44%, #80DCF3 98%);
-  border-radius: 10px;
-  padding: 16px 20px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #bae6fd;
+  border-radius: 12px;
+  padding: 20px;
   margin-top: 20px;
-  color: white;
-  font-size: 14px;
-  box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
-  border-left: 4px solid #60a5fa;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
+  position: relative;
+  overflow: hidden;
 }
 
-.singleSignature .signatureRole {
-  color: #bfdbfe;
+.singleSignature::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+}
+
+.signatureHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.signatureIcon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+.signatureRole {
+  font-weight: 700;
+  color: #1e40af;
+  font-size: 16px;
+  margin: 0;
+}
+
+.signatureSubtitle {
+  color: #1e40af;
   font-size: 12px;
   font-weight: 500;
-  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
 }
 
-.singleSignature .signatureDate {
-  color: #e0f2fe;
-  font-weight: 600;
-  margin-top: 8px;
+.signatureMessage {
+  color: #475569;
+  font-size: 14px;
+  margin: 12px 0;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  border-left: 3px solid #10b981;
 }
+
+.signatureFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.signatureDate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.dateIcon {
+  font-size: 14px;
+  color: #3b82f6;
+}
+
+
+/* Responsive adjustments for signature */
+@media (max-width: 768px) {
+  .singleSignature {
+    padding: 16px;
+    margin-top: 16px;
+  }
+
+  .signatureHeader {
+    gap: 10px;
+  }
+
+  .signatureIcon {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .signatureRole {
+    font-size: 15px;
+  }
+
+  .signatureMessage {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .signatureFooter {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .signatureDate {
+    font-size: 12px;
+  }
+}
+
+
 
 /* Media Queries */
 @media (min-width: 768px) {

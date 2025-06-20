@@ -1,0 +1,300 @@
+.proceduresTableContainer {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.tableWrapper {
+  background: white;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
+  border: none;
+}
+
+.proceduresTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.headerRow {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.headerCell {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 16px;
+  color: #0b3ab4;
+  border: none;
+  border-right: 1px solid #f3f4f6;
+}
+
+.headerCell:last-child {
+  border-right: none;
+}
+
+.procedureRow {
+  background: white;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.procedureRow:hover {
+  background: #f9fafb;
+}
+
+.procedureRow.expanded {
+  background: #f9fafb;
+}
+
+.procedureRow.rejected {
+  background: white;
+}
+
+.procedureRow.rejected:hover {
+  background: #fef2f2;
+}
+
+.cell {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #374151;
+  border: none;
+  border-right: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+
+.cell:last-child {
+  border-right: none;
+}
+
+.expandIcon {
+  color: #9ca3af;
+  font-size: 12px;
+  transition: color 0.2s ease;
+  display: inline-block;
+}
+
+.procedureRow:hover .expandIcon {
+  color: #6366f1;
+}
+
+.expandedRow {
+  background: #f9fafb;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.expandedCell {
+  padding: 0;
+  border: none;
+}
+
+.expandedContent {
+  padding: 20px;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.documentInfo {
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+.rejectionReason {
+  background: white;
+  padding: 16px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 16px;
+}
+
+.rejectionReason strong {
+  color: #374151;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.rejectionList {
+  margin: 0;
+  padding-left: 20px;
+  color: #6b7280;
+}
+
+.rejectionList li {
+  margin-bottom: 4px;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: #374151;
+}
+
+.button:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.downloadBtn,
+.viewBtn {
+  background: #6366f1;
+  color: white;
+  border-color: #6366f1;
+}
+
+.downloadBtn:hover,
+.viewBtn:hover {
+  background: #5856eb;
+  border-color: #5856eb;
+}
+
+.uploadBtn {
+  background: #10b981;
+  color: white;
+  border-color: #10b981;
+}
+
+.uploadBtn:hover {
+  background: #059669;
+  border-color: #059669;
+}
+
+/* Status styles matching the image */
+.statusCompleted {
+  display: flex;
+  align-items: center;
+  color: #10b981;
+  font-weight: 500;
+}
+
+.statusCompleted::before {
+  content: "●";
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.statusRejected {
+  display: flex;
+  align-items: center;
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.statusRejected::before {
+  content: "✗";
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.statusReview {
+  display: flex;
+  align-items: center;
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.statusReview::before {
+  content: "○";
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.statusPending {
+  display: flex;
+  align-items: center;
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+.statusPending::before {
+  content: "⏳";
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.statusDraft {
+  display: flex;
+  align-items: center;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.statusDraft::before {
+  content: "📝";
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+.statusIcon {
+  margin-right: 6px;
+  font-size: 12px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .proceduresTableContainer {
+    margin: 10px;
+  }
+
+  .headerCell,
+  .cell {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .expandedContent {
+    padding: 16px;
+  }
+
+  .actionButtons {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .proceduresTable {
+    font-size: 12px;
+  }
+
+  .headerCell,
+  .cell {
+    padding: 8px 10px;
+  }
+
+  .proceduresTableContainer {
+    margin: 5px;
+  }
+}
