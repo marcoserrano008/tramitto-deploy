@@ -124,7 +124,7 @@ function ApplicantStepPaymentPage() {
                 <h3 className={styles.infoTitle}>Recomendaciones</h3>
               </div>
               <div className={styles.infoContent}>
-              <p className={styles.recommendationsIntro}>Antes de realizar el pago, ten en cuenta:</p>
+                <p className={styles.recommendationsIntro}>Antes de realizar el pago, ten en cuenta:</p>
                 <ul className={styles.recommendationsList}>
                   <li className={styles.recommendationItem}>
                     <span className={styles.bullet}>•</span>

@@ -14,6 +14,7 @@ export interface ProcedureResponse {
   currentStage: ProcedureStageEnum;
   paymentStatus: PaymentStatusEnum;
   createdAt: string; // ISO string for LocalDateTime
+  updatedAt: string;
   workflowSteps: WorkflowStepResponse[];
   documents: ProcedureDocumentResponse[];
   payment: PaymentResponse;

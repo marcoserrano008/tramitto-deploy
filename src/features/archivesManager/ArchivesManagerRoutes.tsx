@@ -6,6 +6,7 @@ import ArchivesManagerHomePage from "./pages/ArchivesManagerHomePage/ArchivesMan
 import ArchivesManagerProceduresListPage
   from "./pages/ArchivesManagerProceduresListPage/ArchivesManagerProceduresListPage.tsx";
 import ArchivesManagerReportsPage from "./pages/ArchivesManagerReportsPage/ArchivesManagerReportsPage.tsx";
+import ArchivesManagerRecordPage from "./pages/ArchivesManagerRecordPage/ArchivesManagerRecordPage.tsx";
 
 const archivesManagerRoutes: RouteObject[] = [
   {
@@ -19,6 +20,8 @@ const archivesManagerRoutes: RouteObject[] = [
       {index: true, element: <ArchivesManagerHomePage/>},
 
       {path: 'procedures-list/:procedureType', element: <ArchivesManagerProceduresListPage/>},
+
+      {path: 'historial', element: <ArchivesManagerRecordPage/>},
 
       {path: 'reports', element: <ArchivesManagerReportsPage/>}
     ],

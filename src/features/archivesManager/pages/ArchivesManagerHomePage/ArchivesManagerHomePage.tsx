@@ -8,6 +8,8 @@ import styles from './ArchivesManagerHomePage.module.scss';
 import 'primeicons/primeicons.css';
 import logoTramitto from "../../../../../public/logoTramitto.svg";
 import logoUMSS from "../../../../assets/images/logoUMSS.svg";
+import {getProcedureCounters} from "../../../../services/GetCountersByStatus.http.service.ts";
+import {ProcedureStatusEnum} from "../../../../types/enum/ProcedureStatus.enum.ts";
 
 type StatsItem = {
   icon: string;
@@ -17,6 +19,7 @@ type StatsItem = {
 };
 
 type ProcessItem = {
+  procedureTypeId: number;
   title: string;
   subtitle: string;
   route: string;
@@ -42,6 +45,7 @@ const statsItems: StatsItem[] = [
 
 const processItems: ProcessItem[] = [
   {
+    procedureTypeId: 1,
     title: 'Legalización',
     subtitle: 'Diploma de Bachiller',
     route: '/archives-manager/procedures-list/diploma-bachiller',
@@ -49,6 +53,7 @@ const processItems: ProcessItem[] = [
     newTodayCount: 4
   },
   {
+    procedureTypeId: 2,
     title: 'Legalización',
     subtitle: 'Diploma Académico',
     route: '/archives-manager/procedures-list/diploma-academico',
@@ -56,6 +61,7 @@ const processItems: ProcessItem[] = [
     newTodayCount: 5
   },
   {
+    procedureTypeId: 3,
     title: 'Legalización',
     subtitle: 'Título Provisión Nacional',
     route: '/archives-manager/procedures-list/titulo-provision',
@@ -67,6 +73,7 @@ const processItems: ProcessItem[] = [
 const ArchivesManagerHomePage = () => {
   const navigate = useNavigate();
   const [signatureHistory, setSignatureHistory] = useState<SignatureItem[]>([]);
+  const [items, setItems] = useState<ProcessItem[]>(processItems);
 
   useEffect(() => {
     // datos fake
@@ -114,6 +121,21 @@ const ArchivesManagerHomePage = () => {
       }
     ];
     setSignatureHistory(sampleData);
+  }, []);
+
+  useEffect(() => {
+    getProcedureCounters(ProcedureStatusEnum.ARCHIVES_REVIEW).then(counters => {
+      setItems(prev =>
+        prev.map(item => {
+          const match = counters.find(c => c.procedureTypeId === item.procedureTypeId);
+          return {
+            ...item,
+            pendingCount: match?.total ?? 0,
+            newTodayCount: match?.today ?? 0
+          };
+        })
+      );
+    });
   }, []);
 
   // tabla fake
@@ -191,7 +213,7 @@ const ArchivesManagerHomePage = () => {
         <div className={styles.processWrapper}>
           <span className={styles.processLabel}>Documentos por Firmar</span>
           <div className={styles.processCards}>
-            {processItems.map((item, index) => (
+            {items.map((item, index) => (
               <div key={`${item.subtitle}-${index}`} className={styles.processCard}>
                 <div className={styles.processCardHeader}>
                   <div className={styles.processCardIcon}>
