@@ -15,6 +15,7 @@ import {useParams} from "react-router-dom";
 import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
 import {useProcedureTypeData} from "../../../applicant/hooks/useProcedureTypeData.ts";
 import {useToast} from "../../../../context/ToastContext.tsx";
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 function AdministratorProceduresListPage() {
   const {showSuccess} = useToast();
@@ -69,11 +70,21 @@ function AdministratorProceduresListPage() {
         <span className={styles.proceduresListSubtitle}>{procedure?.name}</span>
       </section>
 
-
       <section className={styles.proceduresListSplitterContainer}>
         {isReviewing && (
-          <div className="loading-spinner">Procesando revisión...</div>
+          <div className="review-overlay">
+            <div className="review-overlay-content">
+              <ProgressSpinner
+                style={{width: "30px", height: "30px"}}
+                strokeWidth="8"
+                fill="var(--surface-ground)"
+                animationDuration=".5s"
+              />
+              <span className="review-message">Procesando revisión...</span>
+            </div>
+          </div>
         )}
+
         <Splitter>
           <SplitterPanel className={styles.proceduresListSplitterLeft} size={60} minSize={30}>
             <section className={styles.filterListContainer}>
@@ -117,6 +128,8 @@ function AdministratorProceduresListPage() {
             <DocumentPreview
               selectedProcedure={selectedProcedure}
               onReview={handleReview}
+              isReviewing={isReviewing}
+              showActions={true}
             />
           </SplitterPanel>
         </Splitter>

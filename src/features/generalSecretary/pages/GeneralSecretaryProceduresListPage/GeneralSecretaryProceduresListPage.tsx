@@ -158,6 +158,7 @@ const GeneralSecretaryProceduresListPage = () => {
               <DocumentPreview
                 selectedProcedure={selectedProcedure}
                 onReview={handleReview}
+                showActions={true}
               />
             </SplitterPanel>
           </Splitter>

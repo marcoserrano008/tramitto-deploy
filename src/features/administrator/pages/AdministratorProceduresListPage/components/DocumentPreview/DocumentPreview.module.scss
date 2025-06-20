@@ -218,6 +218,148 @@
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
 
+/* New Rejection Form */
+.reasonsList {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.reasonsListTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.reasonItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
+  background-color: white;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.reasonItem:last-child {
+  margin-bottom: 0;
+}
+
+.reasonText {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #495057;
+}
+
+.removeReasonBtn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.removeReasonBtn:hover {
+  background: #c82333;
+}
+
+.commonReasons {
+  margin-bottom: 1rem;
+}
+
+.commonReasonsTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.commonReasonsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.5rem;
+}
+
+.commonReasonBtn {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #007bff;
+  background: white;
+  color: #007bff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.commonReasonBtn:hover:not(:disabled) {
+  background: #007bff;
+  color: white;
+}
+
+.commonReasonBtn.selected {
+  background: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.commonReasonBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.customReasonSection {
+  margin-bottom: 1rem;
+}
+
+.customReasonTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.customReasonInput {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.customReasonInput .rejectionTextarea {
+  flex: 1;
+}
+
+.addReasonBtn {
+  padding: 0.5rem 1rem;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.addReasonBtn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.addReasonBtn:hover:not(:disabled) {
+  background: #218838;
+}
+
 .formButtons {
   display: flex;
   justify-content: flex-end;
@@ -250,9 +392,112 @@
   cursor: not-allowed;
 }
 
+.loadingOverlay {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Rejection Reasons list*/
+.rejectionFooter {
+  background: linear-gradient(135deg, #fdf2f2 0%, #fef5f5 100%);
+  border-top: 2px solid #fee2e2;
+  padding: 1.25rem;
+  border-radius: 0 0 8px 8px;
+  animation: slideDown 0.3s ease-out;
+}
+
+.rejectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #fecaca;
+}
+
+.rejectionTitle {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #dc2626;
+}
+
+.rejectionList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rejectionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 6px;
+  border-left: 3px solid #ef4444;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rejectionItem:hover {
+  transform: translateX(2px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.rejectionBullet {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  font-size: 0.9rem;
+  margin-top: 0.1rem;
+}
+
+.rejectionContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.reasonText {
+  color: #374151;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.reasonTimestamp {
+  color: #6b7280;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+
 /* Media Queries */
 @media (min-width: 768px) {
   .applicantInfo {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .rejectionFooter {
+    padding: 1rem;
+  }
+
+  .rejectionItem {
+    padding: 0.6rem;
+  }
+
+  .rejectionTitle {
+    font-size: 1rem;
+  }
+
+  .reasonText {
+    font-size: 0.9rem;
   }
 }

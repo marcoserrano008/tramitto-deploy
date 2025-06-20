@@ -1,9 +1,6 @@
 import {ProcedureTypeEnum} from "../../../../types/enum/ProcedureType.enum.ts";
 import {useEffect, useMemo, useState} from "react";
-import {WorkflowStepNameEnum} from "../../../../types/enum/WorkflowStepName.enum.ts";
 import {ProcedureResponse} from "../../../../types/ProcedureResponse.interface.ts";
-import {useFetchProcedures} from "../../hooks/useFetchProcedures.ts";
-import {useReviewProcedure} from "../../hooks/useReviewProcedure.ts";
 import styles from "../AdministratorProceduresListPage/AdministratorProceduresListPage.module.scss";
 import {Splitter, SplitterPanel} from "primereact/splitter";
 import {Dropdown} from "primereact/dropdown";
@@ -12,36 +9,57 @@ import {Calendar} from "primereact/calendar";
 import AdminProceduresTable
   from "../AdministratorProceduresListPage/components/AdminProceduresTable/AdminProceduresTable.tsx";
 import DocumentPreview from "../AdministratorProceduresListPage/components/DocumentPreview/DocumentPreview.tsx";
-import {PROCEDURE_TYPE_LABEL} from "../../../../types/record/ProcedureTypeLabel.ts";
+import {ProcedureStatusEnum} from "../../../../types/enum/ProcedureStatus.enum.ts";
+import {getAdminProceduresService} from "../../../../services/GetAdminProcedures.http.service.ts";
+import {PROCEDURE_STATUS_OPTIONS} from "../../../../types/options/ProcedureStatusOptions.ts";
 
 function AdministratorProceduresStatusPage() {
-  const [selectedWorkflowStep, setSelectedWorkflowStep] = useState<WorkflowStepNameEnum>(WorkflowStepNameEnum.ADMIN_REVIEW);
   const [selectedProcedure, setSelectedProcedure] = useState<ProcedureResponse | null>(null);
   const [dates, setDates] = useState(undefined)
   const [isFilteredByDate, setIsFilteredByDate] = useState<boolean>(false);
 
-  const procedureTypes = [
-    {name: 'Todos los tramites', value: ProcedureTypeEnum.ALL},
-    {name: 'Legalización de Diploma de bachiller', value: ProcedureTypeEnum.HIGH_SCHOOL_DIPLOMA},
-    {name: 'Legalización de Diploma Académico', value: ProcedureTypeEnum.ACADEMIC_DIPLOMA},
-    {name: 'Legalización de Título en Provisión Nacional', value: ProcedureTypeEnum.NATIONAL_PROVISION_DEGREE}
+  const procedureStatuses = [
+    {name: 'Todos', value: 'ALL'},
+    {name: 'Revision Jefe de archivos', value: ProcedureStatusEnum.ARCHIVES_REVIEW},
+    {name: 'Completados', value: ProcedureStatusEnum.COMPLETED},
+    {name: 'Rechazados', value: ProcedureStatusEnum.REJECTED},
   ];
 
-  const [selectedProcedureType, setSelectedProcedureType] = useState<ProcedureTypeEnum>(ProcedureTypeEnum.ALL);
-  const selectedProcedureTypeLabel = useMemo(() => PROCEDURE_TYPE_LABEL[selectedProcedureType], [selectedProcedureType]);
+  type StatusFilter = typeof PROCEDURE_STATUS_OPTIONS[number]['value'];
+  const [selectedStatus, setSelectedStatus] = useState<StatusFilter>('ALL');
 
-  const {
-    procedures,
-    loading: loadingProcedures,
-    error: fetchError,
-    refetch: refetchProcedures,
-  } = useFetchProcedures(selectedWorkflowStep, selectedProcedureType);
+  const selectedStatusLabel = useMemo(() => {
+    const match = PROCEDURE_STATUS_OPTIONS.find((s) => s.value === selectedStatus);
+    return match?.label ?? '';
+  }, [selectedStatus]);
 
-  const {
-    handleReview,
-    isReviewing,
-    reviewError,
-  } = useReviewProcedure({onSuccess: refetchProcedures});
+  const [procedures, setProcedures] = useState<ProcedureResponse[]>([]);
+  const [loadingProcedures, setLoadingProcedures] = useState(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const fetch = async () => {
+      setLoadingProcedures(true);
+      setFetchError(null);
+      try {
+        const data = await getAdminProceduresService.getProcedures(selectedStatus === 'ALL' ? undefined : selectedStatus);
+        if (!cancelled) setProcedures(data);
+      } catch (e: any) {
+        if (!cancelled) setFetchError(e.message ?? 'Error al obtener trámites');
+      } finally {
+        if (!cancelled) setLoadingProcedures(false);
+      }
+    };
+    fetch();
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedStatus]);
+
+  const handleReview = () => {
+
+  }
 
   const handleProcedureSelect = (procedure: ProcedureResponse) => {
     setSelectedProcedure(procedure);
@@ -60,23 +78,15 @@ function AdministratorProceduresStatusPage() {
     return <div className="error-message">{fetchError}</div>;
   }
 
-  if (reviewError) {
-    alert(reviewError);
-  }
-
   return (
     <div className="admin-page">
       <section className={styles.proceduresListHeader}>
-        <span className={styles.proceduresListTitle}>Revisión Final</span>
-        <span className={styles.proceduresListSubtitle}>{selectedProcedureTypeLabel}</span>
+        <span className={styles.proceduresListTitle}>Historial</span>
+        <span className={styles.proceduresListSubtitle}>{selectedStatusLabel}</span>
       </section>
 
 
       <section className={styles.proceduresListSplitterContainer}>
-        {isReviewing && (
-          <div className="loading-spinner">Procesando revisión...</div>
-        )}
-
         <Splitter>
           <SplitterPanel className={styles.proceduresListSplitterLeft} size={70} minSize={30}>
 
@@ -85,12 +95,15 @@ function AdministratorProceduresStatusPage() {
                 <div className={styles.filterListField}>
                   <label htmlFor="procedure-type">Tipo de trámite:</label>
                   <Dropdown
-                    id="procedure-type"
-                    value={selectedProcedureType}
-                    onChange={(e) => setSelectedProcedureType(e.value)}
-                    options={procedureTypes}
+                    id="procedure-status"
+                    value={selectedStatus}
+                    onChange={(e) => {
+                      setSelectedStatus(e.value)
+                      setSelectedProcedure(null)
+                    }}
+                    options={procedureStatuses}
                     optionLabel="name"
-                    placeholder="Seleccionar tipo de trámite"
+                    placeholder="Seleccionar estado"
                   />
                 </div>
               </div>
@@ -121,7 +134,6 @@ function AdministratorProceduresStatusPage() {
               </div>
             </section>
 
-
             <AdminProceduresTable
               procedures={procedures}
               onProcedureSelect={handleProcedureSelect}
@@ -134,6 +146,7 @@ function AdministratorProceduresStatusPage() {
             <DocumentPreview
               selectedProcedure={selectedProcedure}
               onReview={handleReview}
+              showActions={false}
             />
           </SplitterPanel>
         </Splitter>

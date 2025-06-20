@@ -16,8 +16,12 @@ import {useEffect, useState} from "react";
 import {ProcedureTypeEnum} from "../../../../types/enum/ProcedureType.enum.ts";
 import {useParams} from "react-router-dom";
 import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
+import '../../../administrator/pages/AdministratorProceduresListPage/AdministratorProceduresListPage.scss';
+import {ProgressSpinner} from "primereact/progressspinner";
+import {useToast} from "../../../../context/ToastContext.tsx";
 
 const ArchivesManagerProceduresListPage = () => {
+  const {showSuccess} = useToast();
   const {procedureType} = useParams<{ procedureType: string }>();
   const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
 
@@ -33,11 +37,13 @@ const ArchivesManagerProceduresListPage = () => {
     refetch: refetchProcedures,
   } = useFetchProcedures(WorkflowStepNameEnum.ARCHIVES_REVIEW, procedureTypeEnum!);
 
-  const {
-    handleReview,
-    isReviewing,
-    reviewError,
-  } = useReviewProcedure({onSuccess: refetchProcedures});
+  const {handleReview, isReviewing, reviewError} = useReviewProcedure({
+    onSuccess: () => {
+      refetchProcedures();
+      setSelectedProcedure(null);
+      showSuccess('Revision', 'Completada');
+    }
+  });
 
   const handleWorkflowStepChange = (event: any) => {
     setSelectedWorkflowStep(event.value);
@@ -88,7 +94,17 @@ const ArchivesManagerProceduresListPage = () => {
 
       <section className={styles.proceduresListSplitterContainer}>
         {isReviewing && (
-          <div className="loading-spinner">Procesando revisión...</div>
+          <div className="review-overlay">
+            <div className="review-overlay-content">
+              <ProgressSpinner
+                style={{width: "30px", height: "30px"}}
+                strokeWidth="8"
+                fill="var(--surface-ground)"
+                animationDuration=".5s"
+              />
+              <span className="review-message">Procesando revisión...</span>
+            </div>
+          </div>
         )}
 
         {procedures.length === 0 ? (
@@ -164,6 +180,8 @@ const ArchivesManagerProceduresListPage = () => {
               <DocumentPreview
                 selectedProcedure={selectedProcedure}
                 onReview={handleReview}
+                isReviewing={isReviewing}
+                showActions={true}
               />
             </SplitterPanel>
           </Splitter>
