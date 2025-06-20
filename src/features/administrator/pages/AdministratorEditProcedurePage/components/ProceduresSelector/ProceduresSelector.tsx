@@ -37,8 +37,8 @@ export default function ProceduresSelector({procedures, onSelectProcedure, onCan
               <i className={`pi pi-file-edit ${styles.icon}`}></i>
             </div>
             <div className={styles.headerContent}>
-              <h1 className={styles.title}>Editar Tramites</h1>
-              <p className={styles.subtitle}>Selecciona el tramite que deseas modificar</p>
+              <h1 className={styles.title}>Editar Trámites</h1>
+              <p className={styles.subtitle}>Selecciona el trámite que deseas modificar</p>
             </div>
           </div>
 
