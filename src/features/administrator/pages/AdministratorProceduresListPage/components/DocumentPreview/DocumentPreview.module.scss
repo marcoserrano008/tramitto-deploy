@@ -479,6 +479,31 @@
 }
 
 
+/* styles signature */
+.singleSignature {
+  background: linear-gradient(90deg, #003A8C 44%, #80DCF3 98%);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-top: 20px;
+  color: white;
+  font-size: 14px;
+  box-shadow: 0 4px 15px rgba(29, 78, 216, 0.3);
+  border-left: 4px solid #60a5fa;
+}
+
+.singleSignature .signatureRole {
+  color: #bfdbfe;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.singleSignature .signatureDate {
+  color: #e0f2fe;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
 /* Media Queries */
 @media (min-width: 768px) {
   .applicantInfo {

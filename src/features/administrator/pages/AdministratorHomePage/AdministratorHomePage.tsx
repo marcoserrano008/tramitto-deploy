@@ -9,6 +9,8 @@ import styles from './AdministratorHomePage.module.scss';
 import 'primeicons/primeicons.css';
 import logoTramitto from "../../../../assets/images/logoTramitto.svg";
 import logoUMSS from "../../../../assets/images/logoUMSS.svg";
+import {getProcedureCounters} from "../../../../services/GetCountersByStatus.http.service.ts";
+import {ProcedureStatusEnum} from "../../../../types/enum/ProcedureStatus.enum.ts";
 
 type StatsItem = {
   icon: string;
@@ -18,6 +20,7 @@ type StatsItem = {
 };
 
 type ProcessItem = {
+  procedureTypeId: number;
   title: string;
   subtitle: string;
   route: string;
@@ -44,6 +47,7 @@ const statsItems: StatsItem[] = [
 
 const processItems: ProcessItem[] = [
   {
+    procedureTypeId: 1,
     title: 'Legalización',
     subtitle: 'Diploma de Bachiller',
     route: '/admin/solicitudes/diploma-bachiller',
@@ -51,6 +55,7 @@ const processItems: ProcessItem[] = [
     newTodayCount: 5
   },
   {
+    procedureTypeId: 2,
     title: 'Legalización',
     subtitle: 'Diploma Académico',
     route: '/admin/solicitudes/diploma-academico',
@@ -58,6 +63,7 @@ const processItems: ProcessItem[] = [
     newTodayCount: 7
   },
   {
+    procedureTypeId: 3,
     title: 'Legalización',
     subtitle: 'Título Provisión Nacional',
     route: '/admin/solicitudes/titulo-provision',
@@ -71,6 +77,7 @@ const AdminHomePage = () => {
   const [reviewHistory, setReviewHistory] = useState<ReviewItem[]>([]);
   const [reportChartData, setReportChartData] = useState<any>({});
   const [reportChartOptions, setReportChartOptions] = useState<any>({});
+  const [items, setItems] = useState<ProcessItem[]>(processItems);
 
   useEffect(() => {
     // desde aqui la tabla
@@ -165,6 +172,21 @@ const AdminHomePage = () => {
   }, []);
   //hasta aqui los reportes
 
+  useEffect(() => {
+  getProcedureCounters(ProcedureStatusEnum.ADMIN_REVIEW).then(counters => {
+    setItems(prev =>
+      prev.map(item => {
+        const match = counters.find(c => c.procedureTypeId === item.procedureTypeId);
+        return {
+          ...item,
+          pendingCount: match?.total ?? 0,
+          newTodayCount: match?.today ?? 0
+        };
+      })
+    );
+  });
+}, []);
+
   //parte de la tabla
   const statusBodyTemplate = (rowData: ReviewItem) => {
     const getSeverity = (status: string) => {
@@ -241,7 +263,7 @@ const AdminHomePage = () => {
         <div className={styles.processWrapper}>
           <span className={styles.processLabel}>Trámites</span>
           <div className={styles.processCards}>
-            {processItems.map((item, index) => (
+            {items.map((item, index) => (
               <div key={`${item.subtitle}-${index}`} className={styles.processCard}>
                 <div className={styles.processCardHeader}>
                   <div className={styles.processCardIcon}>

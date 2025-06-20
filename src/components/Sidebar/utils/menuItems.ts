@@ -117,6 +117,11 @@ const archivesManagerMenuItems: MenuItem[] = [
     ],
   },
   {
+    label: 'Historial de revision',
+    icon: 'pi pi-fw pi-folder',
+    url: '/archives-manager/historial',
+  },
+  {
     label: 'Reportes',
     icon: 'pi pi-fw pi-chart-bar',
     url: '/archives-manager/reports',

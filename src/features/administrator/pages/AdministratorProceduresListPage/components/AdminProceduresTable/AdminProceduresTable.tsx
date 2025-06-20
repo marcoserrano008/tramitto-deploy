@@ -8,19 +8,29 @@ interface AdminProceduresTableProps {
   onProcedureSelect: (procedure: ProcedureResponse) => void;
   selectedProcedureId: number | null;
   showProcedureColumn: boolean;
+  showUpdatedColumn?: boolean;
 }
 
 function AdminProceduresTable({
                                 procedures,
                                 onProcedureSelect,
                                 selectedProcedureId,
-                                showProcedureColumn = true
+                                showProcedureColumn = true,
+                                showUpdatedColumn
                               }: AdminProceduresTableProps) {
-  const formatDate = (dateString: string | null) => {
+  const formatDate = (dateString: string | null): string => {
     if (!dateString) return "N/A";
 
     const date = new Date(dateString);
-    return `${date.getDate()} de ${getMonthName(date.getMonth())} de ${date.getFullYear()}`;
+
+    const day     = date.getDate();
+    const month   = getMonthName(date.getMonth());
+    const year    = date.getFullYear();
+
+    const hours   = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+
+    return `${day} de ${month} de ${year}, ${hours}:${minutes}`;
   };
 
   const getMonthName = (monthIndex: number) => {
@@ -97,6 +107,7 @@ function AdminProceduresTable({
               <th>Apellido Materno</th>
               <th>Nombre(s)</th>
               <th>Fecha de recepción</th>
+              {showUpdatedColumn && <th>Ultima Actualizacion</th>}
               <th>Estado</th>
             </tr>
             </thead>
@@ -115,6 +126,7 @@ function AdminProceduresTable({
                 <td>{procedure.user.secondLastName || "-"}</td>
                 <td>{procedure.user.firstName}</td>
                 <td>{formatDate(getSendDate(procedure))}</td>
+                {showUpdatedColumn && <td>{formatDate(procedure.updatedAt)}</td>}
                 <td>{getStatusDisplay(procedure.status)}</td>
               </tr>
             ))}

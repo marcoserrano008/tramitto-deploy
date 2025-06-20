@@ -1,18 +1,19 @@
 import {useEffect, useMemo, useState} from "react";
 import {ProcedureResponse} from "../../../../types/ProcedureResponse.interface.ts";
-import styles from "../AdministratorProceduresListPage/AdministratorProceduresListPage.module.scss";
 import {Splitter, SplitterPanel} from "primereact/splitter";
+import styles from "../../../administrator/pages/AdministratorProceduresListPage/AdministratorProceduresListPage.module.scss";
 import {Dropdown} from "primereact/dropdown";
 import {InputSwitch, InputSwitchChangeEvent} from "primereact/inputswitch";
 import {Calendar} from "primereact/calendar";
-import AdminProceduresTable
-  from "../AdministratorProceduresListPage/components/AdminProceduresTable/AdminProceduresTable.tsx";
-import DocumentPreview from "../AdministratorProceduresListPage/components/DocumentPreview/DocumentPreview.tsx";
 import {ProcedureStatusEnum} from "../../../../types/enum/ProcedureStatus.enum.ts";
 import {getAdminProceduresService} from "../../../../services/GetAdminProcedures.http.service.ts";
 import {PROCEDURE_STATUS_OPTIONS} from "../../../../types/options/ProcedureStatusOptions.ts";
+import AdminProceduresTable
+  from "../../../administrator/pages/AdministratorProceduresListPage/components/AdminProceduresTable/AdminProceduresTable.tsx";
+import DocumentPreview
+  from "../../../administrator/pages/AdministratorProceduresListPage/components/DocumentPreview/DocumentPreview.tsx";
 
-function AdministratorProceduresStatusPage() {
+function ArchivesManagerRecordPage() {
   const [selectedProcedure, setSelectedProcedure] = useState<ProcedureResponse | null>(null);
   const [dates, setDates] = useState(undefined)
   const [isFilteredByDate, setIsFilteredByDate] = useState<boolean>(false);
@@ -42,7 +43,7 @@ function AdministratorProceduresStatusPage() {
       setLoadingProcedures(true);
       setFetchError(null);
       try {
-        const data = await getAdminProceduresService.getProcedures(selectedStatus === 'ALL' ? undefined : selectedStatus);
+        const data = await getAdminProceduresService.getProcedures(ProcedureStatusEnum.COMPLETED);
         if (!cancelled) setProcedures(data);
       } catch (e: any) {
         if (!cancelled) setFetchError(e.message ?? 'Error al obtener trámites');
@@ -81,7 +82,6 @@ function AdministratorProceduresStatusPage() {
     <div className="admin-page">
       <section className={styles.proceduresListHeader}>
         <span className={styles.proceduresListTitle}>Historial de revision</span>
-        <span className={styles.proceduresListSubtitle}>{selectedStatusLabel}</span>
       </section>
 
 
@@ -90,23 +90,6 @@ function AdministratorProceduresStatusPage() {
           <SplitterPanel className={styles.proceduresListSplitterLeft} size={70} minSize={30}>
 
             <section className={styles.filterListContainer}>
-              <div className={styles.filterListRow}>
-                <div className={styles.filterListField}>
-                  <label htmlFor="procedure-type">Tipo de trámite:</label>
-                  <Dropdown
-                    id="procedure-status"
-                    value={selectedStatus}
-                    onChange={(e) => {
-                      setSelectedStatus(e.value)
-                      setSelectedProcedure(null)
-                    }}
-                    options={procedureStatuses}
-                    optionLabel="name"
-                    placeholder="Seleccionar estado"
-                  />
-                </div>
-              </div>
-
               <div className={styles.filterListRow}>
                 <div className={styles.filterListSwitchField}>
                   <label htmlFor="date-filter-switch">Filtrar por fecha</label>
@@ -155,4 +138,4 @@ function AdministratorProceduresStatusPage() {
   );
 }
 
-export default AdministratorProceduresStatusPage;
+export default ArchivesManagerRecordPage;
