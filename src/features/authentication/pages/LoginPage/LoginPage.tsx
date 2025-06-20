@@ -89,6 +89,10 @@ const LoginPage = () => {
     navigate("/register")
   }
 
+  const handleForgotPassword = () => {
+    console.log("Olvidaste tu contraseña clicked");
+  };
+
   return (
     <div className={styles.loginContainer}>
       <div className={styles.loginForm}>
@@ -107,7 +111,9 @@ const LoginPage = () => {
               type="email"
               id="email"
               value={email}
+              placeholder="Ingresa tu correo"
               onChange={(e) => setEmail(e.target.value)}
+              className={styles.emailInput}
               required
             />
           </div>
@@ -125,17 +131,26 @@ const LoginPage = () => {
               inputClassName={styles.passwordInput}
               required
             />
-          </div>
+            <div className={styles.forgotPassword}>
+              <button
+                type="button"
+                onClick={handleForgotPassword}
+                className={styles.forgotPasswordLink}
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
+            </div>
+      </div>
 
-          <div className={styles.formGroup}>
-            <button type="submit" disabled={loading} className={styles.loginButton}>
-              {loading ? 'Loading...' : 'Ingresar'}
-            </button>
-          </div>
-        </form>
+      <div className={styles.formGroup}>
+        <button type="submit" disabled={loading} className={styles.loginButton}>
+          {loading ? 'Loading...' : 'Ingresar'}
+        </button>
+      </div>
+    </form>
 
-        <div className={styles.divider}>
-          <span>o también</span>
+  <div className={styles.divider}>
+    <span>o también</span>
         </div>
 
         <button
