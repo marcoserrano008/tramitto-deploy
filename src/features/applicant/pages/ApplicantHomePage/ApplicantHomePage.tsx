@@ -5,7 +5,7 @@ import styles from './ApplicantHomePage.module.scss';
 import 'primeicons/primeicons.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import logoTramitto from "../../../../assets/images/logoTramitto.svg";
+import logoTramitto from "../../../../../public/logoTramitto.svg";
 import logoUMSS from "../../../../assets/images/logoUMSS.svg";
 
 type WhyItem = {
