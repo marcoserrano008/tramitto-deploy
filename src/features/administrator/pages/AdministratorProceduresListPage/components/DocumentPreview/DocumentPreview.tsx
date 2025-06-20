@@ -321,22 +321,32 @@ function DocumentPreview({selectedProcedure, onReview, isReviewing, showActions}
               </div>
           </footer>
       }
-      {!showActions &&
+      {
+        !showActions &&
         selectedProcedure.status === ProcedureStatusEnum.COMPLETED &&
         (user?.role === RoleEnum.ADMINISTRATOR || user?.role === RoleEnum.ARCHIVES_MANAGER) && (
           <footer className={styles.singleSignature}>
-            <div className={styles.signatureRole}>
-              📋 Jefe de Archivos
+            <div className={styles.signatureHeader}>
+              <div className={styles.signatureIcon}>📋</div>
+              <div>
+                <div className={styles.signatureSubtitle}>Autorizado por</div>
+                <h4 className={styles.signatureRole}>Jefe de Archivos</h4>
+              </div>
             </div>
-            <div>
-              Trámite firmado por jefe de archivos
+
+            <div className={styles.signatureMessage}>
+              ✅ Este trámite ha sido firmado digitalmente por el jefe de archivos
             </div>
-            <div className={styles.signatureDate}>
-              <span className={styles.dateIcon}>🕒</span>
-              {formatDateTime(selectedProcedure.updatedAt)}
+
+            <div className={styles.signatureFooter}>
+              <div className={styles.signatureDate}>
+                <span className={styles.dateIcon}>🕒</span>
+                Firmado el {formatDateTime(selectedProcedure.updatedAt)}
+              </div>
             </div>
           </footer>
-        )}
+        )
+      }
     </div>
   );
 }

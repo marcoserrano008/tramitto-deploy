@@ -19,11 +19,13 @@ import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
 import '../../../administrator/pages/AdministratorProceduresListPage/AdministratorProceduresListPage.scss';
 import {ProgressSpinner} from "primereact/progressspinner";
 import {useToast} from "../../../../context/ToastContext.tsx";
+import {useProcedureTypeData} from "../../../applicant/hooks/useProcedureTypeData.ts";
 
 const ArchivesManagerProceduresListPage = () => {
   const {showSuccess} = useToast();
   const {procedureType} = useParams<{ procedureType: string }>();
   const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
+  const {procedure} = useProcedureTypeData(procedureTypeEnum as ProcedureTypeEnum);
 
   const [selectedWorkflowStep, setSelectedWorkflowStep] = useState<WorkflowStepNameEnum>(WorkflowStepNameEnum.ARCHIVES_REVIEW);
   const [selectedProcedure, setSelectedProcedure] = useState<ProcedureResponse | null>(null);
@@ -88,7 +90,7 @@ const ArchivesManagerProceduresListPage = () => {
     <div className="admin-page">
       <section className={styles.proceduresListHeader}>
         <span className={styles.proceduresListTitle}>Tramites</span>
-        <span className={styles.proceduresListSubtitle}>Legalizaciones</span>
+        <span className={styles.proceduresListSubtitle}>{procedure?.name}</span>
       </section>
 
 
@@ -107,9 +109,6 @@ const ArchivesManagerProceduresListPage = () => {
           </div>
         )}
 
-        {procedures.length === 0 ? (
-          <p>No hay trámites pendientes de revisión...</p>
-        ) : (
           <Splitter>
             <SplitterPanel className={styles.proceduresListSplitterLeft} size={70} minSize={30}>
 
@@ -185,9 +184,6 @@ const ArchivesManagerProceduresListPage = () => {
               />
             </SplitterPanel>
           </Splitter>
-        )}
-
-
       </section>
 
     </div>
