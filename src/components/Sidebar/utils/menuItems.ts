@@ -31,7 +31,7 @@ const administratorMenuItems: MenuItem[] = [
   {
     label: 'Historial de revision',
     icon: 'pi pi-fw pi-folder',
-    url: '/administrator/procedures-status',
+    url: '/administrator/historial',
   },
   {
     label: 'Reportes',

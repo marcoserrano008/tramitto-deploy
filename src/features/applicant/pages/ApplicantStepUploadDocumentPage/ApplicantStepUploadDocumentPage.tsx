@@ -120,14 +120,14 @@ function ApplicantStepUploadDocumentPage() {
       );
 
       if (procedureData.status == ProcedureStatusEnum.REJECTED) {
-        setCurrentStep('Submitting procedure for review...');
+        setCurrentStep('Subiendo documento...');
         await axios.post(
           'http://localhost:3000/api/v1/procedures/re-submit',
           {procedureId: procedureData.id}
         );
       } else {
         // Step 3: Submit procedure for review
-        setCurrentStep('Submitting procedure for review...');
+        setCurrentStep('Subiendo documento...');
         await axios.post(
           'http://localhost:3000/api/v1/procedures/submit-for-review',
           {procedureId: procedureData.id}
@@ -135,7 +135,7 @@ function ApplicantStepUploadDocumentPage() {
       }
 
       // Success - redirect to personal procedures
-      setCurrentStep('Complete! Redirecting...');
+      setCurrentStep('Documento enviado! Redireccionando...');
       setTimeout(() => {
         navigate('/usuario/personal-procedures');
       }, 1000);

@@ -23,7 +23,7 @@ const administratorRoutes: RouteObject[] = [
 
       {path: 'procedures-list/:procedureType', element: <AdministratorProceduresListPage/>},
 
-      {path: 'procedures-status', element: <AdministratorProceduresStatusPage/>},
+      {path: 'historial', element: <AdministratorProceduresStatusPage/>},
 
       {path: 'editar-tramites', element: <AdministratorEditProcedurePage/>},
 
