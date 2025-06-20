@@ -371,14 +371,11 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
                       </>
                     ) : (
                       <div className={styles.uploadPlaceholder}>
-                        <i className="pi pi-camera" style={{fontSize: '1.5rem'}}></i>
-                        <button className={styles.takePhotoButton} onClick={() => openCamera("idCard")}>
-                          Tomar foto
-                        </button>
-                        <span className={styles.orText}>o</span>
+                        <i className="pi pi-upload" style={{fontSize: '2rem'}}></i>
                         <button className={styles.uploadButton} onClick={() => idCardInputRef.current?.click()}>
                           Subir archivo
                         </button>
+                        <span className={styles.uploadHint}>JPG, PNG hasta 5MB</span>
                       </div>
                     )}
                     <input
@@ -442,14 +439,11 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
                       </>
                     ) : (
                       <div className={styles.uploadPlaceholder}>
-                        <i className="pi pi-camera" style={{fontSize: '1.5rem'}}></i>
-                        <button className={styles.takePhotoButton} onClick={() => openCamera("idCardBack")}>
-                          Tomar foto
-                        </button>
-                        <span className={styles.orText}>o</span>
+                        <i className="pi pi-upload" style={{fontSize: '2rem'}}></i>
                         <button className={styles.uploadButton} onClick={() => idCardBackInputRef.current?.click()}>
                           Subir archivo
                         </button>
+                        <span className={styles.uploadHint}>JPG, PNG hasta 5MB</span>
                       </div>
                     )}
                     <input
