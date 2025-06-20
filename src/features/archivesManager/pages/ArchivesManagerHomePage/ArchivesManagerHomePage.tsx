@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styles from './ArchivesManagerHomePage.module.scss';
 import 'primeicons/primeicons.css';
-import logoTramitto from "../../../../assets/images/logoTramitto.svg";
+import logoTramitto from "../../../../../public/logoTramitto.svg";
 import logoUMSS from "../../../../assets/images/logoUMSS.svg";
 
 type StatsItem = {
