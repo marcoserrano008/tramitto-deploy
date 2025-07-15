@@ -44,6 +44,11 @@ const administratorMenuItems: MenuItem[] = [
     url: '/administrator/editar-tramites',
   },
   {
+    label: 'Validar Firmas',
+    icon: 'pi pi-fw pi-pencil',
+    url: '/administrator/validar-firmas',
+  },
+  {
     label: 'Preguntas Frecuentes',
     icon: 'pi pi-fw pi-question-circle',
     url: '/faq',

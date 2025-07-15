@@ -1,6 +1,6 @@
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {useProcedurePayment} from "../../hooks/useProcedurePayment.ts";
-import React, {useEffect} from "react";
+import {useEffect} from "react";
 import {PaymentDetails} from "../../../../types/PaymentDetails.interface.ts";
 import styles from './ApplicantStepPaymentPage.module.scss';
 import {ProcedureTypeEnum} from "../../../../types/enum/ProcedureType.enum.ts";

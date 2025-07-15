@@ -7,6 +7,7 @@ import {RoleEnum} from "../../types/enum/Role.enum.ts";
 import IdentityValidationPage from "./pages/IdentityValidationPage/IdentityValidationPage.tsx";
 import CompleteProfilePage from "./pages/CompleteProfilePage/CompleteProfilePage.tsx";
 import RegisterPage from "./pages/RegisterPage/RegisterPage.tsx";
+import ProfilePage from "./pages/ProfilePage/ProfilePage.tsx";
 
 const authenticationRoutes: RouteObject[] = [
   {
@@ -37,6 +38,10 @@ const authenticationRoutes: RouteObject[] = [
   {
     path: "complete-profile",
     element: <CompleteProfilePage/>
+  },
+  {
+    path: "mi-cuenta",
+    element: <ProfilePage/>
   },
 ];
 
