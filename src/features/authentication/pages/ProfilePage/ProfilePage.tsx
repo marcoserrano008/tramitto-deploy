@@ -1,62 +1,41 @@
 import UserProfile from "./components/UserProfile/UserProfile.tsx";
-
-const mockUser = {
-  id: 6,
-  email: "juan.perez@example.com",
-  firstName: "Juan",
-  lastName: "Pérez",
-  imageUrl: "/placeholder.svg?height=120&width=120",
-  role: "USER",
-  secondLastName: "García",
-  avatarId: "avatar_123456",
-  identificationNumber: "12345678",
-  isIdentityValidated: true,
-  sisCode: 987654321,
-  birthdate: "1990-05-15",
-}
+import {useAuth} from "../../../../context/AuthContext.tsx";
+import {UpdateUserRequest} from "../../../../types/UpdateUserRequest.ts";
+import {updateUserService} from "../../../../services/UpdateUserService.http.service.ts";
+import {uploadFileService} from "../../../../services/UploadFile.http.service.ts";
 
 export default function ProfilePage() {
-  const handleUpdate = async (userId: number, data: any) => {
-    console.log(`Updating user ${userId}:`, data)
 
-    // Simulate API call to http://localhost:3000/api/v1/user/update/6
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        // Simulate success/failure
-        if (Math.random() > 0.1) {
-          console.log("User updated successfully!")
-          alert("¡Perfil actualizado exitosamente!")
-          resolve()
-        } else {
-          reject(new Error("Error updating user"))
-        }
-      }, 2000)
-    })
+  const {user, refreshUser} = useAuth()
+
+  const handleUpdate = async (userId: number, data: UpdateUserRequest) => {
+    try {
+      console.log(`Updating user ${userId}:`, data)
+      await updateUserService.update(userId, data)
+
+      await refreshUser()
+
+      console.log("User updated successfully!")
+      alert("¡Perfil actualizado exitosamente!")
+    } catch (error) {
+      console.error("Error updating user:", error)
+      alert("Error al actualizar el perfil")
+      throw error
+    }
   }
 
   const handleUploadImage = async (file: File) => {
-    console.log("Uploading image:", file.name)
-
-    // Simulate API call to http://localhost:3000/api/v1/document/upload
-    return new Promise<any>((resolve, reject) => {
-      setTimeout(() => {
-        // Simulate success/failure
-        if (Math.random() > 0.1) {
-          const mockResponse = {
-            id: `avatar_${Date.now()}`,
-            filename: file.name,
-            fileDownloadUri: `http://localhost:3000/api/v1/document/download/${file.name}`,
-            fileType: file.type,
-            size: file.size,
-          }
-          console.log("Image uploaded:", mockResponse)
-          resolve(mockResponse)
-        } else {
-          reject(new Error("Error uploading image"))
-        }
-      }, 1500)
-    })
+    try {
+      console.log("Uploading image:", file.name)
+      const response = await uploadFileService.upload(file, "Profile picture")
+      console.log("Image uploaded:", response)
+      return response
+    } catch (error) {
+      console.error("Error uploading image:", error)
+      alert("Error al subir la imagen")
+      throw error
+    }
   }
 
-  return <UserProfile user={mockUser} onUpdate={handleUpdate} onUploadImage={handleUploadImage} />
+  return <UserProfile user={user!} onUpdate={handleUpdate} onUploadImage={handleUploadImage}/>
 }

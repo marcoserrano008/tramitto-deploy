@@ -5,19 +5,27 @@ import {ProcedureResponse} from "../../../types/ProcedureResponse.interface.ts";
 import {PaymentDetails} from "../../../types/PaymentDetails.interface.ts";
 import {procedureCreateService} from "../../../services/ProcedureCreate.http.service.ts";
 import {procedurePaymentService} from "../../../services/ProcedurePayment.http.service.ts";
+import {VerificarDeudaResponse} from "../../../types/VerificarDeudaResponse.interface.ts";
+import {procedurePaymentValidationService} from "../../../services/ProceduresPaymentValidation.http.service.ts";
 
-interface ProcedurePaymentHookResult {
+export interface ProcedurePaymentHookResult {
   createdProcedure: ProcedureResponse | null;
   creationLoading: boolean;
   creationError: string | null;
 
   paymentProcessing: boolean;
-  paymentSuccess: boolean;
   paymentError: string | null;
   paymentResponse: ProcedureResponse | null;
 
+  validationProcessing: boolean;
+  validationSuccess: boolean;
+  validationError: string | null;
+  validationResponse: VerificarDeudaResponse | null;
+
   handlePayment: () => Promise<void>;
+  handleValidation: (deudaId: string) => Promise<void>;
 }
+
 
 export function useProcedurePayment(paymentDetails: PaymentDetails): ProcedurePaymentHookResult {
   const auth = useAuth();
@@ -30,6 +38,13 @@ export function useProcedurePayment(paymentDetails: PaymentDetails): ProcedurePa
   const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [paymentResponse, setPaymentResponse] = useState<ProcedureResponse | null>(null);
+
+  const [validationProcessing, setValidationProcessing] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [validationSuccess, setValidationSuccess] = useState(false);
+  const [validationResponse, setValidationResponse] = useState<VerificarDeudaResponse | null>(
+    null
+  );
 
   const procedureCreationInitiated = useRef<boolean>(false);
 
@@ -68,7 +83,7 @@ export function useProcedurePayment(paymentDetails: PaymentDetails): ProcedurePa
   // Handle payment submission
   const handlePayment = async () => {
     if (!createdProcedure) {
-      setPaymentError('No procedure has been created');
+      setPaymentError('No se ha creado un trámite');
       return;
     }
 
@@ -78,31 +93,70 @@ export function useProcedurePayment(paymentDetails: PaymentDetails): ProcedurePa
     try {
       const transactionId = `tx-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
-      const response: ProcedureResponse = await procedurePaymentService.registerPayment({
+      const response = await procedurePaymentService.registerPayment({
         procedureId: createdProcedure.id,
         amount: paymentDetails.amount,
         paymentMethod: 'qr',
-        transactionId: transactionId
-      })
+        transactionId,
+        userId: auth.user?.id
+      });
 
       setPaymentResponse(response);
-      setPaymentSuccess(true);
-    } catch (err) {
-      console.error('Payment error:', err);
-      setPaymentError('Payment failed. Please try again.');
+      // No marcamos éxito aquí; eso ocurrirá al validar.
+    } catch (error) {
+      console.error('Error al registrar el pago:', error);
+      setPaymentError('El registro de pago falló. Intenta nuevamente.');
     } finally {
       setPaymentProcessing(false);
     }
   };
 
+  const handleValidation = async (deudaId: string) => {
+    if (!paymentResponse) {
+      setValidationError('No se ha registrado un pago que validar');
+      return;
+    }
+
+    setValidationProcessing(true);
+    setValidationError(null);
+
+    try {
+      const response = await procedurePaymentValidationService.verifyDeuda(deudaId);
+
+      setValidationSuccess(true);
+
+      // if (response.success) {
+      //   setValidationSuccess(true);
+      // } else {
+      //   setValidationError('Aun no se ha realizado el pago.');
+      // }
+
+      setValidationResponse(response);
+    } catch (error) {
+      console.error('Error al validar el pago:', error);
+      setValidationError('La validación falló. Intenta nuevamente.');
+    } finally {
+      setValidationProcessing(false);
+    }
+  };
+
   return {
+    /* creación */
     createdProcedure,
     creationLoading,
     creationError,
+
+    /* pago */
     paymentProcessing,
-    paymentSuccess,
     paymentError,
     paymentResponse,
-    handlePayment
+    handlePayment,
+
+    /* validación */
+    validationProcessing,
+    validationError,
+    validationSuccess,
+    validationResponse,
+    handleValidation
   };
 }

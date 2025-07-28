@@ -6,39 +6,9 @@ import {useRef, useState} from "react"
 import {Image} from "primereact/image";
 import styles from "./UserProfile.module.scss"
 import defaultAvatar from '../../../../../../assets/images/default-avatar.png';
-
-export interface UpdateUserRequest {
-  firstName?: string
-  lastName?: string
-  secondLastName?: string
-  isIdentityValidated?: boolean
-  sisCode?: number
-  birthdate?: string // ISO date string
-  avatarId?: string
-}
-
-export interface UserResponse {
-  id: number
-  email: string
-  firstName: string
-  lastName: string
-  imageUrl: string
-  role: string
-  secondLastName: string
-  avatarId: string
-  identificationNumber: string
-  isIdentityValidated: boolean
-  sisCode: number
-  birthdate: string // ISO date string
-}
-
-export interface FileResponse {
-  id: string
-  filename: string
-  fileDownloadUri: string
-  fileType: string
-  size: number
-}
+import {UserResponse} from "../../../../../../types/User.interface.ts";
+import {FileResponse} from "../../../../../../types/FileResponse.interface.ts";
+import {UpdateUserRequest} from "../../../../../../types/UpdateUserRequest.ts";
 
 interface UserProfileProps {
   user: UserResponse
@@ -338,10 +308,6 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
                     <div className={styles.infoItem}>
                       <span className={styles.infoLabel}>Número de Identificación</span>
                       <span className={styles.infoValue}>{user.identificationNumber}</span>
-                    </div>
-                    <div className={styles.infoItem}>
-                      <span className={styles.infoLabel}>Rol</span>
-                      <span className={styles.roleBadge}>{user.role}</span>
                     </div>
                     <div className={styles.infoItem}>
                       <span className={styles.infoLabel}>Estado de Verificación</span>

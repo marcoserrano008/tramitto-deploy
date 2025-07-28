@@ -155,7 +155,7 @@ function ApplicantProcedureInformationPage() {
                     <div className={styles.processStepContent}>
                       <h4 className={styles.processStepTitle}>Pago</h4>
                       <p className={styles.processStepDescription}>
-                        Realiza el pago del trámite mediante código QR por un valor de {procedure.cost}.
+                        Realiza el pago del trámite mediante código QR por un valor de {procedure.cost} Bs.
                       </p>
                     </div>
                   </div>

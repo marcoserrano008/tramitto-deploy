@@ -3,4 +3,5 @@ export interface RegisterPaymentRequest {
   amount: number;
   paymentMethod: string;
   transactionId?: string;
+  userId?: number;
 }
