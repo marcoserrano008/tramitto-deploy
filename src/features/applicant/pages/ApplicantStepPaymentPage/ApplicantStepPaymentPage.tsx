@@ -37,14 +37,22 @@ function ApplicantStepPaymentPage() {
   };
 
   const {
+    /* creación */
     createdProcedure,
     creationLoading,
     creationError,
+
+    /* pago */
     paymentProcessing,
-    paymentSuccess,
     paymentError,
     paymentResponse,
-    handlePayment
+    handlePayment,
+
+    /* validación */
+    validationProcessing,
+    validationSuccess,
+    validationError,
+    handleValidation
   } = useProcedurePayment(paymentDetails);
 
   const pathSegments = location.pathname.split('/').filter(Boolean);
@@ -68,17 +76,17 @@ function ApplicantStepPaymentPage() {
     navigate('../');
   };
 
+
   useEffect(() => {
-    if (paymentSuccess && paymentResponse) {
+    if (validationSuccess && paymentResponse) {
       const timer = setTimeout(() => {
         navigate('../subir-archivos', {
           state: {procedureData: paymentResponse}
         });
       }, 3500);
-
       return () => clearTimeout(timer);
     }
-  }, [paymentSuccess, paymentResponse, navigate]);
+  }, [validationSuccess, paymentResponse, navigate]);
 
   if (creationLoading) {
     return <div>Creating your procedure...</div>;
@@ -129,12 +137,8 @@ function ApplicantStepPaymentPage() {
                   <li className={styles.recommendationItem}>
                     <span className={styles.bullet}>•</span>
                     <span>
-          El valorado tiene un costo de {paymentDetails.amount} {paymentDetails.currency}.
+          El valorado tiene un costo de {procedure.cost} {paymentDetails.currency}.
         </span>
-                  </li>
-                  <li className={styles.recommendationItem}>
-                    <span className={styles.bullet}>•</span>
-                    <span>El pago debe realizarse exclusivamente mediante QR.</span>
                   </li>
                   <li className={styles.recommendationItem}>
                     <span className={styles.bullet}>•</span>
@@ -182,7 +186,7 @@ function ApplicantStepPaymentPage() {
             {/* QR Code */}
             <div className={styles.qrContainer}>
               <div className={styles.qrCode}>
-                {paymentSuccess ? (
+                {validationSuccess ? (
                   <div className={styles.successQr}>
                     <img src={paymentCheckGif}
                          alt="Pago exitoso"
@@ -196,16 +200,27 @@ function ApplicantStepPaymentPage() {
                          preview/>
                 )}
               </div>
-              {!paymentSuccess && (
-                <button className={styles.downloadButton} onClick={handleDownloadQR}>
-                  {/*<i className="pi pi-download" style={{marginRight: '0.5rem'}}></i>*/}
-                  Descargar QR
-                </button>
+              {!validationSuccess && (
+                <section className={styles.paymentActions}>
+                  <button className={styles.downloadButton} onClick={handleDownloadQR}>
+                    {/*<i className="pi pi-download" style={{marginRight: '0.5rem'}}></i>*/}
+                    Descargar QR
+                  </button>
+
+                  <button
+                    className={styles.downloadButton}
+                    onClick={handlePayment}
+                    disabled={paymentProcessing || validationProcessing}
+                  >
+                    Simular pago
+                  </button>
+                </section>
+
               )}
             </div>
 
             {/* Instructions */}
-            {!paymentSuccess && (
+            {!validationSuccess && (
               <div className={styles.instructions}>
                 <h3 className={styles.instructionsTitle}>Instrucciones:</h3>
                 <ol className={styles.instructionsList}>
@@ -231,8 +246,9 @@ function ApplicantStepPaymentPage() {
 
             {/* Payment status messages */}
             {paymentError && <div className={styles.paymentError}>{paymentError}</div>}
+            {validationError && <div className={styles.paymentError}>{validationError}</div>}
 
-            {paymentSuccess && (
+            {validationSuccess && (
               <div className={styles.paymentSuccess}>
                 <p>¡Pago exitoso! ID de transacción: {paymentResponse?.payment?.transactionId}</p>
                 <p>Redirigiendo al siguiente paso...</p>
@@ -253,10 +269,22 @@ function ApplicantStepPaymentPage() {
                 <button className={styles.cancelButton} onClick={handleCancel}>Cancelar</button>
                 <button
                   className={styles.verifyButton}
-                  onClick={handlePayment}
-                  disabled={paymentProcessing || paymentSuccess}
+                  onClick={() => {
+                    //
+                    const deudaId: string = paymentResponse!.payment.transactionId;
+                    if (deudaId) void handleValidation(deudaId);
+                  }}
+                  disabled={
+                    !paymentResponse ||
+                    validationProcessing ||
+                    validationSuccess
+                  }
                 >
-                  {paymentProcessing ? "Procesando..." : paymentSuccess ? "Pago Exitoso" : "Verificar pago"}
+                  {validationProcessing
+                    ? 'Validando…'
+                    : validationSuccess
+                      ? 'Pago exitoso'
+                      : 'Verificar pago'}
                 </button>
               </div>
             </div>
