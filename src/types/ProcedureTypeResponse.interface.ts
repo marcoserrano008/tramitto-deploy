@@ -1,3 +1,5 @@
+import {DocumentProcedureTypeEnum} from "./enum/DocumentProcedureType.enum.ts";
+
 export interface ProcedureTypeResponse {
   id: number;
   name: string;
@@ -10,4 +12,5 @@ export interface ProcedureTypeResponse {
   createdAt: string; // ISO string
   updatedAt: string;
   imageId: string;
+  procedureType: DocumentProcedureTypeEnum;
 }

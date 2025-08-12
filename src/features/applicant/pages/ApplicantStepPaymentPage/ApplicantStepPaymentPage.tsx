@@ -1,6 +1,6 @@
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import {useProcedurePayment} from "../../hooks/useProcedurePayment.ts";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {PaymentDetails} from "../../../../types/PaymentDetails.interface.ts";
 import styles from './ApplicantStepPaymentPage.module.scss';
 import {ProcedureTypeEnum} from "../../../../types/enum/ProcedureType.enum.ts";
@@ -14,16 +14,18 @@ import ProceduresHeader from "../../components/ProceduresHeader/ProceduresHeader
 import {Image} from 'primereact/image';
 import generatedQrImage from '../../../../assets/images/qr-payment.png';
 import paymentCheckGif from '../../../../assets/images/payment-check.gif';
-
+import {useToast} from "../../../../context/ToastContext.tsx";
 
 function ApplicantStepPaymentPage() {
   const {procedureType} = useParams<{ procedureType: string }>();
   const {user} = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const {showSuccess} = useToast();
 
   const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
   const {procedure, loading, error} = useProcedureTypeData(procedureTypeEnum as ProcedureTypeEnum);
+  const [isSimulated, setIsSimulated] = useState(false);
 
   const items: MenuItem[] = procedureSteps.filter((step) => step.path !== '')
     .map((step) => ({label: step.name}));
@@ -76,6 +78,14 @@ function ApplicantStepPaymentPage() {
     navigate('../');
   };
 
+  const handleSimulatePayment = async () => {
+    const paymentSuccess: boolean = await handlePayment();
+    if (paymentSuccess) {
+      setIsSimulated(true);
+      showSuccess('Pago recibido', `${paymentDetails.amount} Bs.`);
+
+    }
+  }
 
   useEffect(() => {
     if (validationSuccess && paymentResponse) {
@@ -207,13 +217,17 @@ function ApplicantStepPaymentPage() {
                     Descargar QR
                   </button>
 
-                  <button
-                    className={styles.downloadButton}
-                    onClick={handlePayment}
-                    disabled={paymentProcessing || validationProcessing}
-                  >
-                    Simular pago
-                  </button>
+                  {!isSimulated && (
+                    <button
+                      className={styles.downloadButton}
+                      onClick={handleSimulatePayment}
+                      disabled={paymentProcessing || validationProcessing}
+                    >
+                      Simular pago
+                    </button>
+                  )
+                  }
+
                 </section>
 
               )}

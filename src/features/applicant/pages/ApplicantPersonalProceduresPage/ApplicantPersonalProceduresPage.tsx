@@ -6,23 +6,26 @@ import {useAuth} from "../../../../context/AuthContext.tsx";
 import './ApplicantPersonalProceduresPage.scss';
 import styles
   from "../../../administrator/pages/AdministratorProceduresListPage/AdministratorProceduresListPage.module.scss";
+import {useLocation} from "react-router-dom";
 
 const ApplicantPersonalProceduresPage = () => {
   const auth = useAuth();
+  const location = useLocation();
+
+  const selectedProcedureId =
+    (location.state as { selectedProcedureId?: number } | null)?.selectedProcedureId;
 
   const [procedures, setProcedures] = useState<ProcedureResponse[]>([]);
   const [procedureError, setProcedureError] = useState<string | null>(null);
   const [proceduresLoading, setProceduresLoading] = useState<boolean>(true);
 
   useEffect(() => {
-
     const fetchProcedures = async () => {
       if (!auth.user) {
         setProcedureError('You must be logged in to see procedures');
         setProceduresLoading(false);
         return;
       }
-
       try {
         const response: ProcedureResponse[] = await proceduresByUserIdService.getProcedures(auth.user.id);
         setProcedures(response);
@@ -53,7 +56,11 @@ const ApplicantPersonalProceduresPage = () => {
         <span className={styles.proceduresListSubtitle}>Legalizaciones</span>
       </section>
       <section className="applicant-personal-procedures-table">
-        <ProceduresTable procedures={procedures}/>
+        <ProceduresTable
+          procedures={procedures}
+          defaultExpandedRows={selectedProcedureId ? [selectedProcedureId] : []}
+          highlightId={selectedProcedureId}
+        />
       </section>
     </div>
   );

@@ -11,6 +11,10 @@ import ProcedureStepsLayout from "./layout/ProcedureStepsLayout.tsx";
 import ApplicantStepPaymentPage from "./pages/ApplicantStepPaymentPage/ApplicantStepPaymentPage.tsx";
 import ApplicantStepUploadDocumentPage
   from "./pages/ApplicantStepUploadDocumentPage/ApplicantStepUploadDocumentPage.tsx";
+import ApplicantStepSearchDocumentPage
+  from "./pages/ApplicantStepSearchDocumentPage/ApplicantStepSearchDocumentPage.tsx";
+import ApplicantStepSubmitDocumentPage
+  from "./pages/ApplicantStepSubmitDocumentPage/ApplicantStepSubmitDocumentPage.tsx";
 
 const applicantRoutes: RouteObject[] = [
   {
@@ -40,7 +44,7 @@ const applicantRoutes: RouteObject[] = [
           },
           {
             path: 'subir-archivos',
-            element: <ApplicantStepUploadDocumentPage/>,
+            element: <ApplicantStepSubmitDocumentPage/>,
           },
         ],
       }
