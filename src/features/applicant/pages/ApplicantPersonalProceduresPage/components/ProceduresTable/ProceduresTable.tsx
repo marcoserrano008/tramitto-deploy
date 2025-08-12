@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {ProcedureResponse} from "../../../../../../types/ProcedureResponse.interface.ts";
 import "./ProceduresTable.css";
 import {Tag} from "primereact/tag";
@@ -7,11 +7,17 @@ import {handlePreview} from "../../../../../../utils/documentActions.ts";
 import React from "react";
 import styles from "./ProceduresTable.module.scss";
 
-interface ProceduresTableProps {
+type ProceduresTableProps = {
   procedures: ProcedureResponse[];
-}
+  defaultExpandedRows?: number[];
+  highlightId?: number;
+};
 
-function ProceduresTable({ procedures }: ProceduresTableProps) {
+const ProceduresTable: React.FC<ProceduresTableProps> = ({
+                                                           procedures,
+                                                           defaultExpandedRows = [],
+                                                           highlightId,
+                                                         }) => {
   //TODO: Change this value to an enum
   const PROCEDURE_TYPE_MAP: Record<number, string> = {
     1: "diploma-bachiller",
@@ -21,8 +27,19 @@ function ProceduresTable({ procedures }: ProceduresTableProps) {
 
   const getProcedureRoute = (procedureTypeId: number): string => PROCEDURE_TYPE_MAP[procedureTypeId] ?? "unknown"
 
-  const [expandedRows, setExpandedRows] = useState<number[]>([])
+  const [expandedRows, setExpandedRows] = useState<number[]>([]);
   const navigate = useNavigate()
+
+  useEffect(() => {
+    setExpandedRows(defaultExpandedRows);
+  }, [defaultExpandedRows]);
+
+  const rowRefs = useRef<Record<number, HTMLTableRowElement | null>>({});
+  useEffect(() => {
+    if (highlightId && rowRefs.current[highlightId]) {
+      rowRefs.current[highlightId]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [highlightId, procedures]);
 
   const toggleRow = (procedureId: number) => {
     setExpandedRows((prevExpandedRows) => {
@@ -71,6 +88,11 @@ function ProceduresTable({ procedures }: ProceduresTableProps) {
     navigate(`../informacion-tramite/${procedureRouter}/subir-archivos`, {
       state: { procedureData: procedure },
     })
+  }
+
+  const handlePaymentCheck = (procedure: ProcedureResponse) => {
+    const url: string  = `https://cajas.dev.umss.edu.bo/comprobante/${procedure.payment.transactionId}`;
+    window.open(url, '_blank');
   }
 
   const getStatusDisplay = (procedure: ProcedureResponse) => {
@@ -128,8 +150,9 @@ function ProceduresTable({ procedures }: ProceduresTableProps) {
               className={`${styles.button} ${styles.downloadBtn}`}
               onClick={() => documentId && handlePreview(documentId)}
             >
-              Abrir Documento
+              Descargar Documento
             </button>
+
           </div>
         )
       }
@@ -158,6 +181,12 @@ function ProceduresTable({ procedures }: ProceduresTableProps) {
               <button className={`${styles.button} ${styles.uploadBtn}`} onClick={() => handleUploadNewFile(procedure)}>
                 Subir nuevo archivo
               </button>
+              <button
+                className={`${styles.button} ${styles.paymentBtn}`}
+                onClick={() => handlePaymentCheck(procedure)}
+              >
+                Descargar Comprobante de pago
+              </button>
             </div>
           </div>
         )
@@ -177,6 +206,12 @@ function ProceduresTable({ procedures }: ProceduresTableProps) {
             >
               Abrir Documento
             </button>
+            <button
+              className={`${styles.button} ${styles.paymentBtn}`}
+              onClick={() => handlePaymentCheck(procedure)}
+            >
+              Descargar Comprobante de pago
+            </button>
           </div>
         )
       }
@@ -187,6 +222,12 @@ function ProceduresTable({ procedures }: ProceduresTableProps) {
             <div className={styles.actionButtons}>
               <button className={`${styles.button} ${styles.uploadBtn}`} onClick={() => handleSendDocument(procedure)}>
                 Enviar Documento
+              </button>
+              <button
+                className={`${styles.button} ${styles.paymentBtn}`}
+                onClick={() => handlePaymentCheck(procedure)}
+              >
+                Descargar Comprobante de pago
               </button>
             </div>
           </div>
@@ -215,9 +256,12 @@ function ProceduresTable({ procedures }: ProceduresTableProps) {
           {procedures.map((procedure: ProcedureResponse) => (
             <React.Fragment key={procedure.id}>
               <tr
+                ref={el => (rowRefs.current[procedure.id] = el)}
                 className={`${styles.procedureRow} ${
-                  procedure.status === "REJECTED" ? styles.rejected : ""
-                } ${expandedRows.includes(procedure.id) ? styles.expanded : ""}`}
+                  procedure.status === 'REJECTED' ? styles.rejected : ''
+                } ${expandedRows.includes(procedure.id) ? styles.expanded : ''} ${
+                  highlightId === procedure.id ? styles.highlight : ''
+                }`}
                 onClick={() => toggleRow(procedure.id)}
               >
                 <td className={styles.cell}>{`TR-${procedure.id}`}</td>
@@ -225,7 +269,9 @@ function ProceduresTable({ procedures }: ProceduresTableProps) {
                 <td className={styles.cell}>{formatDate(procedure.createdAt)}</td>
                 <td className={styles.cell}>{getStatusDisplay(procedure)}</td>
                 <td className={styles.cell}>
-                  <span className={styles.expandIcon}>{expandedRows.includes(procedure.id) ? "▲" : "▼"}</span>
+              <span className={styles.expandIcon}>
+                {expandedRows.includes(procedure.id) ? '▲' : '▼'}
+              </span>
                 </td>
               </tr>
               {expandedRows.includes(procedure.id) && (

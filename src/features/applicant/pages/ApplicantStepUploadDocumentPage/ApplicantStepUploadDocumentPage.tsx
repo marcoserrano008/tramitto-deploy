@@ -1,4 +1,4 @@
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import React, {useEffect, useRef, useState} from "react";
 import {FileResponse} from "../../../../types/FileResponse.interface.ts";
 import {DocumentTypeEnum} from "../../../../types/enum/DocumentType.enum.ts";
@@ -7,9 +7,6 @@ import {ProcedureResponse} from "../../../../types/ProcedureResponse.interface.t
 import {ProcedureStatusEnum} from "../../../../types/enum/ProcedureStatus.enum.ts";
 import styles from './ApplicantStepUploadDocumentPage.module.scss';
 import {procedureSteps} from "../../../../types/procedureSteps.ts";
-import {ProcedureTypeEnum} from "../../../../types/enum/ProcedureType.enum.ts";
-import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
-import {useProcedureTypeData} from "../../hooks/useProcedureTypeData.ts";
 import {Steps} from "primereact/steps";
 import {MenuItem} from "primereact/menuitem";
 import ProceduresHeader from "../../components/ProceduresHeader/ProceduresHeader.tsx";
@@ -17,17 +14,25 @@ import {useAuth} from "../../../../context/AuthContext.tsx";
 import {Image} from "primereact/image";
 import {buildUrl} from "../../../../services/Url.service.ts";
 import {useToast} from "../../../../context/ToastContext.tsx";
+import {ProcedureTypeResponse} from "../../../../types/ProcedureTypeResponse.interface.ts";
 
-function ApplicantStepUploadDocumentPage() {
+type UploadProps = {
+  procedure: ProcedureTypeResponse;
+  procedureData: ProcedureResponse;
+  onBackToSearch?: () => void;
+};
+
+function ApplicantStepUploadDocumentPage({
+                                           procedure,
+                                           procedureData,
+                                           onBackToSearch,
+                                         }: UploadProps) {
   const {showSuccess} = useToast();
-  const {procedureType} = useParams<{ procedureType: string }>();
   const {user} = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const procedureData: ProcedureResponse = location.state?.procedureData;
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -36,9 +41,6 @@ function ApplicantStepUploadDocumentPage() {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<string>('');
-
-  const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
-  const {procedure} = useProcedureTypeData(procedureTypeEnum as ProcedureTypeEnum);
 
   const pathSegments = location.pathname.split('/').filter(Boolean);
   const currentPathEnd = pathSegments[pathSegments.length - 1];
@@ -137,7 +139,10 @@ function ApplicantStepUploadDocumentPage() {
       // Success - redirect to personal procedures
       setCurrentStep('Documento enviado! Redireccionando...');
       setTimeout(() => {
-        navigate('/usuario/personal-procedures');
+        navigate('/usuario/personal-procedures', {
+          replace: true,
+          state: { selectedProcedureId: procedureData.id }
+        });
       }, 1000);
       showSuccess('Tramite enviado', 'Enviado correctamente');
 
@@ -148,10 +153,6 @@ function ApplicantStepUploadDocumentPage() {
     }
   };
 
-  const handleCancel = () => {
-    // navigate('/');
-    navigate("/usuario/personal-procedures");
-  }
 
   if (error && !procedureData) {
     return (
@@ -271,16 +272,12 @@ function ApplicantStepUploadDocumentPage() {
               <div className={styles.procedureInfo}>
                 <div className={styles.procedureInfoGrid}>
                   <div className={styles.procedureDetail}>
-                    <span className={styles.detailLabel}>Procedimiento:</span>
+                    <span className={styles.detailLabel}>Trámite:</span>
                     <span className={styles.detailValue}>{procedureData.procedureTypeName}</span>
                   </div>
                   <div className={styles.procedureDetail}>
-                    <span className={styles.detailLabel}>ID:</span>
+                    <span className={styles.detailLabel}>Numero de tramite:</span>
                     <span className={styles.detailValue}>{procedureData.id}</span>
-                  </div>
-                  <div className={styles.procedureDetail}>
-                    <span className={styles.detailLabel}>Estado:</span>
-                    <span className={styles.statusBadge}>{procedureData.status}</span>
                   </div>
                 </div>
               </div>
@@ -361,7 +358,7 @@ function ApplicantStepUploadDocumentPage() {
                   <p className={styles.paymentFooterText}>
                     Presiona "Enviar tramite" para completar el proceso.
                   </p>
-                  <button className={styles.cancelButton} onClick={handleCancel}>Cancelar</button>
+                  <button className={styles.cancelButton} onClick={onBackToSearch}>Buscar nuevamente</button>
                 </div>
                 <button
                   className={styles.processButton}

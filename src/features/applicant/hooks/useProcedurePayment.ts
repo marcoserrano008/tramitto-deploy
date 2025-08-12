@@ -22,7 +22,7 @@ export interface ProcedurePaymentHookResult {
   validationError: string | null;
   validationResponse: VerificarDeudaResponse | null;
 
-  handlePayment: () => Promise<void>;
+  handlePayment: () => Promise<boolean>;
   handleValidation: (deudaId: string) => Promise<void>;
 }
 
@@ -80,7 +80,6 @@ export function useProcedurePayment(paymentDetails: PaymentDetails): ProcedurePa
     void createProcedure();
   }, [auth.user, createdProcedure, paymentDetails.procedureId]);
 
-  // Handle payment submission
   const handlePayment = async () => {
     if (!createdProcedure) {
       setPaymentError('No se ha creado un trámite');
@@ -102,10 +101,11 @@ export function useProcedurePayment(paymentDetails: PaymentDetails): ProcedurePa
       });
 
       setPaymentResponse(response);
-      // No marcamos éxito aquí; eso ocurrirá al validar.
+      return true;
     } catch (error) {
       console.error('Error al registrar el pago:', error);
       setPaymentError('El registro de pago falló. Intenta nuevamente.');
+      return false;
     } finally {
       setPaymentProcessing(false);
     }
