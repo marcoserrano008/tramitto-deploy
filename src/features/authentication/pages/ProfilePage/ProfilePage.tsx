@@ -3,10 +3,12 @@ import {useAuth} from "../../../../context/AuthContext.tsx";
 import {UpdateUserRequest} from "../../../../types/UpdateUserRequest.ts";
 import {updateUserService} from "../../../../services/UpdateUserService.http.service.ts";
 import {uploadFileService} from "../../../../services/UploadFile.http.service.ts";
+import {useToast} from "../../../../context/ToastContext.tsx";
 
 export default function ProfilePage() {
 
   const {user, refreshUser} = useAuth()
+  const {showSuccess, showWarn} = useToast();
 
   const handleUpdate = async (userId: number, data: UpdateUserRequest) => {
     try {
@@ -16,10 +18,10 @@ export default function ProfilePage() {
       await refreshUser()
 
       console.log("User updated successfully!")
-      alert("¡Perfil actualizado exitosamente!")
+      showSuccess('¡Perfil actualizado exitosamente!', 'Se guardaron sus cambios');
     } catch (error) {
       console.error("Error updating user:", error)
-      alert("Error al actualizar el perfil")
+      showWarn('Error al actualizar el perfil', 'No se pudo guardar la informacion');
       throw error
     }
   }

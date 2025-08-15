@@ -6,10 +6,14 @@ import {PaymentDetails} from "../../../../types/PaymentDetails.interface.ts";
 import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
 import {Image} from "primereact/image";
 import {buildUrl} from "../../../../services/Url.service.ts";
+import {useAuth} from "../../../../context/AuthContext.tsx";
+import {useToast} from "../../../../context/ToastContext.tsx";
 
 function ApplicantProcedureInformationPage() {
   const {procedureType} = useParams<{ procedureType: string }>();
   const navigate = useNavigate();
+  const {user} = useAuth();
+  const {showWarn} = useToast();
 
   const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
   const {procedure, loading, error, procedureId} = useProcedureTypeData(procedureTypeEnum as ProcedureTypeEnum);
@@ -23,7 +27,15 @@ function ApplicantProcedureInformationPage() {
       procedureId: procedureId!,
     };
 
+    if (!user?.isIdentityValidated) {
+      navigate('/mi-cuenta');
+      showWarn('Usuario no validado', 'Por favor valide su cuenta para iniciar un tramite', 9000);
+      return;
+    }
+
     navigate('pagos', {state: {paymentDetails}});
+
+
   };
 
   if (loading) return <div>Loading procedure information...</div>;

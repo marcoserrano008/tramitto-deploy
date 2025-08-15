@@ -1,6 +1,6 @@
 "use client"
 
-import type React from "react";
+import React, {useEffect} from "react";
 
 import { useState } from "react";
 import UserValidation from "../IdentityValidationPage/components/UserValidation/UserValidation.tsx";
@@ -10,6 +10,9 @@ import axios from "axios";
 import {ValidationResponse} from "../../../../types/ValidationResponse.interface.ts";
 import {registerService} from "../../../../services/RegisterUser.http.service.ts";
 import {useNavigate} from "react-router-dom";
+import {faceValidationService} from "../../../../services/FaceValidation.http.service.ts";
+import {getPersonaByDocumentService} from "../../../../services/GetPersonaByDocument.http.service.ts";
+import {useToast} from "../../../../context/ToastContext.tsx";
 
 type PageView = "form" | "validation"
 
@@ -18,6 +21,7 @@ interface FormData extends Partial<RegisterRequest> {
 }
 
 export default function RegisterPage() {
+  const {showSuccess, showWarn} = useToast();
   const [currentView, setCurrentView] = useState<PageView>("form");
   const [validationResult, setValidationResult] = useState<ValidationResponse | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -38,54 +42,117 @@ export default function RegisterPage() {
     birthdate: "",
   })
 
+  const [autoLocked, setAutoLocked] = useState({
+    firstName: false,
+    lastName: false,
+    secondLastName: false,
+    birthdate: false,
+    sisCode: false,
+  });
+
   const handleStartValidation = () => {
     setCurrentView("validation")
     setFormError(null)
   }
 
+  const toIsoDate = (dateStr: string): string => {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(dateStr);
+    if (m) {
+      const [, dd, mm, yyyy] = m;
+      return `${yyyy}-${mm}-${dd}`;
+    }
+    return dateStr;
+  };
+
+
+  useEffect(() => {
+    console.log('formData actualizado:', formData);
+  }, [formData]);
+
+
+  const normalizeId = (id?: string | null): string =>
+    (id ?? "").trim().replace(/^0+/, "") || "";
+
   const handleValidation = async (idCardImage: File, selfieImage: File) => {
     setIsProcessing(true);
-
     try {
-      // Create FormData to send files
-      const formData = new FormData();
-      formData.append("idImage", idCardImage);
-      formData.append("selfie", selfieImage);
+      const formDataReq = new FormData();
+      formDataReq.append("idImage", idCardImage);
+      formDataReq.append("selfie", selfieImage);
 
-      // Make API call to real validation endpoint using axios
-      const response = await axios.post<ValidationResponse>(
-        "http://localhost:3000/api/v1/procedures/face-validation/verify",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          timeout: 30000, // 30 seconds timeout for file upload
-        }
-      );
+      const validationData = await faceValidationService.verify(formDataReq);
 
-      const validationData = response.data;
+      const normalizedId = normalizeId(validationData.idNumber);
 
-      if (validationData.verified && validationData.idNumber) {
+      if (validationData.verified && normalizedId) {
+        showSuccess('Validacion Exitosa', 'Se ha validado su identidad');
+
         setValidationResult(validationData);
         setFormData((prev) => ({
           ...prev,
-          identificationNumber: validationData.idNumber?.startsWith('0')
-              ? validationData.idNumber.substring(1)
-              : validationData.idNumber || "",
+          identificationNumber: normalizedId,
           isIdentityValidated: true,
         }));
+
+        const numericDoc = Number(normalizedId);
+        if (!Number.isNaN(numericDoc)) {
+          try {
+            const persona = await getPersonaByDocumentService.getPersona(numericDoc);
+            console.log('persona fetched', persona);
+
+            if (persona) {
+              showSuccess('Datos Encontrados', 'Informacion autocompletada');
+
+              const mappedFirstName = [persona.nombre1, persona.nombre2].filter(Boolean).join(" ").trim();
+              const mappedLastName = persona.apellido1 || "";
+              const mappedSecondLastName = persona.apellido2 || "";
+              const mappedBirth = toIsoDate(persona.fechaDeNacimiento || "");
+              const parsedSis = Number.parseInt(persona.codigoSis, 10);
+              const mappedSis = Number.isNaN(parsedSis) ? undefined : parsedSis;
+              const mappedEmail = persona.correo || "";
+
+              setFormData(prev => {
+                const next = {
+                  ...prev,
+                  firstName: prev.firstName || mappedFirstName,
+                  lastName: prev.lastName || mappedLastName,
+                  secondLastName: prev.secondLastName || mappedSecondLastName,
+                  birthdate: prev.birthdate || mappedBirth,
+                  sisCode: prev.sisCode ?? mappedSis,
+                  email: prev.email || mappedEmail,
+                };
+
+                setAutoLocked(curr => ({
+                  ...curr,
+                  firstName: curr.firstName || (!prev.firstName && !!mappedFirstName),
+                  lastName: curr.lastName || (!prev.lastName && !!mappedLastName),
+                  secondLastName: curr.secondLastName || (!prev.secondLastName && !!mappedSecondLastName),
+                  birthdate: curr.birthdate || (!prev.birthdate && !!mappedBirth),
+                  sisCode: curr.sisCode || (prev.sisCode == null && mappedSis != null),
+                }));
+
+                return next;
+              });
+            } else {
+              console.warn("No se encontró persona para el documento:", numericDoc);
+            }
+          } catch (personaErr) {
+            console.error("No se pudo obtener datos de persona:", personaErr);
+            showWarn('Datos no encontrados', 'No se pudo autocompletar');
+
+          }
+        } else {
+          console.warn("El documento no es numérico; se omite autocompletado de persona.");
+        }
       } else {
-        setValidationResult({
-          ...validationData,
-          verified: false,
-        });
+        setValidationResult({ ...validationData, verified: false });
       }
 
       setCurrentView("form");
     } catch (err) {
       console.error("Validation error:", err);
-
       let errorMessage = "Error durante la validación. Por favor, intenta nuevamente.";
 
       if (axios.isAxiosError(err)) {
@@ -120,6 +187,8 @@ export default function RegisterPage() {
   }
 
   const handleInputChange = (field: keyof FormData, value: string | number | boolean) => {
+    if ((autoLocked as any)[field]) return;
+
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -134,7 +203,6 @@ export default function RegisterPage() {
       return
     }
 
-    // Validate required fields
     const requiredFields = ["firstName", "lastName", "email", "password", "confirmPassword", "birthdate", "sisCode"]
     const missingFields = requiredFields.filter((field) => {
       const value = formData[field as keyof FormData]
@@ -146,19 +214,16 @@ export default function RegisterPage() {
       return
     }
 
-    // Validate password confirmation
     if (formData.password !== formData.confirmPassword) {
       setFormError("Las contraseñas no coinciden. Por favor, verifica que ambas contraseñas sean iguales.")
       return
     }
 
-    // Validate password length
     if (formData.password && formData.password.length < 8) {
       setFormError("La contraseña debe tener al menos 8 caracteres.")
       return
     }
 
-    // Validate SIS code
     if (!formData.sisCode || formData.sisCode <= 0) {
       setFormError("El código SIS es requerido y debe ser un número válido.")
       return
@@ -183,6 +248,8 @@ export default function RegisterPage() {
       const response = await registerService.register(registerData);
 
       console.log('Registration successful:', response.data)
+      showSuccess('Registro Satisfactorio', `Bienvenido(a) ${formData.firstName}`);
+
       setRegistrationSuccess(true)
 
       navigate('/login', {
@@ -363,7 +430,7 @@ export default function RegisterPage() {
                       value={formData.firstName}
                       onChange={(e) => handleInputChange("firstName", e.target.value)}
                       className={styles.input}
-                      disabled={isFormDisabled}
+                      disabled={isFormDisabled || autoLocked.firstName}
                       required
                     />
                   </div>
@@ -376,7 +443,7 @@ export default function RegisterPage() {
                       value={formData.lastName}
                       onChange={(e) => handleInputChange("lastName", e.target.value)}
                       className={styles.input}
-                      disabled={isFormDisabled}
+                      disabled={isFormDisabled || autoLocked.lastName}
                       required
                     />
                   </div>
@@ -389,7 +456,7 @@ export default function RegisterPage() {
                     value={formData.secondLastName}
                     onChange={(e) => handleInputChange("secondLastName", e.target.value)}
                     className={styles.input}
-                    disabled={isFormDisabled}
+                    disabled={isFormDisabled || autoLocked.secondLastName}
                   />
                 </div>
 
@@ -402,7 +469,7 @@ export default function RegisterPage() {
                     value={formData.birthdate}
                     onChange={(e) => handleInputChange("birthdate", e.target.value)}
                     className={styles.input}
-                    disabled={isFormDisabled}
+                    disabled={isFormDisabled || autoLocked.birthdate}
                     required
                   />
                 </div>
@@ -416,7 +483,7 @@ export default function RegisterPage() {
                     value={formData.sisCode || ""}
                     onChange={(e) => handleInputChange("sisCode", Number.parseInt(e.target.value) || 0)}
                     className={styles.input}
-                    disabled={isFormDisabled}
+                    disabled={isFormDisabled || autoLocked.sisCode}
                     required
                     min="1"
                     placeholder="Ingresa tu código SIS"
