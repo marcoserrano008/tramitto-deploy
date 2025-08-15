@@ -3,7 +3,8 @@ export interface UpdateUserRequest {
   lastName?: string
   secondLastName?: string
   isIdentityValidated?: boolean
+  identificationNumber?: string
   sisCode?: number
-  birthdate?: string // ISO date string
+  birthdate?: string
   avatarId?: string
 }

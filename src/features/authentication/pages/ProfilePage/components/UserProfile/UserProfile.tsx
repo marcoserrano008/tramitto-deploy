@@ -9,6 +9,10 @@ import defaultAvatar from '../../../../../../assets/images/default-avatar.png';
 import {UserResponse} from "../../../../../../types/User.interface.ts";
 import {FileResponse} from "../../../../../../types/FileResponse.interface.ts";
 import {UpdateUserRequest} from "../../../../../../types/UpdateUserRequest.ts";
+import {faceValidationService} from "../../../../../../services/FaceValidation.http.service.ts";
+import {getPersonaByDocumentService} from "../../../../../../services/GetPersonaByDocument.http.service.ts";
+import UserValidation from "../../../IdentityValidationPage/components/UserValidation/UserValidation.tsx";
+import {useToast} from "../../../../../../context/ToastContext.tsx";
 
 interface UserProfileProps {
   user: UserResponse
@@ -18,6 +22,16 @@ interface UserProfileProps {
 
 type ViewMode = "view" | "edit"
 
+type LockableField =
+  | "firstName"
+  | "lastName"
+  | "secondLastName"
+  | "birthdate"
+  | "sisCode"
+  | "identificationNumber";
+
+type LockedState = Record<LockableField, boolean>;
+
 export default function UserProfile({user, onUpdate, onUploadImage}: UserProfileProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [viewMode, setViewMode] = useState<ViewMode>("view")
@@ -25,24 +39,60 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
   const [error, setError] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const {showSuccess, showWarn} = useToast();
 
-  // Form data state with preloaded values
+  const [showValidation, setShowValidation] = useState(false);
+
+  const [locked, setLocked] = useState<LockedState>({
+    firstName: user.isIdentityValidated,
+    lastName: user.isIdentityValidated,
+    secondLastName: user.isIdentityValidated,
+    birthdate: user.isIdentityValidated,
+    sisCode: user.isIdentityValidated,
+    identificationNumber: true,
+  });
+
+  const normalizeId = (id?: string | null): string =>
+    (id ?? "").trim().replace(/^0+/, "") || "";
+
+  const toIsoDate = (dateStr: string): string => {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(dateStr);
+    if (m) {
+      const [, dd, mm, yyyy] = m;
+      return `${yyyy}-${mm}-${dd}`;
+    }
+    return dateStr;
+  };
+
   const [formData, setFormData] = useState<UpdateUserRequest>({
     firstName: user.firstName,
     lastName: user.lastName,
     secondLastName: user.secondLastName,
     isIdentityValidated: user.isIdentityValidated,
+    identificationNumber: user.identificationNumber,
     sisCode: user.sisCode,
     birthdate: user.birthdate,
     avatarId: user.avatarId,
-  })
+  });
+
+  const effectiveId = formData.identificationNumber ?? user.identificationNumber;
+  const effectiveValidated = formData.isIdentityValidated || user.isIdentityValidated;
 
   const handleInputChange = (field: keyof UpdateUserRequest, value: string | number | boolean) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }))
-  }
+    if (
+      (field === "firstName" && locked.firstName) ||
+      (field === "lastName" && locked.lastName) ||
+      (field === "secondLastName" && locked.secondLastName) ||
+      (field === "birthdate" && locked.birthdate) ||
+      (field === "sisCode" && locked.sisCode) ||
+      (field === "identificationNumber" && locked.identificationNumber)
+    ) {
+      return;
+    }
+
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
@@ -80,16 +130,16 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
   const handleEditMode = () => {
     setViewMode("edit")
     setError(null)
-    // Reset form data to current user data
     setFormData({
       firstName: user.firstName,
       lastName: user.lastName,
       secondLastName: user.secondLastName,
       isIdentityValidated: user.isIdentityValidated,
+      identificationNumber: user.identificationNumber,
       sisCode: user.sisCode,
       birthdate: user.birthdate,
       avatarId: user.avatarId,
-    })
+    });
   }
 
   const handleCancelEdit = () => {
@@ -102,19 +152,18 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
       lastName: user.lastName,
       secondLastName: user.secondLastName,
       isIdentityValidated: user.isIdentityValidated,
+      identificationNumber: user.identificationNumber,
       sisCode: user.sisCode,
       birthdate: user.birthdate,
       avatarId: user.avatarId,
-    })
+    });
   }
 
   const validateForm = (): string | null => {
-    // Validate SIS code if provided
     if (formData.sisCode !== undefined && formData.sisCode !== null && formData.sisCode <= 0) {
       return "El código SIS debe ser un número válido mayor a 0"
     }
 
-    // Validate birthdate if provided
     if (formData.birthdate) {
       const birthDate = new Date(formData.birthdate)
       const today = new Date()
@@ -153,6 +202,10 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
         updateData.avatarId = imageResponse.id
       }
 
+      if (updateData.identificationNumber) {
+        updateData.identificationNumber = normalizeId(updateData.identificationNumber);
+      }
+
       // Remove unchanged fields to only send modified data
       const changedData: UpdateUserRequest = {}
 
@@ -161,6 +214,10 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
       if (updateData.secondLastName !== user.secondLastName) changedData.secondLastName = updateData.secondLastName
       if (updateData.isIdentityValidated !== user.isIdentityValidated)
         changedData.isIdentityValidated = updateData.isIdentityValidated
+
+      if (updateData.identificationNumber !== user.identificationNumber) {
+        changedData.identificationNumber = updateData.identificationNumber;
+      }
       if (updateData.sisCode !== user.sisCode) changedData.sisCode = updateData.sisCode
       if (updateData.birthdate !== user.birthdate) changedData.birthdate = updateData.birthdate
       if (updateData.avatarId !== user.avatarId) changedData.avatarId = updateData.avatarId
@@ -188,6 +245,97 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
     })
   }
 
+  const handleOpenValidation = () => {
+    setShowValidation(true);
+    setError(null);
+  };
+
+  const handleValidationCancel = () => {
+    setShowValidation(false);
+  };
+
+  const handleIdentityValidation = async (idCardImage: File, selfieImage: File) => {
+    setIsProcessing(true);
+    try {
+      const formDataReq = new FormData();
+      formDataReq.append("idImage", idCardImage);
+      formDataReq.append("selfie", selfieImage);
+
+      const validationData = await faceValidationService.verify(formDataReq);
+      const normalizedId = normalizeId(validationData.idNumber);
+
+      if (!(validationData.verified && normalizedId)) {
+        setError("No se pudo validar tu identidad. Intenta nuevamente.");
+        showWarn('No se pudo validar tu identidad', 'Intenta nuevamente');
+
+        return;
+      }
+      showSuccess('Identidad validada', 'Puede guardar sus datos');
+
+      setError("");
+      setFormData(prev => ({
+        ...prev,
+        identificationNumber: normalizedId,
+        isIdentityValidated: true,
+      }));
+
+      const numericDoc = Number(normalizedId);
+      const persona = await getPersonaByDocumentService.getPersona(numericDoc);
+
+      showSuccess('Datos Encontrados', 'Informacion autocompletada');
+
+      const mappedFirstName = persona ? [persona.nombre1, persona.nombre2].filter(Boolean).join(" ").trim() : "";
+      const mappedLastName = persona?.apellido1 ?? "";
+      const mappedSecondLastName = persona?.apellido2 ?? "";
+      const mappedBirth = persona?.fechaDeNacimiento ? toIsoDate(persona.fechaDeNacimiento) : "";
+      const parsedSis = persona?.codigoSis ? Number.parseInt(persona.codigoSis, 10) : undefined;
+      const mappedSis = Number.isNaN(parsedSis as number) ? undefined : parsedSis;
+
+      setFormData((prev) => {
+        const next = {
+          ...prev,
+          identificationNumber: normalizedId,
+          firstName: mappedFirstName || prev.firstName,
+          lastName: mappedLastName || prev.lastName,
+          secondLastName: mappedSecondLastName || prev.secondLastName,
+          birthdate: mappedBirth || prev.birthdate,
+          sisCode: mappedSis ?? prev.sisCode,
+          isIdentityValidated: true,
+        };
+
+        setLocked((curr) => ({
+          ...curr,
+          identificationNumber: true,
+          firstName: curr.firstName || !!(persona && (persona.nombre1 || persona.nombre2)),
+          lastName: curr.lastName || !!(persona && persona.apellido1),
+          secondLastName: curr.secondLastName || !!(persona && persona.apellido2),
+          birthdate: curr.birthdate || !!(persona && persona.fechaDeNacimiento),
+          sisCode: curr.sisCode || !!(persona && persona.codigoSis && !Number.isNaN(Number.parseInt(persona.codigoSis, 10))),
+        }));
+
+        return next;
+      });
+
+      setViewMode("edit");
+      setShowValidation(false);
+
+    } catch (err) {
+      console.error("Error en validación:", err);
+      setError("Ocurrió un error al validar la identidad.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  if (showValidation) {
+    return (
+      <UserValidation
+        onValidate={handleIdentityValidation}
+        onCancel={handleValidationCancel}
+      />
+    );
+  }
+
   return (
     <article className={styles.mainContainer}>
       <div className={styles.container}>
@@ -196,17 +344,6 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
           <div className={styles.header}>
             <div className={styles.headerLeft}>
               <div className={styles.avatarContainer}>
-                {/*<Image*/}
-                {/*  src={*/}
-                {/*    viewMode === "edit" && imagePreview*/}
-                {/*      ? imagePreview*/}
-                {/*      : user.imageUrl || "/placeholder.svg?height=80&width=80"*/}
-                {/*  }*/}
-                {/*  alt="Avatar del usuario"*/}
-                {/*  width="80"*/}
-                {/*  height="80"*/}
-                {/*  className={styles.headerAvatar}*/}
-                {/*/>*/}
                 <section className={styles.headerAvatar}>
                   <Image
                     src={defaultAvatar}
@@ -233,20 +370,29 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
                 <p className={styles.userEmail}>{user.email}</p>
                 <div className={styles.userBadges}>
                   <span className={styles.roleBadge}>{user.role}</span>
-                  <span
-                    className={`${styles.statusBadge} ${user.isIdentityValidated ? styles.validated : styles.pending}`}
-                  >
-                    {user.isIdentityValidated ? "✓ Verificado" : "⏳ Pendiente"}
+                  <span className={`${styles.statusBadge} ${effectiveValidated ? styles.validated : styles.pending}`}>
+                    {effectiveValidated ? "✓ Verificado" : "⏳ Pendiente"}
                   </span>
+
                 </div>
               </div>
             </div>
             <div className={styles.headerActions}>
               {viewMode === "view" ? (
+                <div className={styles.updateOptions}>
                 <button className={styles.editButton} onClick={handleEditMode}>
-                  <i className="pi pi-user-edit" style={{fontSize: '1.2rem'}}></i>
-                  <span>Editar Perfil</span>
-                </button>
+                    <i className="pi pi-user-edit" style={{fontSize: '1.2rem'}}></i>
+                    <span>Editar Perfil</span>
+                  </button>
+                  {!user.isIdentityValidated &&
+                      <div>
+                          <button className={styles.editButton} onClick={handleOpenValidation}>
+                              <i className="pi pi-shield" style={{fontSize: '1.2rem'}}/>
+                              <span>Validar identidad</span>
+                          </button>
+                      </div>
+                  }
+                </div>
               ) : (
                 <div className={styles.editActions}>
                   <button className={styles.cancelButton} onClick={handleCancelEdit} disabled={isProcessing}>
@@ -299,7 +445,7 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
                   <div className={styles.infoGrid}>
                     <div className={styles.infoItem}>
                       <span className={styles.infoLabel}>ID de Usuario</span>
-                      <span className={styles.infoValue}>#{user.id}</span>
+                      <span className={styles.infoValue}>{user.id}</span>
                     </div>
                     <div className={styles.infoItem}>
                       <span className={styles.infoLabel}>Correo Electrónico</span>
@@ -307,7 +453,7 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
                     </div>
                     <div className={styles.infoItem}>
                       <span className={styles.infoLabel}>Número de Identificación</span>
-                      <span className={styles.infoValue}>{user.identificationNumber}</span>
+                      <span className={styles.infoValue}>{effectiveId}</span>
                     </div>
                     <div className={styles.infoItem}>
                       <span className={styles.infoLabel}>Estado de Verificación</span>
@@ -355,41 +501,51 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
 
                   <div className={styles.inputRow}>
                     <div className={styles.inputGroup}>
-                      <label className={styles.label}>Nombre</label>
-                      <input
+                      <label className={styles.label}>
+                        Nombre {locked.firstName && <i className="pi pi-lock" title="Validado, no editable"/>}
+                      </label>                      <input
                         type="text"
                         value={formData.firstName || ""}
                         onChange={(e) => handleInputChange("firstName", e.target.value)}
                         className={styles.input}
                         placeholder="Tu nombre"
+                        disabled={isProcessing || locked.firstName}
                       />
                     </div>
                     <div className={styles.inputGroup}>
-                      <label className={styles.label}>Apellido Paterno</label>
+                      <label className={styles.label}>
+                        Apellido Paterno {locked.lastName && <i className="pi pi-lock" title="Validado, no editable"/>}
+                      </label>
                       <input
                         type="text"
                         value={formData.lastName || ""}
                         onChange={(e) => handleInputChange("lastName", e.target.value)}
                         className={styles.input}
                         placeholder="Tu apellido paterno"
+                        disabled={isProcessing || locked.lastName}
                       />
                     </div>
                   </div>
 
                   <div className={styles.inputGroup}>
-                    <label className={styles.label}>Apellido Materno</label>
+                    <label className={styles.label}>
+                      Apellido Materno {locked.secondLastName && <i className="pi pi-lock" title="Validado, no editable"/>}
+                    </label>
                     <input
                       type="text"
                       value={formData.secondLastName || ""}
                       onChange={(e) => handleInputChange("secondLastName", e.target.value)}
                       className={styles.input}
                       placeholder="Tu apellido materno (opcional)"
+                      disabled={isProcessing || locked.secondLastName}
                     />
                   </div>
 
                   <div className={styles.inputRow}>
                     <div className={styles.inputGroup}>
-                      <label className={styles.label}>Fecha de Nacimiento</label>
+                      <label className={styles.label}>
+                        Fecha de Nacimiento {locked.birthdate && <i className="pi pi-lock" title="Validado, no editable"/>}
+                      </label>
                       <div className={styles.inputWithIcon}>
                         <span className={styles.inputIcon}>
                           <i className="pi pi-calendar" style={{fontSize: '1.2rem'}}></i>
@@ -399,11 +555,14 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
                           value={formData.birthdate || ""}
                           onChange={(e) => handleInputChange("birthdate", e.target.value)}
                           className={styles.inputWithIconField}
+                          disabled={isProcessing || locked.birthdate}
                         />
                       </div>
                     </div>
                     <div className={styles.inputGroup}>
-                      <label className={styles.label}>Código SIS</label>
+                      <label className={styles.label}>
+                        Código SIS {locked.sisCode && <i className="pi pi-lock" title="Validado, no editable"/>}
+                      </label>
                       <div className={styles.inputWithIcon}>
                         <span className={styles.inputIcon}>
                           <i className="pi pi-hashtag" style={{fontSize: '1.2rem'}}></i>
@@ -416,6 +575,7 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
                           className={styles.inputWithIconField}
                           min="1"
                           placeholder="Tu código SIS"
+                          disabled={isProcessing || locked.sisCode}
                         />
                       </div>
                     </div>
@@ -458,7 +618,7 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
                         </span>
                         <input
                           type="text"
-                          value={user.identificationNumber}
+                          value={effectiveId || ""}
                           className={`${styles.inputWithIconField} ${styles.readOnlyInput}`}
                           readOnly
                         />
