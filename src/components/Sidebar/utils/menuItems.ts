@@ -8,38 +8,33 @@ const administratorMenuItems: MenuItem[] = [
     url: '/administrator',
   },
   {
-    label: 'Revisar Tramites',
+    label: 'Revisar Trámites',
     icon: 'pi pi-fw pi-book',
     items: [
       {
-        label: 'Legalizacion de Diploma de bachiller',
+        label: 'Legalización de Diploma de Bachiller',
         icon: 'pi pi-fw pi-file',
         url: '/administrator/procedures-list/diploma-bachiller',
       },
       {
-        label: 'Legalizacion de Diploma Academico',
+        label: 'Legalización de Diploma Académico',
         icon: 'pi pi-fw pi-file',
         url: '/administrator/procedures-list/diploma-academico',
       },
       {
-        label: 'Legalizacion de Titulo en provision nacional',
+        label: 'Legalización de Título en Provisión Nacional',
         icon: 'pi pi-fw pi-file',
         url: '/administrator/procedures-list/titulo-provision',
       },
     ],
   },
   {
-    label: 'Historial de revision',
+    label: 'Historial de revisión',
     icon: 'pi pi-fw pi-folder',
     url: '/administrator/historial',
   },
   {
-    label: 'Reportes',
-    icon: 'pi pi-fw pi-chart-bar',
-    url: '/administrator/reports',
-  },
-  {
-    label: 'Editar Tramites',
+    label: 'Editar Trámites',
     icon: 'pi pi-fw pi-file-edit',
     url: '/administrator/editar-tramites',
   },
@@ -62,30 +57,35 @@ const applicantMenuItems: MenuItem[] = [
     url: '/usuario',
   },
   {
-    label: 'Tramites',
+    label: 'Trámites',
     icon: 'pi pi-fw pi-book',
     items: [
       {
-        label: 'Legalizacion de Diploma de bachiller',
+        label: 'Legalización de Diploma de Bachiller',
         icon: 'pi pi-fw pi-file',
         url: '/usuario/informacion-tramite/diploma-bachiller',
       },
       {
-        label: 'Legalizacion de Diploma Academico',
+        label: 'Legalización de Diploma Académico',
         icon: 'pi pi-fw pi-file',
         url: '/usuario/informacion-tramite/diploma-academico',
       },
       {
-        label: 'Legalizacion de Titulo en provision nacional',
+        label: 'Legalización de Título en Provisión Nacional',
         icon: 'pi pi-fw pi-file',
         url: '/usuario/informacion-tramite/titulo-provision',
       },
     ],
   },
   {
-    label: 'Mis Tramites',
+    label: 'Mis Trámites',
     icon: 'pi pi-fw pi-folder',
     url: '/usuario/personal-procedures',
+  },
+  {
+    label: 'Validar Firmas',
+    icon: 'pi pi-fw pi-pencil',
+    url: '/administrator/validar-firmas',
   },
   {
     label: 'Preguntas Frecuentes',
@@ -101,35 +101,30 @@ const archivesManagerMenuItems: MenuItem[] = [
     url: '/archives-manager',
   },
   {
-    label: 'Revisar Tramites',
+    label: 'Revisar Trámites',
     icon: 'pi pi-fw pi-book',
     items: [
       {
-        label: 'Legalizacion de Diploma de bachiller',
+        label: 'Legalización de Diploma de Bachiller',
         icon: 'pi pi-fw pi-file',
         url: '/archives-manager/procedures-list/diploma-bachiller',
       },
       {
-        label: 'Legalizacion de Diploma Academico',
+        label: 'Legalización de Diploma Académico',
         icon: 'pi pi-fw pi-file',
         url: '/archives-manager/procedures-list/diploma-academico',
       },
       {
-        label: 'Legalizacion de Titulo en provision nacional',
+        label: 'Legalización de Título en Provisión Nacional',
         icon: 'pi pi-fw pi-file',
         url: '/archives-manager/procedures-list/titulo-provision',
       },
     ],
   },
   {
-    label: 'Historial de revision',
+    label: 'Historial de revisión',
     icon: 'pi pi-fw pi-folder',
     url: '/archives-manager/historial',
-  },
-  {
-    label: 'Reportes',
-    icon: 'pi pi-fw pi-chart-bar',
-    url: '/archives-manager/reports',
   },
   {
     label: 'Preguntas Frecuentes',
@@ -148,11 +143,6 @@ const generalSecretaryMenuItems: MenuItem[] = [
     label: 'Revisar Tramites',
     icon: 'pi pi-fw pi-book',
     url: '/general-secretary/procedures-list',
-  },
-  {
-    label: 'Reportes',
-    icon: 'pi pi-fw pi-chart-bar',
-    url: '/general-secretary/reports',
   },
   {
     label: 'Preguntas Frecuentes',

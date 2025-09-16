@@ -27,14 +27,14 @@ function Header() {
 
   const menuItems = [
     {
-      label: 'Cerrar sesión',
-      icon: 'pi pi-sign-out',
-      command: handleLogout
-    },
-    {
       label: 'Mi cuenta',
       icon: 'pi pi-user',
       command: handleMyAccount
+    },
+    {
+      label: 'Cerrar sesión',
+      icon: 'pi pi-sign-out',
+      command: handleLogout
     }
   ];
 

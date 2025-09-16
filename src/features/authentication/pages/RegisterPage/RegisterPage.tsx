@@ -397,7 +397,7 @@ export default function RegisterPage() {
                       <div className={styles.validationErrorContent}>
                         <span className="pi pi-ban"></span>
                         <div>
-                          <p className={styles.validationMessage}>No se detectaron coincidencias.</p>
+                          <p className={styles.validationMessage}>No se detectaron coincidencias en los rostros.</p>
                           <p className={styles.validationSubmessage}>Por favor, intente nuevamente.</p>
                         </div>
                       </div>

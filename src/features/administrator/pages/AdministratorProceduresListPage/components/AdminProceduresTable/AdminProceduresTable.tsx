@@ -107,7 +107,7 @@ function AdminProceduresTable({
               <th>Apellido Materno</th>
               <th>Nombre(s)</th>
               <th>Fecha de recepción</th>
-              {showUpdatedColumn && <th>Ultima Actualizacion</th>}
+              {showUpdatedColumn && <th>Ultima Actualización</th>}
               <th>Estado</th>
             </tr>
             </thead>
