@@ -6,6 +6,8 @@ import authenticationRoutes from "../features/authentication/AuthenticationRoute
 import RootRedirect from "./RootRedirect.tsx";
 import archivesManagerRoutes from "../features/archivesManager/ArchivesManagerRoutes.tsx";
 import generalSecretaryRoutes from "../features/generalSecretary/GeneralSecretaryRoutes.tsx";
+import ApplicantFAQPage from "../features/applicant/pages/ApplicantFAQPage/ApplicantFAQPage.tsx";
+import AdministratorValidateSignaturePage from "../features/administrator/pages/AdministratorValidateSignaturePage/AdministratorValidateSignaturePage.tsx";
 
 const rootRoutes: RouteObject[] = [
   {
@@ -21,6 +23,14 @@ const rootRoutes: RouteObject[] = [
       ...archivesManagerRoutes,
       ...authenticationRoutes,
       ...generalSecretaryRoutes,
+      {
+        path: 'faq',
+        element: <ApplicantFAQPage />
+      },
+      {
+        path: 'validar-firmas',
+        element: <AdministratorValidateSignaturePage />
+      },
       {path: '*', element: <div>404 Not Found</div>},
     ],
   },
