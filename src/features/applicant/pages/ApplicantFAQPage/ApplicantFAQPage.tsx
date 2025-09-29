@@ -212,32 +212,6 @@ const ApplicantFAQPage: React.FC = () => {
       </div>
 
       <div className={styles.content}>
-        {/*<div className={styles.statsSection}>*/}
-        {/*  <div className={styles.statsGrid}>*/}
-        {/*    <div className={styles.statCard}>*/}
-        {/*      <i className="pi pi-users"></i>*/}
-        {/*      <div>*/}
-        {/*        <span className={styles.statNumber}>+500</span>*/}
-        {/*        <span className={styles.statLabel}>Estudiantes Registrados</span>*/}
-        {/*      </div>*/}
-        {/*    </div>*/}
-        {/*    <div className={styles.statCard}>*/}
-        {/*      <i className="pi pi-check-circle"></i>*/}
-        {/*      <div>*/}
-        {/*        <span className={styles.statNumber}>98%</span>*/}
-        {/*        <span className={styles.statLabel}>Satisfacción del Usuario</span>*/}
-        {/*      </div>*/}
-        {/*    </div>*/}
-        {/*    <div className={styles.statCard}>*/}
-        {/*      <i className="pi pi-bolt"></i>*/}
-        {/*      <div>*/}
-        {/*        <span className={styles.statNumber}>24/7</span>*/}
-        {/*        <span className={styles.statLabel}>Disponibilidad</span>*/}
-        {/*      </div>*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-
         <Card className={styles.faqCard}>
           <div className={styles.categoryTags}>
             <span className={styles.categoryLabel}>Categorías:</span>
@@ -301,28 +275,6 @@ const ApplicantFAQPage: React.FC = () => {
               />
             </div>
           )}
-        </Card>
-
-        <Card className={styles.helpCard}>
-          <div className={styles.helpContent}>
-            <div className={styles.helpText}>
-              <h3>¿No encontraste lo que buscabas?</h3>
-              <p>Si tienes alguna pregunta específica que no está en nuestras FAQ, no dudes en contactarnos.</p>
-            </div>
-            <div className={styles.helpActions}>
-              <Button
-                label="Contactar Soporte"
-                icon="pi pi-envelope"
-                className={styles.contactButton}
-              />
-              <Button
-                label="Ver Guía Completa"
-                icon="pi pi-book"
-                outlined
-                className={styles.guideButton}
-              />
-            </div>
-          </div>
         </Card>
       </div>
     </div>

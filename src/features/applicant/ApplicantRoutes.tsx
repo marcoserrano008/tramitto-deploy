@@ -15,6 +15,7 @@ import ApplicantStepSearchDocumentPage
   from "./pages/ApplicantStepSearchDocumentPage/ApplicantStepSearchDocumentPage.tsx";
 import ApplicantStepSubmitDocumentPage
   from "./pages/ApplicantStepSubmitDocumentPage/ApplicantStepSubmitDocumentPage.tsx";
+import ApplicantFAQPage from "./pages/ApplicantFAQPage/ApplicantFAQPage.tsx";
 
 const applicantRoutes: RouteObject[] = [
   {
@@ -29,6 +30,10 @@ const applicantRoutes: RouteObject[] = [
       {
         path: 'personal-procedures',
         element: <ApplicantPersonalProceduresPage/>
+      },
+      {
+        path: 'faq',
+        element: <ApplicantFAQPage/>
       },
       {
         path: 'informacion-tramite/:procedureType',
