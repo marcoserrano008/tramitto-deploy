@@ -80,7 +80,7 @@ function AdministratorProceduresStatusPage() {
   return (
     <div className="admin-page">
       <section className={styles.proceduresListHeader}>
-        <span className={styles.proceduresListTitle}>Historial de revision</span>
+        <span className={styles.proceduresListTitle}>Historial de revisión</span>
         <span className={styles.proceduresListSubtitle}>{selectedStatusLabel}</span>
       </section>
 

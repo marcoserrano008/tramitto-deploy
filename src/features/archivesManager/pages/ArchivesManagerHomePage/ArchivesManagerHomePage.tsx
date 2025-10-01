@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styles from './ArchivesManagerHomePage.module.scss';
 import 'primeicons/primeicons.css';
-import logoTramitto from "../../../../assets/images/logoTramitto.svg";
+import logoTramitto from "../../../../../public/logoTramitto.svg";
 import logoUMSS from "../../../../assets/images/logoUMSS.svg";
 import {getProcedureCounters} from "../../../../services/GetCountersByStatus.http.service.ts";
 import {ProcedureStatusEnum} from "../../../../types/enum/ProcedureStatus.enum.ts";
@@ -245,72 +245,72 @@ const ArchivesManagerHomePage = () => {
         </div>
       </section>
 
-      <section className={styles.processSection}>
-        <div className={styles.processWrapper}>
-          <span className={styles.processLabel}>Historial de Firmas</span>
-          <div className={styles.tableContainer}>
-            <DataTable
-              value={signatureHistory}
-              paginator
-              rows={10}
-              dataKey="id"
-              filterDisplay="menu"
-              emptyMessage="No se encontraron registros."
-              className={styles.reviewTable}
-            >
-              <Column
-                field="applicantName"
-                header="Solicitante"
-                sortable
-                style={{minWidth: '200px'}}
-              />
-              <Column
-                field="documentType"
-                header="Tipo de Documento"
-                sortable
-                style={{minWidth: '180px'}}
-              />
-              <Column
-                field="status"
-                header="Estado"
-                body={statusBodyTemplate}
-                sortable
-                style={{minWidth: '120px'}}
-              />
-              <Column
-                field="submissionDate"
-                header="Fecha de Envío"
-                sortable
-                style={{minWidth: '140px'}}
-              />
-              <Column
-                field="signatureDate"
-                header="Fecha de Firma"
-                sortable
-                style={{minWidth: '140px'}}
-              />
-              <Column
-                field="signedBy"
-                header="Firmado por"
-                sortable
-                style={{minWidth: '150px'}}
-              />
-              <Column
-                body={actionBodyTemplate}
-                header="Acciones"
-                style={{minWidth: '100px'}}
-              />
-            </DataTable>
-          </div>
-          <div style={{marginTop: '1rem', textAlign: 'right'}}>
-            <Button
-              label="Ver historial completo"
-              className="p-button-outlined p-button-primary"
-              onClick={() => navigate('/archives-manager/historial-firmas')}
-            />
-          </div>
-        </div>
-      </section>
+      {/*<section className={styles.processSection}>*/}
+      {/*  <div className={styles.processWrapper}>*/}
+      {/*    <span className={styles.processLabel}>Historial de Firmas</span>*/}
+      {/*    <div className={styles.tableContainer}>*/}
+      {/*      <DataTable*/}
+      {/*        value={signatureHistory}*/}
+      {/*        paginator*/}
+      {/*        rows={10}*/}
+      {/*        dataKey="id"*/}
+      {/*        filterDisplay="menu"*/}
+      {/*        emptyMessage="No se encontraron registros."*/}
+      {/*        className={styles.reviewTable}*/}
+      {/*      >*/}
+      {/*        <Column*/}
+      {/*          field="applicantName"*/}
+      {/*          header="Solicitante"*/}
+      {/*          sortable*/}
+      {/*          style={{minWidth: '200px'}}*/}
+      {/*        />*/}
+      {/*        <Column*/}
+      {/*          field="documentType"*/}
+      {/*          header="Tipo de Documento"*/}
+      {/*          sortable*/}
+      {/*          style={{minWidth: '180px'}}*/}
+      {/*        />*/}
+      {/*        <Column*/}
+      {/*          field="status"*/}
+      {/*          header="Estado"*/}
+      {/*          body={statusBodyTemplate}*/}
+      {/*          sortable*/}
+      {/*          style={{minWidth: '120px'}}*/}
+      {/*        />*/}
+      {/*        <Column*/}
+      {/*          field="submissionDate"*/}
+      {/*          header="Fecha de Envío"*/}
+      {/*          sortable*/}
+      {/*          style={{minWidth: '140px'}}*/}
+      {/*        />*/}
+      {/*        <Column*/}
+      {/*          field="signatureDate"*/}
+      {/*          header="Fecha de Firma"*/}
+      {/*          sortable*/}
+      {/*          style={{minWidth: '140px'}}*/}
+      {/*        />*/}
+      {/*        <Column*/}
+      {/*          field="signedBy"*/}
+      {/*          header="Firmado por"*/}
+      {/*          sortable*/}
+      {/*          style={{minWidth: '150px'}}*/}
+      {/*        />*/}
+      {/*        <Column*/}
+      {/*          body={actionBodyTemplate}*/}
+      {/*          header="Acciones"*/}
+      {/*          style={{minWidth: '100px'}}*/}
+      {/*        />*/}
+      {/*      </DataTable>*/}
+      {/*    </div>*/}
+      {/*    <div style={{marginTop: '1rem', textAlign: 'right'}}>*/}
+      {/*      <Button*/}
+      {/*        label="Ver historial completo"*/}
+      {/*        className="p-button-outlined p-button-primary"*/}
+      {/*        onClick={() => navigate('/archives-manager/historial-firmas')}*/}
+      {/*      />*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</section>*/}
     </div>
   );
 }

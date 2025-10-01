@@ -259,7 +259,7 @@ export default function SignatureValidator({onVerify}: PdfSignatureValidatorProp
                       <div className={styles.noVerification}>
                         <i className="pi pi-shield" style={{fontSize: '2rem'}}></i>
                         <p className={styles.noVerificationText}>
-                          Haz clic en "Verificar Firmas" para analizar el documento
+                          Haz clic en "Validar Firmas" para analizar el documento
                         </p>
                       </div>
                     )}

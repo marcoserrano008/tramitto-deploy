@@ -1,7 +1,7 @@
 import styles from './Header.module.scss';
 import { useAuth } from "../../context/AuthContext.tsx";
 import { useNavigate } from "react-router-dom";
-import logoTramitto from "../../assets/images/logoTramitto.svg";
+import logoTramitto from "../../../public/logoTramitto.svg";
 import { Avatar } from 'primereact/avatar';
 import { Menu } from 'primereact/menu';
 import { useRef } from 'react';

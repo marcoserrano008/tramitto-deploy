@@ -11,6 +11,7 @@ import ProcedureStepsLayout from "./layout/ProcedureStepsLayout.tsx";
 import ApplicantStepPaymentPage from "./pages/ApplicantStepPaymentPage/ApplicantStepPaymentPage.tsx";
 import ApplicantStepSubmitDocumentPage
   from "./pages/ApplicantStepSubmitDocumentPage/ApplicantStepSubmitDocumentPage.tsx";
+import ApplicantFAQPage from "./pages/ApplicantFAQPage/ApplicantFAQPage.tsx";
 import SignatureValidator
   from "../administrator/pages/AdministratorValidateSignaturePage/components/SignatureValidator/SignatureValidator.tsx";
 
@@ -27,6 +28,10 @@ const applicantRoutes: RouteObject[] = [
       {
         path: 'personal-procedures',
         element: <ApplicantPersonalProceduresPage/>
+      },
+      {
+        path: 'faq',
+        element: <ApplicantFAQPage/>
       },
       {
         path: 'informacion-tramite/:procedureType',

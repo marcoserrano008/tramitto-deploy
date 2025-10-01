@@ -191,7 +191,7 @@ function ApplicantStepUploadDocumentPage({
 
             {/* Document type */}
             <div className={styles.uploadType}>
-              <h2 className={styles.uploadTypeTitle}>Subir Documento</h2>
+              <h2 className={styles.uploadTypeTitle}>Buscar Documento</h2>
             </div>
 
             {/* Recommendations */}
@@ -265,7 +265,7 @@ function ApplicantStepUploadDocumentPage({
               <div className={styles.iconContainer}>
                 <i className="pi pi-file-arrow-up" style={{fontSize: "1.5rem", color: "#004e9a"}}></i>
               </div>
-              <h2 className={styles.documentTitle}>Subir Documento</h2>
+              <h2 className={styles.documentTitle}>Buscar Documento</h2>
             </div>
 
             {procedureData && (

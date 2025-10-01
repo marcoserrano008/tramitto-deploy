@@ -44,9 +44,12 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
   const [showValidation, setShowValidation] = useState(false);
 
   const [locked, setLocked] = useState<LockedState>({
-    firstName: user.isIdentityValidated,
-    lastName: user.isIdentityValidated,
-    secondLastName: user.isIdentityValidated,
+    //firstName: user.isIdentityValidated,
+    //lastName: user.isIdentityValidated,
+    //secondLastName: user.isIdentityValidated,
+    firstName: false,
+    lastName: false,
+    secondLastName: false,
     birthdate: user.isIdentityValidated,
     sisCode: user.isIdentityValidated,
     identificationNumber: true,

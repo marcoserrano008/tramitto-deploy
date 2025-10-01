@@ -52,7 +52,7 @@ const ApplicantPersonalProceduresPage = () => {
   return (
     <div className="applicant-personal-procedures-container">
       <section className={styles.proceduresListHeader}>
-        <span className={styles.proceduresListTitle}>Mis tramites</span>
+        <span className={styles.proceduresListTitle}>Mis trámites</span>
         <span className={styles.proceduresListSubtitle}>Legalizaciones</span>
       </section>
       <section className="applicant-personal-procedures-table">

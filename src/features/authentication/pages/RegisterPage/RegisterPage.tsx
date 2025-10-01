@@ -363,33 +363,67 @@ export default function RegisterPage() {
                 </div>
               )}
 
-              {validationResult && !validationResult.verified && (
-                <div className={styles.validationError}>
-                  <div className={styles.validationErrorContent}>
-                    <span className="pi pi-ban"></span>
-                    <div>
-                      <p className={styles.validationMessage}>Validación fallida</p>
-                      <p className={styles.validationSubmessage}>Por favor intente nuevamente</p>
+            {/*  {validationResult && !validationResult.verified && (*/}
+            {/*    <div className={styles.validationError}>*/}
+            {/*      <div className={styles.validationErrorContent}>*/}
+            {/*        <span className="pi pi-ban"></span>*/}
+            {/*        <div>*/}
+            {/*          <p className={styles.validationMessage}>No se detectaron coincidencias.</p>*/}
+            {/*          <p className={styles.validationSubmessage}>Por favor intente nuevamente</p>*/}
+            {/*        </div>*/}
+            {/*      </div>*/}
+            {/*      <button className={styles.retryButton} onClick={handleStartValidation}>*/}
+            {/*        Intentar nuevamente*/}
+            {/*      </button>*/}
+            {/*    </div>*/}
+            {/*  )}*/}
+            {/*  /!* Modificacion idNumber *!/*/}
+            {/*  {validationResult && !!!validationResult.idNumber && validationResult.verified && (*/}
+            {/*    <div className={styles.validationError}>*/}
+            {/*      <div className={styles.validationErrorContent}>*/}
+            {/*        <div>*/}
+            {/*          <p className={styles.validationSubmessage}>No se encontró un número en el carnet</p>*/}
+            {/*        </div>*/}
+            {/*      </div>*/}
+            {/*    </div>*/}
+            {/*  )}*/}
+            {/*</div>*/}
+
+              {validationResult && (
+                <>
+                  {!validationResult.verified ? (
+                    // Caso: No se detectó coincidencia facial
+                    <div className={styles.validationError}>
+                      <div className={styles.validationErrorContent}>
+                        <span className="pi pi-ban"></span>
+                        <div>
+                          <p className={styles.validationMessage}>No se detectaron coincidencias en los rostros.</p>
+                          <p className={styles.validationSubmessage}>Por favor, intente nuevamente.</p>
+                        </div>
+                      </div>
+                      <button className={styles.retryButton} onClick={handleStartValidation}>
+                        Intentar nuevamente
+                      </button>
                     </div>
-                  </div>
-                  <button className={styles.retryButton} onClick={handleStartValidation}>
-                    Intentar nuevamente
-                  </button>
-                </div>
-              )}
-              {/* Modificacion idNumber */}
-              {validationResult && !validationResult.idNumber && (
-                <div className={styles.validationError}>
-                  <div className={styles.validationErrorContent}>
-                    <div>
-                      <p className={styles.validationSubmessage}>No se encontró un número en el carnet</p>
+                  ) : !!!validationResult.idNumber ? (
+                    // Caso: Validado pero sin número de carnet
+                    <div className={styles.validationError}>
+                      <div className={styles.validationErrorContent}>
+                        <span className="pi pi-info-circle"></span>
+                        <div>
+                          <p className={styles.validationSubmessage}>No se encontró un número en el carnet.</p>
+                        </div>
+                      </div>
+                      <button className={styles.retryButton} onClick={handleStartValidation}>
+                        Intentar nuevamente
+                      </button>
                     </div>
-                  </div>
-                </div>
+                  ) : null}
+                </>
               )}
             </div>
 
-            {/* Registration Form */}
+              {/* Registration Form */}
             <div className={`${styles.formSection} ${validationResult?.verified ? styles.enabled : ''}`}>
               <div className={styles.formHeader}>
                 <h2 className={styles.formTitle}>Información Personal</h2>

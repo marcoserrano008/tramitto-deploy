@@ -97,18 +97,22 @@
   border: none;
 }
 
+// CORRECCIÓN PRINCIPAL: Ajustar la altura del contenido expandido
 .expandedContent {
-  padding: 20px;
+  padding: 16px 20px; // Reducir padding vertical
   background: #E6F7FF;
   border-top: 1px solid #e5e7eb;
   display: flex;
-  gap: 16px;
+  flex-direction: column; // Cambiar a columna para mejor control
+  gap: 12px; // Reducir gap
+  min-height: auto; // Asegurar que no tenga altura mínima fija
+  align-items: flex-start; // Alinear contenido al inicio
 }
 
 .documentInfo {
   color: #6b7280;
   font-size: 14px;
-  margin-bottom: 16px;
+  margin: 0; // Remover margin-bottom
   padding: 12px;
   background: white;
   border-radius: 6px;
@@ -120,7 +124,7 @@
   padding: 16px;
   border-radius: 6px;
   border: 1px solid #e5e7eb;
-  margin-bottom: 16px;
+  margin: 0; // Remover margin-bottom
 }
 
 .rejectionReason strong {
@@ -139,14 +143,17 @@
   margin-bottom: 4px;
 }
 
+// CORRECCIÓN: Mejorar los botones de acción
 .actionButtons {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  align-items: flex-start; // Alinear al inicio
+  width: auto; // No tomar todo el ancho
 }
 
 .button {
-  padding: 8px 16px;
+  padding: 10px 16px; // Ajustar padding para altura consistente
   border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 14px;
@@ -159,11 +166,17 @@
   justify-content: center;
   background: white;
   color: #374151;
+  min-height: 38px; // Altura mínima consistente
+  box-sizing: border-box; // Incluir border en el cálculo de tamaño
+  white-space: nowrap; // Evitar que el texto se rompa en líneas
+  width: auto; // Ancho automático, no expandir
+  flex-shrink: 0; // No encogerse
 }
 
 .button:hover {
   background: #f9fafb;
   border-color: #9ca3af;
+  transform: none; // Evitar transformaciones que cambien la altura
 }
 
 .downloadBtn,
@@ -175,8 +188,8 @@
 
 .downloadBtn:hover,
 .viewBtn:hover {
-  background: #7473cb;
-  border-color: #9a99cb;
+  background: #5856eb;
+  border-color: #5856eb;
 }
 
 .uploadBtn {
@@ -197,11 +210,11 @@
 }
 
 .paymentBtn:hover {
-  background: #03627e;
-  border-color: #03627e;
+  background: #025a73;
+  border-color: #025a73;
 }
 
-/* Status styles matching the image */
+/* Status styles */
 .statusCompleted {
   display: flex;
   align-items: center;
@@ -248,8 +261,7 @@
   font-weight: 500;
 }
 
-.statusPending::before {
-  content: "⏳";
+.statusPending .statusIcon {
   margin-right: 6px;
   font-size: 12px;
 }
@@ -267,11 +279,6 @@
   font-size: 12px;
 }
 
-.statusIcon {
-  margin-right: 6px;
-  font-size: 12px;
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
   .proceduresTableContainer {
@@ -285,15 +292,18 @@
   }
 
   .expandedContent {
-    padding: 16px;
+    padding: 12px 16px; // Reducir padding en mobile
   }
 
   .actionButtons {
     flex-direction: column;
+    gap: 8px;
   }
 
   .button {
     width: 100%;
+    min-height: 36px; // Altura menor en mobile
+    flex-shrink: 0;
   }
 }
 
@@ -310,6 +320,10 @@
   .proceduresTableContainer {
     margin: 5px;
   }
+
+  .expandedContent {
+    padding: 10px 12px;
+  }
 }
 
 @keyframes flash {
@@ -317,6 +331,7 @@
   50%  { box-shadow: 0 0 0 6px rgba(24,144,255,0.35); }
   100% { box-shadow: 0 0 0 0 rgba(24,144,255,0.0); }
 }
+
 .procedureRow.highlight {
   animation: flash 2s ease-out;
 }
