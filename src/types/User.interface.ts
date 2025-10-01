@@ -13,4 +13,5 @@ export interface UserResponse {
   isIdentityValidated?: boolean;
   sisCode: number;
   birthdate: string;
+  enabled: boolean;
 }

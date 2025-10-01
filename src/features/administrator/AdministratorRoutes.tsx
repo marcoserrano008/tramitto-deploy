@@ -11,6 +11,7 @@ import AdministratorProceduresListPage
 import AdministratorEditProcedurePage from "./pages/AdministratorEditProcedurePage/AdministratorEditProcedurePage.tsx";
 import AdministratorValidateSignaturePage
   from "./pages/AdministratorValidateSignaturePage/AdministratorValidateSignaturePage.tsx";
+import UserManagement from "../authentication/pages/UserManagementPage/UserManagementPage.tsx";
 
 const administratorRoutes: RouteObject[] = [
   {
@@ -31,7 +32,9 @@ const administratorRoutes: RouteObject[] = [
 
       {path: 'reports', element: <AdministratorReportsPage/>},
 
-      {path: 'validar-firmas', element: <AdministratorValidateSignaturePage/>}
+      {path: 'validar-firmas', element: <AdministratorValidateSignaturePage/>},
+
+      {path: 'administrar-usuarios', element: <UserManagement/>}
     ],
   },
 ]

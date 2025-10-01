@@ -7,6 +7,8 @@ import ArchivesManagerProceduresListPage
   from "./pages/ArchivesManagerProceduresListPage/ArchivesManagerProceduresListPage.tsx";
 import ArchivesManagerReportsPage from "./pages/ArchivesManagerReportsPage/ArchivesManagerReportsPage.tsx";
 import ArchivesManagerRecordPage from "./pages/ArchivesManagerRecordPage/ArchivesManagerRecordPage.tsx";
+import SignatureValidator
+  from "../administrator/pages/AdministratorValidateSignaturePage/components/SignatureValidator/SignatureValidator.tsx";
 
 const archivesManagerRoutes: RouteObject[] = [
   {
@@ -23,7 +25,9 @@ const archivesManagerRoutes: RouteObject[] = [
 
       {path: 'historial', element: <ArchivesManagerRecordPage/>},
 
-      {path: 'reports', element: <ArchivesManagerReportsPage/>}
+      {path: 'reports', element: <ArchivesManagerReportsPage/>},
+
+      {path: 'validar-firmas', element: <SignatureValidator/>}
     ],
   },
 ]

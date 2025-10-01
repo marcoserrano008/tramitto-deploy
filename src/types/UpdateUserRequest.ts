@@ -7,4 +7,5 @@ export interface UpdateUserRequest {
   sisCode?: number
   birthdate?: string
   avatarId?: string
+  enabled?: boolean
 }

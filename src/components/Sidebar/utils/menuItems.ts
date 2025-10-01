@@ -49,6 +49,11 @@ const administratorMenuItems: MenuItem[] = [
     url: '/administrator/validar-firmas',
   },
   {
+    label: 'Administrar usuarios',
+    icon: 'pi pi-fw pi-users',
+    url: '/administrator/administrar-usuarios',
+  },
+  {
     label: 'Preguntas Frecuentes',
     icon: 'pi pi-fw pi-question-circle',
     url: '/faq',
@@ -79,13 +84,18 @@ const applicantMenuItems: MenuItem[] = [
         label: 'Legalizacion de Titulo en provision nacional',
         icon: 'pi pi-fw pi-file',
         url: '/usuario/informacion-tramite/titulo-provision',
-      },
+      }
     ],
   },
   {
     label: 'Mis Tramites',
     icon: 'pi pi-fw pi-folder',
     url: '/usuario/personal-procedures',
+  },
+  {
+    label: 'Validar firmas',
+    icon: 'pi pi-fw pi-pencil',
+    url: '/validar-firmas',
   },
   {
     label: 'Preguntas Frecuentes',
@@ -132,6 +142,11 @@ const archivesManagerMenuItems: MenuItem[] = [
     url: '/archives-manager/reports',
   },
   {
+    label: 'Validar firmas',
+    icon: 'pi pi-fw pi-pencil',
+    url: '/validar-firmas',
+  },
+  {
     label: 'Preguntas Frecuentes',
     icon: 'pi pi-fw pi-question-circle',
     url: '/faq',
@@ -153,6 +168,11 @@ const generalSecretaryMenuItems: MenuItem[] = [
     label: 'Reportes',
     icon: 'pi pi-fw pi-chart-bar',
     url: '/general-secretary/reports',
+  },
+  {
+    label: 'Validar firmas',
+    icon: 'pi pi-fw pi-pencil',
+    url: '/validar-firmas',
   },
   {
     label: 'Preguntas Frecuentes',

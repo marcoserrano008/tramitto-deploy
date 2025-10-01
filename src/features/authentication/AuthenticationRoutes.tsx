@@ -8,6 +8,8 @@ import IdentityValidationPage from "./pages/IdentityValidationPage/IdentityValid
 import CompleteProfilePage from "./pages/CompleteProfilePage/CompleteProfilePage.tsx";
 import RegisterPage from "./pages/RegisterPage/RegisterPage.tsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.tsx";
+import SignatureValidator
+  from "../administrator/pages/AdministratorValidateSignaturePage/components/SignatureValidator/SignatureValidator.tsx";
 
 const authenticationRoutes: RouteObject[] = [
   {
@@ -43,6 +45,10 @@ const authenticationRoutes: RouteObject[] = [
     path: "mi-cuenta",
     element: <ProfilePage/>
   },
+  {
+    path: "validar-firmas",
+    element: <SignatureValidator/>
+  }
 ];
 
 export default authenticationRoutes;
