@@ -6,6 +6,8 @@ import GeneralSecretaryHomePage from "./pages/GeneralSecretaryHomePage/GeneralSe
 import GeneralSecretaryProceduresListPage
   from "./pages/GeneralSecretaryProceduresListPage/GeneralSecretaryProceduresListPage.tsx";
 import GeneralSecretaryReportsPage from "./pages/GeneralSecretaryReportsPage/GeneralSecretaryReportsPage.tsx";
+import SignatureValidator
+  from "../administrator/pages/AdministratorValidateSignaturePage/components/SignatureValidator/SignatureValidator.tsx";
 
 const generalSecretaryRoutes: RouteObject[] = [
   {
@@ -24,6 +26,10 @@ const generalSecretaryRoutes: RouteObject[] = [
       {
         path: 'reports',
         element: <GeneralSecretaryReportsPage/>
+      },
+      {
+        path: 'validar-firmas',
+        element: <SignatureValidator/>
       }
     ],
   },
