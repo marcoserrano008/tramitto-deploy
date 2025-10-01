@@ -1,10 +1,7 @@
-import { Button } from 'primereact/button';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Tag } from 'primereact/tag';
-import { Chart } from 'primereact/chart';
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import {Button} from 'primereact/button';
+import {Tag} from 'primereact/tag';
+import {useNavigate} from 'react-router-dom';
+import {useEffect, useState} from 'react';
 import styles from './AdministratorHomePage.module.scss';
 import 'primeicons/primeicons.css';
 import logoTramitto from "../../../../../public/logoTramitto.svg";
@@ -39,10 +36,10 @@ type ReviewItem = {
 };
 
 const statsItems: StatsItem[] = [
-  { icon: 'pi pi-clock', title: 'Pendientes de Revisión', value: '23', color: '#FF9500' },
-  { icon: 'pi pi-check-circle', title: 'Aprobados Hoy', value: '15', color: '#52C41A' },
-  { icon: 'pi pi-times-circle', title: 'Rechazados Hoy', value: '3', color: '#FF4D4F' },
-  { icon: 'pi pi-file', title: 'Total Procesados', value: '1,247', color: '#1890FF' },
+  {icon: 'pi pi-clock', title: 'Pendientes de Revisión', value: '23', color: '#FF9500'},
+  {icon: 'pi pi-check-circle', title: 'Aprobados Hoy', value: '15', color: '#52C41A'},
+  {icon: 'pi pi-times-circle', title: 'Rechazados Hoy', value: '3', color: '#FF4D4F'},
+  {icon: 'pi pi-file', title: 'Total Procesados', value: '1,247', color: '#1890FF'},
 ];
 
 const processItems: ProcessItem[] = [
@@ -173,33 +170,38 @@ const AdminHomePage = () => {
   //hasta aqui los reportes
 
   useEffect(() => {
-  getProcedureCounters(ProcedureStatusEnum.ADMIN_REVIEW).then(counters => {
-    setItems(prev =>
-      prev.map(item => {
-        const match = counters.find(c => c.procedureTypeId === item.procedureTypeId);
-        return {
-          ...item,
-          pendingCount: match?.total ?? 0,
-          newTodayCount: match?.today ?? 0
-        };
-      })
-    );
-  });
-}, []);
+    getProcedureCounters(ProcedureStatusEnum.ADMIN_REVIEW).then(counters => {
+      setItems(prev =>
+        prev.map(item => {
+          const match = counters.find(c => c.procedureTypeId === item.procedureTypeId);
+          return {
+            ...item,
+            pendingCount: match?.total ?? 0,
+            newTodayCount: match?.today ?? 0
+          };
+        })
+      );
+    });
+  }, []);
 
   //parte de la tabla
   const statusBodyTemplate = (rowData: ReviewItem) => {
     const getSeverity = (status: string) => {
       switch (status) {
-        case 'Aprobado': return 'success';
-        case 'Rechazado': return 'danger';
-        case 'Pendiente': return 'warning';
-        case 'En Revisión': return 'info';
-        default: return 'secondary';
+        case 'Aprobado':
+          return 'success';
+        case 'Rechazado':
+          return 'danger';
+        case 'Pendiente':
+          return 'warning';
+        case 'En Revisión':
+          return 'info';
+        default:
+          return 'secondary';
       }
     };
 
-    return <Tag value={rowData.status} severity={getSeverity(rowData.status)} />;
+    return <Tag value={rowData.status} severity={getSeverity(rowData.status)}/>;
   };
 
   const actionBodyTemplate = (rowData: ReviewItem) => {
@@ -362,21 +364,21 @@ const AdminHomePage = () => {
       {/*  </div>*/}
       {/*</section>*/}
 
-        {/*<section className={styles.reportesSection}>*/}
-        {/*  <div className={styles.processWrapper}>*/}
-        {/*    <span className={styles.processLabel}>Reportes</span>*/}
-        {/*    <div className={styles.reportChartContainer}>*/}
-        {/*      <Chart type="bar" data={reportChartData} options={reportChartOptions} className={styles.reportChart} />*/}
-        {/*    </div>*/}
-        {/*    <div style={{ marginTop: '1rem', textAlign: 'right' }}>*/}
-        {/*      <Button*/}
-        {/*        label="Ver reportes"*/}
-        {/*        className="p-button-outlined p-button-primary"*/}
-        {/*        onClick={() => navigate('/admin/reports')}*/}
-        {/*      />*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*</section>*/}
+      {/*<section className={styles.reportesSection}>*/}
+      {/*  <div className={styles.processWrapper}>*/}
+      {/*    <span className={styles.processLabel}>Reportes</span>*/}
+      {/*    <div className={styles.reportChartContainer}>*/}
+      {/*      <Chart type="bar" data={reportChartData} options={reportChartOptions} className={styles.reportChart} />*/}
+      {/*    </div>*/}
+      {/*    <div style={{ marginTop: '1rem', textAlign: 'right' }}>*/}
+      {/*      <Button*/}
+      {/*        label="Ver reportes"*/}
+      {/*        className="p-button-outlined p-button-primary"*/}
+      {/*        onClick={() => navigate('/admin/reports')}*/}
+      {/*      />*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</section>*/}
     </div>
   );
 }
