@@ -131,11 +131,11 @@ const archivesManagerMenuItems: MenuItem[] = [
     icon: 'pi pi-fw pi-folder',
     url: '/archives-manager/historial',
   },
-  {
-    label: 'Reportes',
-    icon: 'pi pi-fw pi-chart-bar',
-    url: '/archives-manager/reports',
-  },
+  // {
+  //   label: 'Reportes',
+  //   icon: 'pi pi-fw pi-chart-bar',
+  //   url: '/archives-manager/reports',
+  // },
   {
     label: 'Validar firmas',
     icon: 'pi pi-fw pi-pencil',
@@ -155,15 +155,15 @@ const generalSecretaryMenuItems: MenuItem[] = [
     url: '/general-secretary',
   },
   {
-    label: 'Revisar Tramites',
+    label: 'Revisar Trámites',
     icon: 'pi pi-fw pi-book',
     url: '/general-secretary/procedures-list',
   },
-  {
-    label: 'Reportes',
-    icon: 'pi pi-fw pi-chart-bar',
-    url: '/general-secretary/reports',
-  },
+  // {
+  //   label: 'Reportes',
+  //   icon: 'pi pi-fw pi-chart-bar',
+  //   url: '/general-secretary/reports',
+  // },
   {
     label: 'Validar firmas',
     icon: 'pi pi-fw pi-pencil',

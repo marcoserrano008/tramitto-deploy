@@ -89,7 +89,7 @@ const ArchivesManagerProceduresListPage = () => {
   return (
     <div className="admin-page">
       <section className={styles.proceduresListHeader}>
-        <span className={styles.proceduresListTitle}>Tramites</span>
+        <span className={styles.proceduresListTitle}>Trámites</span>
         <span className={styles.proceduresListSubtitle}>{procedure?.name}</span>
       </section>
 

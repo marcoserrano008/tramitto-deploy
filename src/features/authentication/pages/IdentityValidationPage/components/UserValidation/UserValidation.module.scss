@@ -455,6 +455,15 @@
   min-height: 220px;
 }
 
+.selfiePreviewWrapper .previewImage {
+  max-width: 200px;
+  max-height: 200px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
 .uploadPlaceholder {
   display: flex;
   flex-direction: column;

@@ -320,7 +320,7 @@ export default function ApplicantStepSearchDocumentPage({
                 </div>
                 <p className={styles.suggestionsDescription}>
                   {suggestions.length > 0
-                    ? "Se encontro un documento, seleccionalo para continuar rápidamente:"
+                    ? "Se encontró un documento, seleccionalo para continuar rápidamente:"
                     : "Cargando tus documentos..."}
                 </p>
 
@@ -394,7 +394,7 @@ export default function ApplicantStepSearchDocumentPage({
                     <span className={styles.detailValue}>{procedureData.procedureTypeName}</span>
                   </div>
                   <div className={styles.procedureDetail}>
-                    <span className={styles.detailLabel}>Numero de tramite:</span>
+                    <span className={styles.detailLabel}>Numero de trámite:</span>
                     <span className={styles.detailValue}>{procedureData.id}</span>
                   </div>
                 </div>
@@ -414,7 +414,7 @@ export default function ApplicantStepSearchDocumentPage({
                     value={documentNumber}
                     onChange={(e) => setDocumentNumber(e.target.value)}
                     className={styles.searchInput}
-                    placeholder="Ej: DIP-2024-0156, TIT-2024-0234"
+                    placeholder="Ej: 34689"
                     disabled={isSearching}
                   />
                 </div>

@@ -105,10 +105,10 @@ const LoginPage = () => {
           </div>
 
           <div className={styles.welcomeSection}>
-            <h2 className={styles.welcomeTitle}>¡Bienvenido de nuevo!</h2>
+            <h2 className={styles.welcomeTitle}>¡Bienvenido a Tramitto!</h2>
             <p className={styles.welcomeText}>
-              Inicia sesión para acceder a tu cuenta y continuar gestionando tus documentos de manera segura y
-              eficiente.
+              Accede a tu cuenta para gestionar tus documentos de forma inteligente, segura y sin complicaciones.
+              Todo lo que necesitas, al alcance de un clic.
             </p>
           </div>
 
@@ -140,8 +140,8 @@ const LoginPage = () => {
                 </svg>
               </div>
               <div>
-                <h3 className={styles.featureTitle}>Gestión Centralizada</h3>
-                <p className={styles.featureText}>Todos tus documentos en un solo lugar</p>
+                <h3 className={styles.featureTitle}>Organización Inteligente</h3>
+                <p className={styles.featureText}>Centraliza y encuentra tus documentos al instante</p>
               </div>
             </div>
 
@@ -157,8 +157,8 @@ const LoginPage = () => {
                 </svg>
               </div>
               <div>
-                <h3 className={styles.featureTitle}>Seguridad Garantizada</h3>
-                <p className={styles.featureText}>Protección avanzada de tus datos</p>
+                <h3 className={styles.featureTitle}>Máxima Seguridad</h3>
+                <p className={styles.featureText}>Tus datos protegidos con tecnología avanzada</p>
               </div>
             </div>
 
@@ -170,8 +170,8 @@ const LoginPage = () => {
                 </svg>
               </div>
               <div>
-                <h3 className={styles.featureTitle}>Acceso 24/7</h3>
-                <p className={styles.featureText}>Disponible cuando lo necesites</p>
+                <h3 className={styles.featureTitle}>Disponibilidad Total</h3>
+                <p className={styles.featureText}>Accede desde cualquier lugar, en cualquier momento</p>
               </div>
             </div>
           </div>

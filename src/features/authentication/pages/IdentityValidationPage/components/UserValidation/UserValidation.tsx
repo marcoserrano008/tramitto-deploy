@@ -116,12 +116,28 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
 
     if (!context) return
 
-    // Set canvas dimensions to match video
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
+    // Set canvas dimensions based on camera mode
+    if (cameraMode === "selfie") {
+      // For selfies, use a square aspect ratio
+      const size = Math.min(video.videoWidth, video.videoHeight)
+      canvas.width = size
+      canvas.height = size
 
-    // Draw the current video frame on the canvas
-    context.drawImage(video, 0, 0, canvas.width, canvas.height)
+      // Center crop the video
+      const offsetX = (video.videoWidth - size) / 2
+      const offsetY = (video.videoHeight - size) / 2
+
+      context.drawImage(
+        video,
+        offsetX, offsetY, size, size,  // source rectangle
+        0, 0, size, size                // destination rectangle
+      )
+    } else {
+      // For ID cards, use the full video dimensions
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      context.drawImage(video, 0, 0, canvas.width, canvas.height)
+    }
 
     // Convert canvas to blob
     canvas.toBlob(
@@ -531,10 +547,10 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
                         <button className={styles.takePhotoButton} onClick={() => openCamera("selfie")}>
                           Tomar foto
                         </button>
-                        <span className={styles.orText}>o</span>
-                        <button className={styles.uploadButton} onClick={() => selfieInputRef.current?.click()}>
-                          Subir archivo
-                        </button>
+                        {/*<span className={styles.orText}>o</span>*/}
+                        {/*<button className={styles.uploadButton} onClick={() => selfieInputRef.current?.click()}>*/}
+                        {/*  Subir archivo*/}
+                        {/*</button>*/}
                       </div>
                     )}
                     <input

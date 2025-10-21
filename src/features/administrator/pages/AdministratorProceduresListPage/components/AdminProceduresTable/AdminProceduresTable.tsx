@@ -95,7 +95,7 @@ function AdminProceduresTable({
   return (
     <div>
       {procedures.length === 0 ? (
-        <p className={styles.noDocumentSelected}>No existen tramites pendientes</p>
+        <p className={styles.noDocumentSelected}>No existen trámites pendientes</p>
       ) : (
         <div className={styles.adminProceduresTableContainer}>
           <table className={styles.proceduresTable}>

@@ -510,7 +510,7 @@ export default function RegisterPage() {
 
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>
-                    Código SIS <span className={styles.required}>*</span>
+                    Código SIS <span className={styles.required}></span>
                   </label>
                   <input
                     type="number"
@@ -518,11 +518,11 @@ export default function RegisterPage() {
                     onChange={(e) => handleInputChange("sisCode", Number.parseInt(e.target.value) || 0)}
                     className={styles.input}
                     disabled={isFormDisabled || autoLocked.sisCode}
-                    required
+                    // required
                     min="1"
                     placeholder="Ingresa tu código SIS"
                   />
-                  <p className={styles.inputHelp}>El código SIS es requerido para completar el registro.</p>
+                  <p className={styles.inputHelp}>El código SIS es opcional.</p>
                 </div>
 
                 <div className={styles.inputGroup}>

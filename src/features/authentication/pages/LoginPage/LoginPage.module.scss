@@ -200,10 +200,10 @@
 
 .registerButton {
   margin-top: 10px;
-  background-color: #059669;
+  background-color: #3B82F6;
 
   &:hover {
-    background-color: #047857;
+    background-color: #2563EB;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
 }
@@ -234,7 +234,7 @@
   padding: 12px;
   background-color: white;
   color: #555;
-  font-weight: 600;
+  font-weight: 700;
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   border: 1px solid #ddd;
@@ -344,10 +344,10 @@
     font-size: 0.875rem;
   }
 }
+
 //landing
 .loginContainer {
   display: flex;
-  //min-height: 100vh;
   width: 100%;
 
   @media (max-width: 768px) {
@@ -357,8 +357,9 @@
 
 .brandingPanel {
   flex: 1;
+  max-width: 600px;
   background: linear-gradient(135deg, #003A8C 0%, #80DCF3 100%);
-  padding: 7rem;
+  padding: 4rem 7rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -369,8 +370,9 @@
   margin-left: 15px;
 
   @media (max-width: 768px) {
-    padding: 2rem;
+    padding: 3rem 2rem;
     min-height: 40vh;
+    max-width: 100%;
   }
 }
 
@@ -412,6 +414,7 @@
 .welcomeSection {
   position: relative;
   margin-bottom: 3rem;
+  margin-top: -2rem;
   z-index: 3;
 }
 
@@ -441,6 +444,7 @@
   flex-direction: column;
   gap: 1.5rem;
   position: relative;
+  margin-bottom: 2rem;
 }
 
 .feature {
@@ -517,7 +521,6 @@
   }
 }
 
-// Existing form styles remain the same
 .loginForm {
   width: 100%;
   max-width: 400px;
@@ -575,7 +578,6 @@
 
   &:focus {
     outline: none;
-    //border-color: #d97706;
     box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
   }
 
@@ -596,7 +598,6 @@
 .forgotPasswordLink {
   background: none;
   border: none;
-  //color: #d97706;
   font-size: 0.875rem;
   cursor: pointer;
   padding: 0;
@@ -610,7 +611,6 @@
 .loginButton {
   width: 100%;
   padding: 0.875rem 1rem;
-  //background-color: #d97706;
   color: white;
   border: none;
   border-radius: 8px;
@@ -619,10 +619,6 @@
   cursor: pointer;
   transition: all 0.2s;
 
-  &:hover:not(:disabled) {
-    //background-color: #b45309;
-  }
-
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -630,13 +626,11 @@
 }
 
 .registerButton {
-  background-color: transparent;
-  //color: #d97706;
-  //border: 2px solid #d97706;
-  margin-top: 0.75rem;
+  margin-top: 10px;
+  background-color: #059669;
 
   &:hover:not(:disabled) {
-    background-color: #fef3c7;
+    background-color: #2c7040;
   }
 }
 
