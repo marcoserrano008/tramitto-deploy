@@ -1,6 +1,6 @@
 "use client"
 
-import React, {useEffect, useState} from "react"
+import {useEffect, useState} from "react"
 import styles from "./ApplicantStepSearchDocumentPage.module.scss"
 import {UmssDocument} from "../../../../types/UmssDocument.interface.ts";
 import {DocumentProcedureTypeEnum} from "../../../../types/enum/DocumentProcedureType.enum.ts";

@@ -12,9 +12,11 @@ import {ProcedureStatusEnum} from "../../../../types/enum/ProcedureStatus.enum.t
 import {getAdminProceduresService} from "../../../../services/GetAdminProcedures.http.service.ts";
 import {PROCEDURE_STATUS_OPTIONS} from "../../../../types/options/ProcedureStatusOptions.ts";
 
+type DateRangeValue = (Date | null)[] | null | undefined;
+
 function AdministratorProceduresStatusPage() {
   const [selectedProcedure, setSelectedProcedure] = useState<ProcedureResponse | null>(null);
-  const [dates, setDates] = useState(undefined)
+  const [dates, setDates] = useState<DateRangeValue>(undefined);
   const [isFilteredByDate, setIsFilteredByDate] = useState<boolean>(false);
 
   const procedureStatuses = [
@@ -122,7 +124,7 @@ function AdministratorProceduresStatusPage() {
                   <Calendar
                     id="date-filter"
                     value={dates}
-                    onChange={(e) => setDates(e.value)}
+                    onChange={(e) => setDates(e.value as DateRangeValue)}
                     selectionMode="range"
                     readOnlyInput
                     hideOnRangeSelection

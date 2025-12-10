@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {ProcedureResponse} from "../../../../types/ProcedureResponse.interface.ts";
 import {Splitter, SplitterPanel} from "primereact/splitter";
 import styles
@@ -28,7 +28,7 @@ function ArchivesManagerRecordPage() {
   // ];
 
   type StatusFilter = typeof PROCEDURE_STATUS_OPTIONS[number]['value'];
-  const [selectedStatus, ] = useState<StatusFilter>('ALL');
+  const [selectedStatus,] = useState<StatusFilter>('ALL');
 
   // const selectedStatusLabel = useMemo(() => {
   //   const match = PROCEDURE_STATUS_OPTIONS.find((s) => s.value === selectedStatus);
