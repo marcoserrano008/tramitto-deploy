@@ -48,7 +48,7 @@ function Header() {
           onClick={() => navigate('/')}
           style={{cursor: 'pointer'}}
         />
-        <span className={styles.appName}>Tramitto</span>
+        <span className={styles.appName}>SIT</span>
       </div>
 
       <div className={styles.rightSection}>

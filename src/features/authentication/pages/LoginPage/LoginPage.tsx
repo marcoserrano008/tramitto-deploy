@@ -111,7 +111,7 @@ const LoginPage = () => {
           </div>
 
           <div className={styles.welcomeSection}>
-            <h2 className={styles.welcomeTitle}>¡Bienvenido a Tramitto!</h2>
+            <h2 className={styles.welcomeTitle}>¡Bienvenido al Sistema de Información de Tramites!</h2>
             <p className={styles.welcomeText}>
               Accede a tu cuenta para gestionar tus documentos de forma inteligente, segura y sin complicaciones. Todo
               lo que necesitas, al alcance de un clic.

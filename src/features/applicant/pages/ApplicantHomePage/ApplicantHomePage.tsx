@@ -111,7 +111,7 @@ const ApplicantHomePage = () => {
     <div className={styles.container}>
       <section className={styles.heroSection}>
         <div className={styles.heroText}>
-          <h1>Bienvenido a Tramitto</h1>
+          <h1>Bienvenido al Sistema de Información de Tramites</h1>
           <p>Digitaliza y gestiona tus documentos académicos de forma rápida y segura.</p>
         </div>
         <div className={styles.heroLogos}>

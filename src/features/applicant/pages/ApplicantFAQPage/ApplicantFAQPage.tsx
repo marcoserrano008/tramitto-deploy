@@ -23,15 +23,15 @@ const ApplicantFAQPage: React.FC = () => {
   const faqData: FAQItem[] = [
     {
       id: 1,
-      question: "¿Qué es Tramitto?",
-      answer: "Tramitto es una plataforma web 100% digital de la Universidad Mayor de San Simón que permite la gestión y legalización de documentos académicos mediante firmas digitales. Puedes legalizar diplomas de bachiller, diplomas académicos y títulos en provisión nacional de forma completamente online.",
+      question: "¿Qué es el Sistema de Información de Tramites?",
+      answer: "El Sistema de Información de Tramites es una plataforma web 100% digital de la Universidad Mayor de San Simón que permite la gestión y legalización de documentos académicos mediante firmas digitales. Puedes legalizar diplomas de bachiller, diplomas académicos y títulos en provisión nacional de forma completamente online.",
       category: "General",
-      tags: ["documentos", "tramitto", "legalización"]
+      tags: ["documentos", "SIT", "legalización"]
     },
     {
       id: 2,
-      question: "¿Qué tipos de documentos puedo legalizar en Tramitto?",
-      answer: "En Tramitto puedes legalizar tres tipos de documentos académicos: Diploma de Bachiller, Diploma Académico y Título en Provisión Nacional. Todos estos documentos son firmados digitalmente por las autoridades de la Universidad Mayor de San Simón.",
+      question: "¿Qué tipos de documentos puedo legalizar en el Sistema de Información de Tramites?",
+      answer: "En el Sistema de Información de Tramites puedes legalizar tres tipos de documentos académicos: Diploma de Bachiller, Diploma Académico y Título en Provisión Nacional. Todos estos documentos son firmados digitalmente por las autoridades de la Universidad Mayor de San Simón.",
       category: "General",
       tags: ["documentos", "tipos", "legalización"]
     },
