@@ -23,7 +23,7 @@ const LoginPage = () => {
   const [message, setMessage] = useState(state?.message || "")
   const [isSuccess, setIsSuccess] = useState(!!state?.message)
 
-  const { login } = useAuth()
+  const {login} = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const LoginPage = () => {
       const timer = setTimeout(() => {
         setMessage("")
         setIsSuccess(false)
-        navigate(location.pathname, { replace: true, state: {} })
+        navigate(location.pathname, {replace: true, state: {}})
       }, 5000)
 
       return () => clearTimeout(timer)
@@ -70,7 +70,7 @@ const LoginPage = () => {
             console.warn(`Unknown role encountered: ${userRole}`)
             redirectPath = "/"
         }
-        navigate(redirectPath, { replace: true })
+        navigate(redirectPath, {replace: true})
       } else {
         throw new Error("Login successful, but user data or role is missing.")
       }
@@ -148,7 +148,7 @@ const LoginPage = () => {
             <div className={styles.feature}>
               <div className={styles.featureIcon}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="2" />
+                  <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="2"/>
                   <path
                     d="M7 11V7C7 4.79086 8.79086 3 11 3H13C15.2091 3 17 4.79086 17 7V11"
                     stroke="currentColor"
@@ -165,8 +165,8 @@ const LoginPage = () => {
             <div className={styles.feature}>
               <div className={styles.featureIcon}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                  <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
               </div>
               <div>
@@ -234,7 +234,8 @@ const LoginPage = () => {
             <span>o también</span>
           </div>
 
-          <button onClick={handleGoogleLogin} className={styles.googleButton} disabled={loading}>
+          {/*<button onClick={handleGoogleLogin} className={styles.googleButton} disabled={loading}>*/}
+          <button onClick={handleGoogleLogin} className={styles.googleButton} disabled={true}>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48">
               <path
                 fill="#FFC107"
