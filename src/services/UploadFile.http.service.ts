@@ -1,7 +1,7 @@
 import {FileResponse} from "../types/FileResponse.interface.ts";
 import axios from "axios";
 
-const BASE_URL = 'http://165.1.120.191:3000/api/v1';
+const BASE_URL = 'https://test-app-ms.duckdns.org/api/v1';
 
 export const uploadFileService = {
   async upload(file: File, description?: string): Promise<FileResponse> {

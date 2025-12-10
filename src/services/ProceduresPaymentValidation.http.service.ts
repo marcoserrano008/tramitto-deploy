@@ -1,7 +1,7 @@
 import axios from "axios";
 import {VerificarDeudaResponse} from "../types/VerificarDeudaResponse.interface.ts";
 
-const BASE_URL: string = "http://165.1.120.191:3000/api/v1/procedures";
+const BASE_URL: string = "https://test-app-ms.duckdns.org/api/v1/procedures";
 
 export const procedurePaymentValidationService = {
   async verifyDeuda(deudaId: string): Promise<VerificarDeudaResponse> {

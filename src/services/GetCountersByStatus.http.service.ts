@@ -3,7 +3,7 @@ import {ProcedureStatusEnum} from "../types/enum/ProcedureStatus.enum.ts";
 import {ProcedureCounterResponse} from "../types/ProcedureCounterResponse.interface.ts";
 
 const api: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'http://165.1.120.191:3000/api/v1'
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'https://test-app-ms.duckdns.org/api/v1'
 });
 
 export const getProcedureCounters = async (status: ProcedureStatusEnum): Promise<ProcedureCounterResponse[]> => {

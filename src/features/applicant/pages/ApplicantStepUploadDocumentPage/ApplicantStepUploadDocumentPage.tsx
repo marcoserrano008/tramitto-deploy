@@ -101,7 +101,7 @@ function ApplicantStepUploadDocumentPage({
       formData.append('description', `Document for procedure: ${procedureData.id}`);
 
       const uploadResponse = await axios.post<FileResponse>(
-        'http://165.1.120.191:3000/api/v1/document/upload',
+        'https://test-app-ms.duckdns.org/api/v1/document/upload',
         formData,
         {
           headers: {
@@ -113,7 +113,7 @@ function ApplicantStepUploadDocumentPage({
       // Step 2: Attach document to procedure
       setCurrentStep('Attaching document to procedure...');
       await axios.post(
-        'http://165.1.120.191:3000/api/v1/procedures/documents/attach',
+        'https://test-app-ms.duckdns.org/api/v1/procedures/documents/attach',
         {
           procedureId: procedureData.id,
           documentType: documentType,
@@ -124,14 +124,14 @@ function ApplicantStepUploadDocumentPage({
       if (procedureData.status == ProcedureStatusEnum.REJECTED) {
         setCurrentStep('Subiendo documento...');
         await axios.post(
-          'http://165.1.120.191:3000/api/v1/procedures/re-submit',
+          'https://test-app-ms.duckdns.org/api/v1/procedures/re-submit',
           {procedureId: procedureData.id}
         );
       } else {
         // Step 3: Submit procedure for review
         setCurrentStep('Subiendo documento...');
         await axios.post(
-          'http://165.1.120.191:3000/api/v1/procedures/submit-for-review',
+          'https://test-app-ms.duckdns.org/api/v1/procedures/submit-for-review',
           {procedureId: procedureData.id}
         );
       }

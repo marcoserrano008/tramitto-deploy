@@ -2,7 +2,7 @@ import axios from "axios";
 import {UpdateUserRequest} from "../types/UpdateUserRequest.ts";
 import {UserResponse} from "../types/User.interface.ts";
 
-const BASE_URL = 'http://165.1.120.191:3000/api/v1';
+const BASE_URL = 'https://test-app-ms.duckdns.org/api/v1';
 
 export const updateUserService = {
   async update(userId: number, userData: UpdateUserRequest): Promise<UserResponse> {

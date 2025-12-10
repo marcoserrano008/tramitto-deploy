@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://165.1.120.191:3000/api/v1',
+  baseURL: 'https://test-app-ms.duckdns.org/api/v1',
   responseType: 'blob',
 });
 

@@ -97,7 +97,7 @@ function DocumentPreview({selectedProcedure, onReview, isReviewing, showActions}
 
   const fetchPdfAndCreateBlobUrl = async (documentId: string) => {
     try {
-      const response = await fetch(`http://165.1.120.191:3000/api/v1/document/${documentId}`);
+      const response = await fetch(`https://test-app-ms.duckdns.org/api/v1/document/${documentId}`);
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

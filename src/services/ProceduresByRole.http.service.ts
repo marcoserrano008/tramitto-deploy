@@ -4,7 +4,7 @@ import {ProcedureResponse} from "../types/ProcedureResponse.interface.ts";
 import {PROCEDURE_TYPE_MAP} from "../types/record/procedureTypeMap.ts";
 import {ProcedureTypeEnum} from "../types/enum/ProcedureType.enum.ts";
 
-const BASE_URL: string = "http://165.1.120.191:3000/api/v1/procedures/workflow/pending";
+const BASE_URL: string = "https://test-app-ms.duckdns.org/api/v1/procedures/workflow/pending";
 
 export const proceduresByRoleService = {
   async getProcedures(role: WorkflowStepNameEnum, procedureTypeId: number): Promise<ProcedureResponse[]> {
