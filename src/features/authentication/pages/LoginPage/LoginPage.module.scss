@@ -680,3 +680,49 @@
     cursor: not-allowed;
   }
 }
+
+.demoBox {
+  background-color: #f0f9ff; // Light blue background
+  border: 1px dashed #007ad9; // Dashed blue border
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #333;
+
+  .demoText {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+
+    strong {
+      color: #007ad9;
+    }
+
+    span {
+      font-family: monospace;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 0 4px;
+      border-radius: 4px;
+    }
+  }
+
+  .demoButton {
+    background-color: #007ad9;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #005a9e;
+    }
+  }
+}
