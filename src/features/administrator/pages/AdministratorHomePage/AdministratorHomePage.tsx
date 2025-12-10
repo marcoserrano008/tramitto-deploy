@@ -1,5 +1,4 @@
 import {Button} from 'primereact/button';
-import {Tag} from 'primereact/tag';
 import {useNavigate} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import styles from './AdministratorHomePage.module.scss';
@@ -25,15 +24,15 @@ type ProcessItem = {
   newTodayCount: number;
 };
 
-type ReviewItem = {
-  id: number;
-  applicantName: string;
-  documentType: string;
-  status: string;
-  submissionDate: string;
-  reviewDate?: string;
-  reviewer?: string;
-};
+// type ReviewItem = {
+//   id: number;
+//   applicantName: string;
+//   documentType: string;
+//   status: string;
+//   submissionDate: string;
+//   reviewDate?: string;
+//   reviewer?: string;
+// };
 
 const statsItems: StatsItem[] = [
   {icon: 'pi pi-clock', title: 'Pendientes de Revisión', value: '23', color: '#FF9500'},
@@ -71,100 +70,100 @@ const processItems: ProcessItem[] = [
 
 const AdminHomePage = () => {
   const navigate = useNavigate();
-  const [reviewHistory, setReviewHistory] = useState<ReviewItem[]>([]);
-  const [reportChartData, setReportChartData] = useState<any>({});
-  const [reportChartOptions, setReportChartOptions] = useState<any>({});
+  // const [reviewHistory, setReviewHistory] = useState<ReviewItem[]>([]);
+  // const [reportChartData, setReportChartData] = useState<any>({});
+  // const [reportChartOptions, setReportChartOptions] = useState<any>({});
   const [items, setItems] = useState<ProcessItem[]>(processItems);
 
   useEffect(() => {
     // desde aqui la tabla
-    const sampleData: ReviewItem[] = [
-      {
-        id: 1,
-        applicantName: "Juan Pérez García",
-        documentType: "Diploma de Bachiller",
-        status: "Pendiente",
-        submissionDate: "2024-05-20",
-      },
-      {
-        id: 2,
-        applicantName: "María González López",
-        documentType: "Diploma Académico",
-        status: "Aprobado",
-        submissionDate: "2024-05-19",
-        reviewDate: "2024-05-20",
-        reviewer: "Admin. Rodriguez"
-      },
-      {
-        id: 3,
-        applicantName: "Carlos Mendoza Silva",
-        documentType: "Título Provisión Nacional",
-        status: "Rechazado",
-        submissionDate: "2024-05-18",
-        reviewDate: "2024-05-19",
-        reviewer: "Admin. Martinez"
-      },
-      {
-        id: 4,
-        applicantName: "Ana Torres Vega",
-        documentType: "Diploma de Bachiller",
-        status: "En Revisión",
-        submissionDate: "2024-05-17",
-      },
-      {
-        id: 5,
-        applicantName: "Luis Ramírez Castro",
-        documentType: "Diploma Académico",
-        status: "Aprobado",
-        submissionDate: "2024-05-16",
-        reviewDate: "2024-05-17",
-        reviewer: "Admin. García"
-      }
-    ];
-    setReviewHistory(sampleData);
+    // const sampleData: ReviewItem[] = [
+    //   {
+    //     id: 1,
+    //     applicantName: "Juan Pérez García",
+    //     documentType: "Diploma de Bachiller",
+    //     status: "Pendiente",
+    //     submissionDate: "2024-05-20",
+    //   },
+    //   {
+    //     id: 2,
+    //     applicantName: "María González López",
+    //     documentType: "Diploma Académico",
+    //     status: "Aprobado",
+    //     submissionDate: "2024-05-19",
+    //     reviewDate: "2024-05-20",
+    //     reviewer: "Admin. Rodriguez"
+    //   },
+    //   {
+    //     id: 3,
+    //     applicantName: "Carlos Mendoza Silva",
+    //     documentType: "Título Provisión Nacional",
+    //     status: "Rechazado",
+    //     submissionDate: "2024-05-18",
+    //     reviewDate: "2024-05-19",
+    //     reviewer: "Admin. Martinez"
+    //   },
+    //   {
+    //     id: 4,
+    //     applicantName: "Ana Torres Vega",
+    //     documentType: "Diploma de Bachiller",
+    //     status: "En Revisión",
+    //     submissionDate: "2024-05-17",
+    //   },
+    //   {
+    //     id: 5,
+    //     applicantName: "Luis Ramírez Castro",
+    //     documentType: "Diploma Académico",
+    //     status: "Aprobado",
+    //     submissionDate: "2024-05-16",
+    //     reviewDate: "2024-05-17",
+    //     reviewer: "Admin. García"
+    //   }
+    // ];
+    // setReviewHistory(sampleData);
 
     // Datos de reporte gráfico
-    const data = {
-      labels: ['Diploma Bachiller', 'Diploma Académico', 'Título Provisión'],
-      datasets: [
-        {
-          label: 'Solicitudes Procesadas',
-          backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726'],
-          data: [35, 50, 20]
-        }
-      ]
-    };
+    // const data = {
+    //   labels: ['Diploma Bachiller', 'Diploma Académico', 'Título Provisión'],
+    //   datasets: [
+    //     {
+    //       label: 'Solicitudes Procesadas',
+    //       backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726'],
+    //       data: [35, 50, 20]
+    //     }
+    //   ]
+    // };
 
-    const options = {
-      plugins: {
-        legend: {
-          labels: {
-            color: '#495057'
-          }
-        }
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: '#495057'
-          },
-          grid: {
-            color: '#ebedef'
-          }
-        },
-        y: {
-          ticks: {
-            color: '#495057'
-          },
-          grid: {
-            color: '#ebedef'
-          }
-        }
-      }
-    };
+    // const options = {
+    //   plugins: {
+    //     legend: {
+    //       labels: {
+    //         color: '#495057'
+    //       }
+    //     }
+    //   },
+    //   scales: {
+    //     x: {
+    //       ticks: {
+    //         color: '#495057'
+    //       },
+    //       grid: {
+    //         color: '#ebedef'
+    //       }
+    //     },
+    //     y: {
+    //       ticks: {
+    //         color: '#495057'
+    //       },
+    //       grid: {
+    //         color: '#ebedef'
+    //       }
+    //     }
+    //   }
+    // };
 
-    setReportChartData(data);
-    setReportChartOptions(options);
+    // setReportChartData(data);
+    // setReportChartOptions(options);
 
   }, []);
   //hasta aqui los reportes
@@ -185,45 +184,45 @@ const AdminHomePage = () => {
   }, []);
 
   //parte de la tabla
-  const statusBodyTemplate = (rowData: ReviewItem) => {
-    const getSeverity = (status: string) => {
-      switch (status) {
-        case 'Aprobado':
-          return 'success';
-        case 'Rechazado':
-          return 'danger';
-        case 'Pendiente':
-          return 'warning';
-        case 'En Revisión':
-          return 'info';
-        default:
-          return 'secondary';
-      }
-    };
+  // const statusBodyTemplate = (rowData: ReviewItem) => {
+  //   const getSeverity = (status: string) => {
+  //     switch (status) {
+  //       case 'Aprobado':
+  //         return 'success';
+  //       case 'Rechazado':
+  //         return 'danger';
+  //       case 'Pendiente':
+  //         return 'warning';
+  //       case 'En Revisión':
+  //         return 'info';
+  //       default:
+  //         return 'secondary';
+  //     }
+  //   };
+  //
+  //   return <Tag value={rowData.status} severity={getSeverity(rowData.status)}/>;
+  // };
 
-    return <Tag value={rowData.status} severity={getSeverity(rowData.status)}/>;
-  };
-
-  const actionBodyTemplate = (rowData: ReviewItem) => {
-    return (
-      <div className={styles.actionButtons}>
-        <Button
-          icon="pi pi-eye"
-          className="p-button-text p-button-info"
-          tooltip="Ver detalles"
-          onClick={() => navigate(`/admin/revision/${rowData.id}`)}
-        />
-        {rowData.status === 'Pendiente' && (
-          <Button
-            icon="pi pi-pencil"
-            className="p-button-text p-button-warning"
-            tooltip="Editar"
-            onClick={() => navigate(`/admin/revisar/${rowData.id}`)}
-          />
-        )}
-      </div>
-    );
-  };
+  // const actionBodyTemplate = (rowData: ReviewItem) => {
+  //   return (
+  //     <div className={styles.actionButtons}>
+  //       <Button
+  //         icon="pi pi-eye"
+  //         className="p-button-text p-button-info"
+  //         tooltip="Ver detalles"
+  //         onClick={() => navigate(`/admin/revision/${rowData.id}`)}
+  //       />
+  //       {rowData.status === 'Pendiente' && (
+  //         <Button
+  //           icon="pi pi-pencil"
+  //           className="p-button-text p-button-warning"
+  //           tooltip="Editar"
+  //           onClick={() => navigate(`/admin/revisar/${rowData.id}`)}
+  //         />
+  //       )}
+  //     </div>
+  //   );
+  // };
   //hasta aqui la tabña
 
   const procedureRoutes: Record<string, string> = {

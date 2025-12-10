@@ -40,7 +40,7 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
   const [baselineData, setBaselineData] = useState<ProcedureFormData>({
     name: procedure.name,
     description: procedure.description,
-    cost: parseFloat(procedure.cost),
+    cost: procedure.cost!,
     durationDays: procedure.durationDays,
     imageId: procedure.imageId,
     steps: procedure.steps,
@@ -55,7 +55,7 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
     const newData = {
       name: procedure.name,
       description: procedure.description,
-      cost: parseFloat(procedure.cost),
+      cost: procedure.cost!,
       durationDays: procedure.durationDays,
       imageId: procedure.imageId,
       steps: procedure.steps,
@@ -69,7 +69,7 @@ export default function EditProcedureForm({procedure, onUpdate, onUploadImage, o
   const [formData, setFormData] = useState<ProcedureFormData>({
     name: procedure.name,
     description: procedure.description,
-    cost: Number.parseFloat(procedure.cost),
+    cost: procedure.cost!,
     durationDays: procedure.durationDays,
     steps: [...procedure.steps],
     requirements: [...procedure.requirements],

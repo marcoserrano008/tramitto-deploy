@@ -4,7 +4,7 @@ export interface ProcedureTypeResponse {
   id: number;
   name: string;
   description: string;
-  cost: string; // BigDecimal
+  cost?: number; // BigDecimal
   active: boolean;
   steps: string[];
   requirements: string[];

@@ -24,7 +24,7 @@ function AdministratorProceduresListPage() {
   const {procedure} = useProcedureTypeData(procedureTypeEnum as ProcedureTypeEnum);
 
   const [selectedProcedure, setSelectedProcedure] = useState<ProcedureResponse | null>(null);
-  const [dates, setDates] = useState(undefined)
+  const [dates, setDates] = useState<Date[] | null | undefined>(undefined);
   const [isFilteredByDate, setIsFilteredByDate] = useState<boolean>(false);
 
   const {

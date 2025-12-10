@@ -11,8 +11,8 @@ interface ProcedureSelectorProps {
 }
 
 export default function ProceduresSelector({procedures, onSelectProcedure, onCancel}: ProcedureSelectorProps) {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedStatus, setSelectedStatus] = useState<"all" | "active" | "inactive">("all")
+  const [searchTerm,] = useState("")
+  const [selectedStatus,] = useState<"all" | "active" | "inactive">("all")
 
   const filteredProcedures = procedures.filter((procedure) => {
     const matchesSearch =
