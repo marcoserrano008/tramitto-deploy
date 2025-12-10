@@ -28,7 +28,7 @@ interface ProcedureFormData {
   requirements: string[]
 }
 
-export default function EditProcedureForm({procedure, onUpdate, onUploadImage, onBack, onCancel}: EditProcedureProps) {
+export default function EditProcedureForm({procedure, onUpdate, onUploadImage, onBack}: EditProcedureProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isProcessing, setIsProcessing] = useState(false)
   const [error, setError] = useState<string | null>(null)

@@ -21,6 +21,8 @@ import {ProgressSpinner} from "primereact/progressspinner";
 import {useToast} from "../../../../context/ToastContext.tsx";
 import {useProcedureTypeData} from "../../../applicant/hooks/useProcedureTypeData.ts";
 
+type DateRangeValue = (Date | null)[] | null | undefined;
+
 const ArchivesManagerProceduresListPage = () => {
   const {showSuccess} = useToast();
   const {procedureType} = useParams<{ procedureType: string }>();
@@ -29,7 +31,7 @@ const ArchivesManagerProceduresListPage = () => {
 
   const [selectedWorkflowStep, setSelectedWorkflowStep] = useState<WorkflowStepNameEnum>(WorkflowStepNameEnum.ARCHIVES_REVIEW);
   const [selectedProcedure, setSelectedProcedure] = useState<ProcedureResponse | null>(null);
-  const [dates, setDates] = useState(undefined)
+  const [dates, setDates] = useState<DateRangeValue>(undefined);
   const [isFilteredByDate, setIsFilteredByDate] = useState<boolean>(false);
 
   const {
@@ -109,81 +111,81 @@ const ArchivesManagerProceduresListPage = () => {
           </div>
         )}
 
-          <Splitter>
-            <SplitterPanel className={styles.proceduresListSplitterLeft} size={70} minSize={30}>
+        <Splitter>
+          <SplitterPanel className={styles.proceduresListSplitterLeft} size={70} minSize={30}>
 
-              <section className={styles.filterListContainer}>
-                <div className={styles.filterListRow}>
-                  <div className={styles.filterListField}>
-                    <label htmlFor="workflow-step">Tipo de revisión:</label>
-                    <Dropdown
-                      id="workflow-step"
-                      value={selectedWorkflowStep}
-                      onChange={handleWorkflowStepChange}
-                      options={workflowStepOptions}
-                      optionLabel="name"
-                      placeholder="Seleccionar tipo de revisión"
-                    />
-                  </div>
-
-                  <div className={styles.filterListField}>
-                    <label htmlFor="procedure-type">Tipo de trámite:</label>
-                    <Dropdown
-                      id="procedure-type"
-                      value={selectedProcedureType}
-                      onChange={(e) => setSelectedProcedureType(e.value)}
-                      options={procedureTypes}
-                      optionLabel="name"
-                      placeholder="Seleccionar tipo de trámite"
-                    />
-                  </div>
+            <section className={styles.filterListContainer}>
+              <div className={styles.filterListRow}>
+                <div className={styles.filterListField}>
+                  <label htmlFor="workflow-step">Tipo de revisión:</label>
+                  <Dropdown
+                    id="workflow-step"
+                    value={selectedWorkflowStep}
+                    onChange={handleWorkflowStepChange}
+                    options={workflowStepOptions}
+                    optionLabel="name"
+                    placeholder="Seleccionar tipo de revisión"
+                  />
                 </div>
 
-                <div className={styles.filterListRow}>
-                  <div className={styles.filterListSwitchField}>
-                    <label htmlFor="date-filter-switch">Filtrar por fecha</label>
-                    <InputSwitch
-                      id="date-filter-switch"
-                      checked={isFilteredByDate}
-                      onChange={(e: InputSwitchChangeEvent) => setIsFilteredByDate(e.value)}
-                    />
-                  </div>
-
-                  <div className={styles.filterListCalendarField}>
-                    <label htmlFor="date-filter">Seleccionar periodo:</label>
-                    <Calendar
-                      id="date-filter"
-                      value={dates}
-                      onChange={(e) => setDates(e.value)}
-                      selectionMode="range"
-                      readOnlyInput
-                      hideOnRangeSelection
-                      showIcon
-                      /* ←-- disables the Calendar and grey-out styles */
-                      disabled={!isFilteredByDate}
-                    />
-                  </div>
+                <div className={styles.filterListField}>
+                  <label htmlFor="procedure-type">Tipo de trámite:</label>
+                  <Dropdown
+                    id="procedure-type"
+                    value={selectedProcedureType}
+                    onChange={(e) => setSelectedProcedureType(e.value)}
+                    options={procedureTypes}
+                    optionLabel="name"
+                    placeholder="Seleccionar tipo de trámite"
+                  />
                 </div>
-              </section>
+              </div>
+
+              <div className={styles.filterListRow}>
+                <div className={styles.filterListSwitchField}>
+                  <label htmlFor="date-filter-switch">Filtrar por fecha</label>
+                  <InputSwitch
+                    id="date-filter-switch"
+                    checked={isFilteredByDate}
+                    onChange={(e: InputSwitchChangeEvent) => setIsFilteredByDate(e.value)}
+                  />
+                </div>
+
+                <div className={styles.filterListCalendarField}>
+                  <label htmlFor="date-filter">Seleccionar periodo:</label>
+                  <Calendar
+                    id="date-filter"
+                    value={dates}
+                    onChange={(e) => setDates(e.value as DateRangeValue)}
+                    selectionMode="range"
+                    readOnlyInput
+                    hideOnRangeSelection
+                    showIcon
+                    /* ←-- disables the Calendar and grey-out styles */
+                    disabled={!isFilteredByDate}
+                  />
+                </div>
+              </div>
+            </section>
 
 
-              <AdminProceduresTable
-                procedures={procedures}
-                onProcedureSelect={handleProcedureSelect}
-                selectedProcedureId={selectedProcedure?.id || null}
-                showProcedureColumn={true}
-              />
-            </SplitterPanel>
+            <AdminProceduresTable
+              procedures={procedures}
+              onProcedureSelect={handleProcedureSelect}
+              selectedProcedureId={selectedProcedure?.id || null}
+              showProcedureColumn={true}
+            />
+          </SplitterPanel>
 
-            <SplitterPanel className={styles.proceduresListSlitterRight} size={30} minSize={30}>
-              <DocumentPreview
-                selectedProcedure={selectedProcedure}
-                onReview={handleReview}
-                isReviewing={isReviewing}
-                showActions={true}
-              />
-            </SplitterPanel>
-          </Splitter>
+          <SplitterPanel className={styles.proceduresListSlitterRight} size={30} minSize={30}>
+            <DocumentPreview
+              selectedProcedure={selectedProcedure}
+              onReview={handleReview}
+              isReviewing={isReviewing}
+              showActions={true}
+            />
+          </SplitterPanel>
+        </Splitter>
       </section>
 
     </div>

@@ -1,11 +1,10 @@
 "use client"
 
 import type React from "react";
-
-import { useRef, useState } from "react";
+import {useRef, useState} from "react";
 import styles from "./UserValidation.module.scss";
 import {Image} from "primereact/image";
-import { ProgressSpinner } from "primereact/progressspinner";
+import {ProgressSpinner} from "primereact/progressspinner";
 import exampleSelfie from "../../../../../../assets/images/example_selfie.webp";
 import exampleCi from "../../../../../../assets/images/example_ci.webp";
 import backExampleCi from "../../../../../../assets/images/back_example_ci.png";
@@ -17,7 +16,7 @@ interface UserValidationProps {
 
 type CameraMode = "idCard" | "idCardBack" | "selfie" | null
 
-export default function UserValidation({ onValidate, onCancel }: UserValidationProps) {
+export default function UserValidation({onValidate, onCancel}: UserValidationProps) {
   const idCardInputRef = useRef<HTMLInputElement>(null)
   const idCardBackInputRef = useRef<HTMLInputElement>(null)
   const selfieInputRef = useRef<HTMLInputElement>(null)
@@ -26,7 +25,7 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
 
   const [idCardImage, setIdCardImage] = useState<File | null>(null)
   const [idCardPreview, setIdCardPreview] = useState<string | null>(null)
-  const [idCardBackImage, setIdCardBackImage] = useState<File | null>(null)
+  // const [idCardBackImage, setIdCardBackImage] = useState<File | null>(null)
   const [idCardBackPreview, setIdCardBackPreview] = useState<string | null>(null)
   const [selfieImage, setSelfieImage] = useState<File | null>(null)
   const [selfiePreview, setSelfiePreview] = useState<string | null>(null)
@@ -62,7 +61,7 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
       return
     }
 
-    setIdCardBackImage(file)
+    // setIdCardBackImage(file)
     const fileUrl = URL.createObjectURL(file)
     setIdCardBackPreview(fileUrl)
     setError(null)
@@ -90,8 +89,8 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: mode === "selfie" ? "user" : "environment",
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
+          width: {ideal: 1280},
+          height: {ideal: 720},
         },
         audio: false,
       })
@@ -154,7 +153,7 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
         const fileName = cameraMode === "idCard" ? "cedula_frente.jpg"
           : cameraMode === "idCardBack" ? "cedula_reverso.jpg"
             : "selfie.jpg"
-        const photoFile = new File([blob], fileName, { type: "image/jpeg" })
+        const photoFile = new File([blob], fileName, {type: "image/jpeg"})
 
         // Create and set preview URL
         const previewUrl = URL.createObjectURL(blob)
@@ -163,7 +162,7 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
           setIdCardImage(photoFile)
           setIdCardPreview(previewUrl)
         } else if (cameraMode === "idCardBack") {
-          setIdCardBackImage(photoFile)
+          // setIdCardBackImage(photoFile)
           setIdCardBackPreview(previewUrl)
         } else if (cameraMode === "selfie") {
           setSelfieImage(photoFile)
@@ -204,7 +203,7 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
     if (idCardBackPreview) {
       URL.revokeObjectURL(idCardBackPreview)
     }
-    setIdCardBackImage(null)
+    // setIdCardBackImage(null)
     setIdCardBackPreview(null)
     if (idCardBackInputRef.current) {
       idCardBackInputRef.current.value = ""
@@ -274,7 +273,7 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
                   </button>
                 </div>
                 <div className={styles.cameraContainer}>
-                  <video ref={videoRef} className={styles.cameraVideo} autoPlay playsInline muted />
+                  <video ref={videoRef} className={styles.cameraVideo} autoPlay playsInline muted/>
                   <div className={styles.cameraOverlay}>
                     {(cameraMode === "idCard" || cameraMode === "idCardBack") && (
                       <div className={styles.idCardGuide}>
@@ -301,7 +300,7 @@ export default function UserValidation({ onValidate, onCancel }: UserValidationP
                       <i className="pi pi-times" style={{fontSize: '1.5rem'}}></i>
                     </button>
                   </div>
-                  <canvas ref={canvasRef} style={{ display: "none" }} />
+                  <canvas ref={canvasRef} style={{display: "none"}}/>
                 </div>
               </div>
             </div>

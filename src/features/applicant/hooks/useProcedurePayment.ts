@@ -35,7 +35,6 @@ export function useProcedurePayment(paymentDetails: PaymentDetails): ProcedurePa
   const [creationError, setCreationError] = useState<string | null>(null);
 
   const [paymentProcessing, setPaymentProcessing] = useState<boolean>(false);
-  const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false);
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [paymentResponse, setPaymentResponse] = useState<ProcedureResponse | null>(null);
 
@@ -83,7 +82,7 @@ export function useProcedurePayment(paymentDetails: PaymentDetails): ProcedurePa
   const handlePayment = async () => {
     if (!createdProcedure) {
       setPaymentError('No se ha creado un trámite');
-      return;
+      return false;
     }
 
     setPaymentProcessing(true);

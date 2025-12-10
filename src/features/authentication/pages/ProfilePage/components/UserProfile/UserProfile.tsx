@@ -50,8 +50,8 @@ export default function UserProfile({user, onUpdate, onUploadImage}: UserProfile
     firstName: false,
     lastName: false,
     secondLastName: false,
-    birthdate: user.isIdentityValidated,
-    sisCode: user.isIdentityValidated,
+    birthdate: user.isIdentityValidated || false,
+    sisCode: user.isIdentityValidated || false,
     identificationNumber: true,
   });
 

@@ -569,26 +569,26 @@ export default function UserManagement() {
                   type="number"
                   value={newUser.sisCode || ""}
                   onChange={(e) =>
-                    setNewUser({...newUser, sisCode: e.target.value ? Number.parseInt(e.target.value) : undefined})
+                    setNewUser({...newUser, sisCode: e.target.value ? Number.parseInt(e.target.value) : 0})
                   }
                   placeholder="Ej: 202101234"
                 />
               </div>
 
-              <div className={styles.formGroupFull}>
-                <label htmlFor="role">Rol *</label>
-                <select
-                  id="role"
-                  value={newUser.role}
-                  onChange={(e) => setNewUser({...newUser, role: e.target.value as RoleEnum})}
-                >
-                  {Object.entries(ROLE_LABELS).map(([key, label]) => (
-                    <option key={key} value={key}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {/*<div className={styles.formGroupFull}>*/}
+              {/*  <label htmlFor="role">Rol *</label>*/}
+              {/*  <select*/}
+              {/*    id="role"*/}
+              {/*    value={newUser.role}*/}
+              {/*    onChange={(e) => setNewUser({...newUser, role: e.target.value as RoleEnum})}*/}
+              {/*  >*/}
+              {/*    {Object.entries(ROLE_LABELS).map(([key, label]) => (*/}
+              {/*      <option key={key} value={key}>*/}
+              {/*        {label}*/}
+              {/*      </option>*/}
+              {/*    ))}*/}
+              {/*  </select>*/}
+              {/*</div>*/}
             </div>
 
             <div className={styles.modalFooter}>

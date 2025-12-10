@@ -233,7 +233,7 @@ export default function ApplicantStepSearchDocumentPage({
       setTimeout(() => {
         navigate('/usuario/personal-procedures', {
           replace: true,
-          state: { selectedProcedureId: procedureData.id }
+          state: {selectedProcedureId: procedureData.id}
         });
       }, 1000);
       showSuccess('Tramite enviado', 'Enviado correctamente');

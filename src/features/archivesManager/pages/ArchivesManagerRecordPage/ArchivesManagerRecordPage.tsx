@@ -1,8 +1,8 @@
 import {useEffect, useMemo, useState} from "react";
 import {ProcedureResponse} from "../../../../types/ProcedureResponse.interface.ts";
 import {Splitter, SplitterPanel} from "primereact/splitter";
-import styles from "../../../administrator/pages/AdministratorProceduresListPage/AdministratorProceduresListPage.module.scss";
-import {Dropdown} from "primereact/dropdown";
+import styles
+  from "../../../administrator/pages/AdministratorProceduresListPage/AdministratorProceduresListPage.module.scss";
 import {InputSwitch, InputSwitchChangeEvent} from "primereact/inputswitch";
 import {Calendar} from "primereact/calendar";
 import {ProcedureStatusEnum} from "../../../../types/enum/ProcedureStatus.enum.ts";
@@ -13,25 +13,27 @@ import AdminProceduresTable
 import DocumentPreview
   from "../../../administrator/pages/AdministratorProceduresListPage/components/DocumentPreview/DocumentPreview.tsx";
 
+type DateRangeValue = (Date | null)[] | null | undefined;
+
 function ArchivesManagerRecordPage() {
   const [selectedProcedure, setSelectedProcedure] = useState<ProcedureResponse | null>(null);
-  const [dates, setDates] = useState(undefined)
+  const [dates, setDates] = useState<DateRangeValue>(undefined);
   const [isFilteredByDate, setIsFilteredByDate] = useState<boolean>(false);
 
-  const procedureStatuses = [
-    {name: 'Todos', value: 'ALL'},
-    {name: 'Revision Jefe de archivos', value: ProcedureStatusEnum.ARCHIVES_REVIEW},
-    {name: 'Completados', value: ProcedureStatusEnum.COMPLETED},
-    {name: 'Rechazados', value: ProcedureStatusEnum.REJECTED},
-  ];
+  // const procedureStatuses = [
+  //   {name: 'Todos', value: 'ALL'},
+  //   {name: 'Revision Jefe de archivos', value: ProcedureStatusEnum.ARCHIVES_REVIEW},
+  //   {name: 'Completados', value: ProcedureStatusEnum.COMPLETED},
+  //   {name: 'Rechazados', value: ProcedureStatusEnum.REJECTED},
+  // ];
 
   type StatusFilter = typeof PROCEDURE_STATUS_OPTIONS[number]['value'];
-  const [selectedStatus, setSelectedStatus] = useState<StatusFilter>('ALL');
+  const [selectedStatus, ] = useState<StatusFilter>('ALL');
 
-  const selectedStatusLabel = useMemo(() => {
-    const match = PROCEDURE_STATUS_OPTIONS.find((s) => s.value === selectedStatus);
-    return match?.label ?? '';
-  }, [selectedStatus]);
+  // const selectedStatusLabel = useMemo(() => {
+  //   const match = PROCEDURE_STATUS_OPTIONS.find((s) => s.value === selectedStatus);
+  //   return match?.label ?? '';
+  // }, [selectedStatus]);
 
   const [procedures, setProcedures] = useState<ProcedureResponse[]>([]);
   const [loadingProcedures, setLoadingProcedures] = useState(false);
@@ -105,7 +107,7 @@ function ArchivesManagerRecordPage() {
                   <Calendar
                     id="date-filter"
                     value={dates}
-                    onChange={(e) => setDates(e.value)}
+                    onChange={(e) => setDates(e.value as DateRangeValue)}
                     selectionMode="range"
                     readOnlyInput
                     hideOnRangeSelection

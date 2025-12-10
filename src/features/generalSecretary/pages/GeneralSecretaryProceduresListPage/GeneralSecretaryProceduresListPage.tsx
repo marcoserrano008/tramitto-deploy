@@ -14,19 +14,25 @@ import DocumentPreview
 import {ProcedureResponse} from "../../../../types/ProcedureResponse.interface.ts";
 import {ProcedureTypeEnum} from "../../../../types/enum/ProcedureType.enum.ts";
 import {useEffect, useState} from "react";
+import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
+import {useParams} from "react-router-dom";
+
+type DateRangeValue = (Date | null)[] | null | undefined;
 
 const GeneralSecretaryProceduresListPage = () => {
   const [selectedWorkflowStep, setSelectedWorkflowStep] = useState<WorkflowStepNameEnum>(WorkflowStepNameEnum.SECRETARY_REVIEW);
   const [selectedProcedure, setSelectedProcedure] = useState<ProcedureResponse | null>(null);
-  const [dates, setDates] = useState(undefined)
+  const [dates, setDates] = useState<DateRangeValue>(undefined);
   const [isFilteredByDate, setIsFilteredByDate] = useState<boolean>(false);
+  const {procedureType} = useParams<{ procedureType: string }>();
+  const procedureTypeEnum: ProcedureTypeEnum | undefined = procedureType ? urlToProcedureEnum[procedureType] : undefined;
 
   const {
     procedures,
     loading: loadingProcedures,
     error: fetchError,
     refetch: refetchProcedures,
-  } = useFetchProcedures(WorkflowStepNameEnum.SECRETARY_REVIEW);
+  } = useFetchProcedures(WorkflowStepNameEnum.SECRETARY_REVIEW, procedureTypeEnum!);
 
   const {
     handleReview,
@@ -134,7 +140,7 @@ const GeneralSecretaryProceduresListPage = () => {
                     <Calendar
                       id="date-filter"
                       value={dates}
-                      onChange={(e) => setDates(e.value)}
+                      onChange={(e) => setDates(e.value as DateRangeValue)}
                       selectionMode="range"
                       readOnlyInput
                       hideOnRangeSelection
@@ -151,6 +157,7 @@ const GeneralSecretaryProceduresListPage = () => {
                 procedures={procedures}
                 onProcedureSelect={handleProcedureSelect}
                 selectedProcedureId={selectedProcedure?.id || null}
+                showProcedureColumn={false}
               />
             </SplitterPanel>
 

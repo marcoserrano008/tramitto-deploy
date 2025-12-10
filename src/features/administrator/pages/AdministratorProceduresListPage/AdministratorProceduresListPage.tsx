@@ -15,7 +15,9 @@ import {useParams} from "react-router-dom";
 import {urlToProcedureEnum} from "../../../../types/urlToProcedureEnum.ts";
 import {useProcedureTypeData} from "../../../applicant/hooks/useProcedureTypeData.ts";
 import {useToast} from "../../../../context/ToastContext.tsx";
-import { ProgressSpinner } from 'primereact/progressspinner';
+import {ProgressSpinner} from 'primereact/progressspinner';
+
+type DateRangeValue = (Date | null)[] | null | undefined;
 
 function AdministratorProceduresListPage() {
   const {showSuccess} = useToast();
@@ -24,8 +26,12 @@ function AdministratorProceduresListPage() {
   const {procedure} = useProcedureTypeData(procedureTypeEnum as ProcedureTypeEnum);
 
   const [selectedProcedure, setSelectedProcedure] = useState<ProcedureResponse | null>(null);
-  const [dates, setDates] = useState<Date[] | null | undefined>(undefined);
+  const [dates, setDates] = useState<DateRangeValue>(undefined);
   const [isFilteredByDate, setIsFilteredByDate] = useState<boolean>(false);
+
+  // Corrected: Allow the array elements to be Date or null
+
+// ... inside your component
 
   const {
     procedures,
@@ -103,7 +109,7 @@ function AdministratorProceduresListPage() {
                   <Calendar
                     id="date-filter"
                     value={dates}
-                    onChange={(e) => setDates(e.value)}
+                    onChange={(e) => setDates(e.value as DateRangeValue)}
                     selectionMode="range"
                     readOnlyInput
                     hideOnRangeSelection

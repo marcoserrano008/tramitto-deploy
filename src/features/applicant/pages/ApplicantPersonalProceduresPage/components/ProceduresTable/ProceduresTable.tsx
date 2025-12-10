@@ -1,10 +1,9 @@
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {ProcedureResponse} from "../../../../../../types/ProcedureResponse.interface.ts";
 import "./ProceduresTable.css";
 import {Tag} from "primereact/tag";
 import {useNavigate} from "react-router-dom";
 import {handlePreview} from "../../../../../../utils/documentActions.ts";
-import React from "react";
 import styles from "./ProceduresTable.module.scss";
 
 type ProceduresTableProps = {
@@ -37,7 +36,7 @@ const ProceduresTable: React.FC<ProceduresTableProps> = ({
   const rowRefs = useRef<Record<number, HTMLTableRowElement | null>>({});
   useEffect(() => {
     if (highlightId && rowRefs.current[highlightId]) {
-      rowRefs.current[highlightId]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      rowRefs.current[highlightId]?.scrollIntoView({behavior: 'smooth', block: 'center'});
     }
   }, [highlightId, procedures]);
 
@@ -78,7 +77,7 @@ const ProceduresTable: React.FC<ProceduresTableProps> = ({
     const procedureRouter = getProcedureRoute(procedure.procedureTypeId)
 
     navigate(`../informacion-tramite/${procedureRouter}/subir-archivos`, {
-      state: { procedureData: procedure },
+      state: {procedureData: procedure},
     })
   }
 
@@ -86,12 +85,12 @@ const ProceduresTable: React.FC<ProceduresTableProps> = ({
     const procedureRouter = getProcedureRoute(procedure.procedureTypeId)
 
     navigate(`../informacion-tramite/${procedureRouter}/subir-archivos`, {
-      state: { procedureData: procedure },
+      state: {procedureData: procedure},
     })
   }
 
   const handlePaymentCheck = (procedure: ProcedureResponse) => {
-    const url: string  = `https://cajas.dev.umss.edu.bo/comprobante/${procedure.payment.transactionId}`;
+    const url: string = `https://cajas.dev.umss.edu.bo/comprobante/${procedure.payment.transactionId}`;
     window.open(url, '_blank');
   }
 
@@ -256,7 +255,9 @@ const ProceduresTable: React.FC<ProceduresTableProps> = ({
           {procedures.map((procedure: ProcedureResponse) => (
             <React.Fragment key={procedure.id}>
               <tr
-                ref={el => (rowRefs.current[procedure.id] = el)}
+                ref={(el) => {
+                  rowRefs.current[procedure.id] = el;
+                }}
                 className={`${styles.procedureRow} ${
                   procedure.status === 'REJECTED' ? styles.rejected : ''
                 } ${expandedRows.includes(procedure.id) ? styles.expanded : ''} ${
@@ -269,9 +270,9 @@ const ProceduresTable: React.FC<ProceduresTableProps> = ({
                 <td className={styles.cell}>{formatDate(procedure.createdAt)}</td>
                 <td className={styles.cell}>{getStatusDisplay(procedure)}</td>
                 <td className={styles.cell}>
-              <span className={styles.expandIcon}>
-                {expandedRows.includes(procedure.id) ? '▲' : '▼'}
-              </span>
+      <span className={styles.expandIcon}>
+        {expandedRows.includes(procedure.id) ? '▲' : '▼'}
+      </span>
                 </td>
               </tr>
               {expandedRows.includes(procedure.id) && (

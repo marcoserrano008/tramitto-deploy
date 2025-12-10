@@ -1,9 +1,6 @@
-import { Button } from 'primereact/button';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Tag } from 'primereact/tag';
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import {Button} from 'primereact/button';
+import {useNavigate} from 'react-router-dom';
+import {useEffect, useState} from 'react';
 import styles from './ArchivesManagerHomePage.module.scss';
 import 'primeicons/primeicons.css';
 import logoTramitto from "../../../../../public/logoTramitto.svg";
@@ -27,20 +24,20 @@ type ProcessItem = {
   newTodayCount: number;
 };
 
-type SignatureItem = {
-  id: number;
-  applicantName: string;
-  documentType: string;
-  status: string;
-  submissionDate: string;
-  signatureDate?: string;
-  signedBy?: string;
-};
-
+// type SignatureItem = {
+//   id: number;
+//   applicantName: string;
+//   documentType: string;
+//   status: string;
+//   submissionDate: string;
+//   signatureDate?: string;
+//   signedBy?: string;
+// };
+//
 const statsItems: StatsItem[] = [
-  { icon: 'pi pi-clock', title: 'Pendientes de Firma', value: '18', color: '#FF9500' },
-  { icon: 'pi pi-check-circle', title: 'Firmados Hoy', value: '12', color: '#52C41A' },
-  { icon: 'pi pi-file-edit', title: 'Total Firmados', value: '2,451', color: '#1890FF' },
+  {icon: 'pi pi-clock', title: 'Pendientes de Firma', value: '18', color: '#FF9500'},
+  {icon: 'pi pi-check-circle', title: 'Firmados Hoy', value: '12', color: '#52C41A'},
+  {icon: 'pi pi-file-edit', title: 'Total Firmados', value: '2,451', color: '#1890FF'},
 ];
 
 const processItems: ProcessItem[] = [
@@ -72,55 +69,55 @@ const processItems: ProcessItem[] = [
 
 const ArchivesManagerHomePage = () => {
   const navigate = useNavigate();
-  const [signatureHistory, setSignatureHistory] = useState<SignatureItem[]>([]);
+  // const [signatureHistory, setSignatureHistory] = useState<SignatureItem[]>([]);
   const [items, setItems] = useState<ProcessItem[]>(processItems);
 
   useEffect(() => {
     // datos fake
-    const sampleData: SignatureItem[] = [
-      {
-        id: 1,
-        applicantName: "Pedro Morales Vega",
-        documentType: "Diploma de Bachiller",
-        status: "Pendiente",
-        submissionDate: "2024-05-20",
-      },
-      {
-        id: 2,
-        applicantName: "Carmen Silva Ramos",
-        documentType: "Diploma Académico",
-        status: "Firmado",
-        submissionDate: "2024-05-19",
-        signatureDate: "2024-05-20",
-        signedBy: "Jefe Archivos - López"
-      },
-      {
-        id: 3,
-        applicantName: "Roberto Fernández Cruz",
-        documentType: "Título Provisión Nacional",
-        status: "Rechazado",
-        submissionDate: "2024-05-18",
-        signatureDate: "2024-05-19",
-        signedBy: "Jefe Archivos - López"
-      },
-      {
-        id: 4,
-        applicantName: "Isabella Mendoza Torres",
-        documentType: "Diploma de Bachiller",
-        status: "En Proceso",
-        submissionDate: "2024-05-17",
-      },
-      {
-        id: 5,
-        applicantName: "Diego Vargas Medina",
-        documentType: "Diploma Académico",
-        status: "Firmado",
-        submissionDate: "2024-05-16",
-        signatureDate: "2024-05-17",
-        signedBy: "Jefe Archivos - López"
-      }
-    ];
-    setSignatureHistory(sampleData);
+    // const sampleData: SignatureItem[] = [
+    //   {
+    //     id: 1,
+    //     applicantName: "Pedro Morales Vega",
+    //     documentType: "Diploma de Bachiller",
+    //     status: "Pendiente",
+    //     submissionDate: "2024-05-20",
+    //   },
+    //   {
+    //     id: 2,
+    //     applicantName: "Carmen Silva Ramos",
+    //     documentType: "Diploma Académico",
+    //     status: "Firmado",
+    //     submissionDate: "2024-05-19",
+    //     signatureDate: "2024-05-20",
+    //     signedBy: "Jefe Archivos - López"
+    //   },
+    //   {
+    //     id: 3,
+    //     applicantName: "Roberto Fernández Cruz",
+    //     documentType: "Título Provisión Nacional",
+    //     status: "Rechazado",
+    //     submissionDate: "2024-05-18",
+    //     signatureDate: "2024-05-19",
+    //     signedBy: "Jefe Archivos - López"
+    //   },
+    //   {
+    //     id: 4,
+    //     applicantName: "Isabella Mendoza Torres",
+    //     documentType: "Diploma de Bachiller",
+    //     status: "En Proceso",
+    //     submissionDate: "2024-05-17",
+    //   },
+    //   {
+    //     id: 5,
+    //     applicantName: "Diego Vargas Medina",
+    //     documentType: "Diploma Académico",
+    //     status: "Firmado",
+    //     submissionDate: "2024-05-16",
+    //     signatureDate: "2024-05-17",
+    //     signedBy: "Jefe Archivos - López"
+    //   }
+    // ];
+    // setSignatureHistory(sampleData);
   }, []);
 
   useEffect(() => {
@@ -139,40 +136,45 @@ const ArchivesManagerHomePage = () => {
   }, []);
 
   // tabla fake
-  const statusBodyTemplate = (rowData: SignatureItem) => {
-    const getSeverity = (status: string) => {
-      switch (status) {
-        case 'Firmado': return 'success';
-        case 'Rechazado': return 'danger';
-        case 'Pendiente': return 'warning';
-        case 'En Proceso': return 'info';
-        default: return 'secondary';
-      }
-    };
-
-    return <Tag value={rowData.status} severity={getSeverity(rowData.status)} />;
-  };
-
-  const actionBodyTemplate = (rowData: SignatureItem) => {
-    return (
-      <div className={styles.actionButtons}>
-        <Button
-          icon="pi pi-eye"
-          className="p-button-text p-button-info"
-          tooltip="Ver detalles"
-          onClick={() => navigate(`/archives-manager/revision/${rowData.id}`)}
-        />
-        {rowData.status === 'Pendiente' && (
-          <Button
-            icon="pi pi-file-edit"
-            className="p-button-text p-button-warning"
-            tooltip="Firmar"
-            onClick={() => navigate(`/archives-manager/firmar/${rowData.id}`)}
-          />
-        )}
-      </div>
-    );
-  };
+  // const statusBodyTemplate = (rowData: SignatureItem) => {
+  //   const getSeverity = (status: string) => {
+  //     switch (status) {
+  //       case 'Firmado':
+  //         return 'success';
+  //       case 'Rechazado':
+  //         return 'danger';
+  //       case 'Pendiente':
+  //         return 'warning';
+  //       case 'En Proceso':
+  //         return 'info';
+  //       default:
+  //         return 'secondary';
+  //     }
+  //   };
+  //
+  //   return <Tag value={rowData.status} severity={getSeverity(rowData.status)}/>;
+  // };
+  //
+  // const actionBodyTemplate = (rowData: SignatureItem) => {
+  //   return (
+  //     <div className={styles.actionButtons}>
+  //       <Button
+  //         icon="pi pi-eye"
+  //         className="p-button-text p-button-info"
+  //         tooltip="Ver detalles"
+  //         onClick={() => navigate(`/archives-manager/revision/${rowData.id}`)}
+  //       />
+  //       {rowData.status === 'Pendiente' && (
+  //         <Button
+  //           icon="pi pi-file-edit"
+  //           className="p-button-text p-button-warning"
+  //           tooltip="Firmar"
+  //           onClick={() => navigate(`/archives-manager/firmar/${rowData.id}`)}
+  //         />
+  //       )}
+  //     </div>
+  //   );
+  // };
 
   const procedureRoutes: Record<string, string> = {
     'Diploma de Bachiller': '/archives-manager/procedures-list/diploma-bachiller',
