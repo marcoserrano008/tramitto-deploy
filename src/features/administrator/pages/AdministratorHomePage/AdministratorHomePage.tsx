@@ -4,7 +4,6 @@ import {useEffect, useState} from 'react';
 import styles from './AdministratorHomePage.module.scss';
 import 'primeicons/primeicons.css';
 import logoTramitto from "../../../../../public/logoTramitto.svg";
-import logoUMSS from "../../../../assets/images/logoUMSS.svg";
 import {getProcedureCounters} from "../../../../services/GetCountersByStatus.http.service.ts";
 import {ProcedureStatusEnum} from "../../../../types/enum/ProcedureStatus.enum.ts";
 
@@ -240,7 +239,7 @@ const AdminHomePage = () => {
         </div>
         <div className={styles.heroLogos}>
           <img src={logoTramitto} alt="Logo Tramitto" className={styles.logoImage}/>
-          <img src={logoUMSS} alt="Logo UMSS" className={styles.logoImage}/>
+          {/*<img src={logoUMSS} alt="Logo UMSS" className={styles.logoImage}/>*/}
         </div>
       </section>
 

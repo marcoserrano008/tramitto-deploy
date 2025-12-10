@@ -5,7 +5,6 @@ import 'primeicons/primeicons.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import logoTramitto from "../../../../../public/logoTramitto.svg";
-import logoUMSS from "../../../../assets/images/logoUMSS.svg";
 
 // type WhyItem = {
 //   icon: string;
@@ -117,7 +116,7 @@ const ApplicantHomePage = () => {
         </div>
         <div className={styles.heroLogos}>
           <img src={logoTramitto} alt="Logo Tramitto" className={styles.logoImage}/>
-          <img src={logoUMSS} alt="Logo UMSS" className={styles.logoImage}/>
+          {/*<img src={logoUMSS} alt="Logo UMSS" className={styles.logoImage}/>*/}
         </div>
       </section>
 
