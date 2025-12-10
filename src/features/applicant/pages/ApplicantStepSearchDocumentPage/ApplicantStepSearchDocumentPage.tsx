@@ -205,7 +205,7 @@ export default function ApplicantStepSearchDocumentPage({
       // Step 2: Attach document to procedure
       setCurrentStep('Attaching document to procedure...');
       await axios.post(
-        'http://localhost:3000/api/v1/procedures/documents/attach',
+        'http://165.1.120.191:3000/api/v1/procedures/documents/attach',
         {
           procedureId: procedureData.id,
           documentType: documentType,
@@ -216,14 +216,14 @@ export default function ApplicantStepSearchDocumentPage({
       if (procedureData.status == ProcedureStatusEnum.REJECTED) {
         setCurrentStep('Subiendo documento...');
         await axios.post(
-          'http://localhost:3000/api/v1/procedures/re-submit',
+          'http://165.1.120.191:3000/api/v1/procedures/re-submit',
           {procedureId: procedureData.id}
         );
       } else {
         // Step 3: Submit procedure for review
         setCurrentStep('Subiendo documento...');
         await axios.post(
-          'http://localhost:3000/api/v1/procedures/submit-for-review',
+          'http://165.1.120.191:3000/api/v1/procedures/submit-for-review',
           {procedureId: procedureData.id}
         );
       }

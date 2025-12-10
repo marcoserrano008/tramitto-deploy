@@ -1,7 +1,7 @@
 import axios from "axios";
 import {PersonReduced} from "../types/PersonReduced.interface.ts";
 
-const BASE_URL = 'http://localhost:3000/api/v1';
+const BASE_URL = 'http://165.1.120.191:3000/api/v1';
 
 export const getPersonaByDocumentService = {
   async getPersona(document: number): Promise<PersonReduced> {

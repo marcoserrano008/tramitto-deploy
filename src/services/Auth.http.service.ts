@@ -3,7 +3,7 @@ import {LoginRequest} from "../types/LoginRequest.interface.ts";
 import {AuthResponse} from "../types/AuthResponse.interface.ts";
 import {UserResponse} from "../types/User.interface.ts";
 
-const API_URL = 'http://localhost:3000/api/v1';
+const API_URL = 'http://165.1.120.191:3000/api/v1';
 
 class AuthService {
   async login(credentials: LoginRequest): Promise<AuthResponse> {
@@ -81,7 +81,7 @@ class AuthService {
   }
 
   initiateGoogleLogin(): void {
-    window.location.href = 'http://localhost:3000/oauth2/authorize/google';
+    window.location.href = 'http://165.1.120.191:3000/oauth2/authorize/google';
   }
 }
 

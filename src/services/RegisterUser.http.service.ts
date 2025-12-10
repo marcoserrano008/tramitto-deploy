@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {RegisterRequest} from "../types/RegisterRequest.interface.ts";
 
-const API_BASE_URL = 'http://localhost:3000/api/v1';
+const API_BASE_URL = 'http://165.1.120.191:3000/api/v1';
 
 export const registerService = {
   register: async (registerData: RegisterRequest) => {

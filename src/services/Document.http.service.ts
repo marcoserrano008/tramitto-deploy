@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
+  baseURL: 'http://165.1.120.191:3000/api/v1',
   responseType: 'blob',
 });
 
