@@ -197,11 +197,23 @@ const ApplicantPersonalProceduresPage = () => {
       }, 1000);
       return () => window.clearTimeout(timer);
     } else if (showProcessingModal && countdown === 0) {
-      // Cerrar modal y recargar
+      // Cerrar modal, recargar y abrir documento
       setShowProcessingModal(false);
       fetchProcedures();
+
+      // Abrir el documento automáticamente
+      const selectedProcedure = procedures.find(p => p.id === selectedProcedureId);
+      if (selectedProcedure) {
+        const documentId = selectedProcedure.documents.at(-1)?.documentId;
+        if (documentId) {
+          // Importar la función handlePreview
+          import('../../../../utils/documentActions.ts').then(({ handlePreview }) => {
+            handlePreview(documentId, selectedProcedure);
+          });
+        }
+      }
     }
-  }, [showProcessingModal, countdown, fetchProcedures]);
+  }, [showProcessingModal, countdown, fetchProcedures, procedures, selectedProcedureId]);
 
   const handleCloseModal = useCallback(() => {
     setShowProcessingModal(false);
