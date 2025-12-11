@@ -142,7 +142,7 @@ async function createCertificationPage(pdfDoc: PDFDocument, procedure?: Procedur
 
   // Calcular posición exacta después del nombre
   const nombreWidth = 'USUARIO DEMO'.length * 7.2;
-  page.drawText('     expedido por esta Casa Superior de Estudios, siendo', {
+  page.drawText('    expedido por esta Casa Superior de Estudios, siendo', {
     x: margin + nombreWidth,
     y: currentY,
     size: 12,
@@ -152,7 +152,7 @@ async function createCertificationPage(pdfDoc: PDFDocument, procedure?: Procedur
 
   // Línea 4
   currentY -= lineHeight;
-  page.drawText('auténticas las firmas y rúbricas estampadas en el mismo. Esto es una prueba', {
+  page.drawText('auténticas las firmas y rúbricas estampadas en el mismo. Esto es una prueba.', {
     x: margin,
     y: currentY,
     size: 12,
@@ -257,5 +257,7 @@ export async function handlePreview(documentId: string, procedure?: ProcedureRes
 
   const modifiedBlob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
   const url = URL.createObjectURL(modifiedBlob);
-  window.open(url, '_blank');
+
+  // Abrir en la misma pestaña en lugar de ventana emergente
+  window.location.href = url;
 }
