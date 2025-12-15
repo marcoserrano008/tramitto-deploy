@@ -246,18 +246,40 @@ export async function handleDownload(documentId: string, filename?: string, proc
 }
 
 export async function handlePreview(documentId: string, procedure?: ProcedureResponse) {
-  const blob = await fetchDocument(documentId);
+  // 1. Open the new tab immediately (synchronously) to avoid pop-up blockers
+  // We keep a reference to this window
+  const newTab = window.open('', '_blank');
 
-  const arrayBuffer = await blob.arrayBuffer();
-  const pdfDoc = await PDFDocument.load(arrayBuffer);
+  // Optional: Set a loading title or text so the user knows something is happening
+  if (newTab) {
+    newTab.document.title = "Generating PDF...";
+    newTab.document.body.innerText = "Please wait, generating PDF...";
+  }
 
-  await createCertificationPage(pdfDoc, procedure);
+  try {
+    const blob = await fetchDocument(documentId);
 
-  const modifiedPdfBytes = await pdfDoc.save();
+    const arrayBuffer = await blob.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(arrayBuffer);
 
-  const modifiedBlob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
-  const url = URL.createObjectURL(modifiedBlob);
+    await createCertificationPage(pdfDoc, procedure);
 
-  // Abrir en la misma pestaña en lugar de ventana emergente
-  window.location.href = url;
+    const modifiedPdfBytes = await pdfDoc.save();
+
+    const modifiedBlob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(modifiedBlob);
+
+    // 2. Once ready, update the location of the previously opened tab
+    if (newTab) {
+      newTab.location.href = url;
+      newTab.focus(); // Ensure focus
+    } else {
+      // Fallback if the browser blocked it anyway or window.open failed
+      window.open(url, '_blank');
+    }
+  } catch (error) {
+    // If generation fails, close the blank tab so the user isn't left looking at it
+    if (newTab) newTab.close();
+    console.error("Error generating PDF:", error);
+  }
 }

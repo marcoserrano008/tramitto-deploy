@@ -231,7 +231,6 @@
 .contentHeader {
   display: flex;
   align-items: center;
-  margin-top: 1rem;
 }
 
 .contentHeaderIcon i {
@@ -679,4 +678,16 @@
     padding: 60px;
     max-width: 1200px;
   }
+}
+
+
+.sidebarHeader {
+  background-color: #0052cc;
+  color: white;
+  padding: 1.5rem;
+}
+
+.sidebarTitle {
+  font-weight: 600;
+  font-size: 25px;
 }

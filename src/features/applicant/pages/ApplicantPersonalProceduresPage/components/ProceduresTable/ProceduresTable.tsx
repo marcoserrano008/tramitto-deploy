@@ -304,12 +304,14 @@ type ProceduresTableProps = {
   procedures: ProcedureResponse[];
   defaultExpandedRows?: number[];
   highlightId?: number;
+  limit?: number;
 };
 
 const ProceduresTable: React.FC<ProceduresTableProps> = ({
                                                            procedures,
                                                            defaultExpandedRows = [],
                                                            highlightId,
+                                                           limit,
                                                          }) => {
   //TODO: Change this value to an enum
   const PROCEDURE_TYPE_MAP: Record<number, string> = {
@@ -539,6 +541,10 @@ const ProceduresTable: React.FC<ProceduresTableProps> = ({
     }
   }
 
+  const proceduresToDisplay: ProcedureResponse[] = limit && limit > 0
+    ? procedures.slice(-limit)
+    : procedures;
+
   return (
     <div className={styles.proceduresTableContainer}>
       <div className={styles.tableWrapper}>
@@ -553,7 +559,7 @@ const ProceduresTable: React.FC<ProceduresTableProps> = ({
           </tr>
           </thead>
           <tbody>
-          {procedures.map((procedure: ProcedureResponse) => (
+          {proceduresToDisplay.map((procedure: ProcedureResponse) => (
             <React.Fragment key={procedure.id}>
               <tr
                 ref={(el) => {

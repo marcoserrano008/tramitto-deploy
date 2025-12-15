@@ -58,7 +58,11 @@ function ApplicantProcedureInformationPage() {
         <div className={styles.procedureCard}>
           {/* Left sidebar with steps */}
           <div className={styles.sidebar}>
+            <div className={styles.sidebarHeader}>
+              <div className={styles.sidebarTitle}>Información del trámite</div>
+            </div>
             <div className={styles.sidebarContent}>
+
               <div className={styles.stepsHeader}>
                 <h2 className={styles.stepsHeaderTitle}>Pasos del trámite</h2>
               </div>
@@ -126,9 +130,9 @@ function ApplicantProcedureInformationPage() {
           <div className={styles.mainContent}>
             <div className={styles.contentHeader}>
               <div className={styles.contentHeaderIcon}>
-                <i className="pi pi-file-pdf"></i>
+              <i className="pi pi-file-pdf"></i>
               </div>
-              <h1 className={styles.contentHeaderTitle}>Información del trámite</h1>
+              <h1 className={styles.contentHeaderTitle}>{procedure.name}</h1>
             </div>
 
             <div className={styles.quickInfo}>
@@ -156,60 +160,6 @@ function ApplicantProcedureInformationPage() {
             </div>
 
             {/* Process section */}
-            <section className={`${styles.infoSection} ${styles.processSection}`}>
-              <div className={styles.infoHeader}>
-                <h2 className={styles.infoTitle}>PROCESO</h2>
-              </div>
-              <div className={styles.infoContent}>
-                <div className={styles.processTimeline}>
-                  <div className={styles.processStep}>
-                    <div className={styles.processStepIcon}>1</div>
-                    <div className={styles.processStepContent}>
-                      <h4 className={styles.processStepTitle}>Pago</h4>
-                      <p className={styles.processStepDescription}>
-                        Realiza el pago del trámite mediante código QR por un valor de {procedure.cost} Bs.
-                      </p>
-                    </div>
-                  </div>
-                  <div className={styles.processStep}>
-                    <div className={styles.processStepIcon}>2</div>
-                    <div className={styles.processStepContent}>
-                      <h4 className={styles.processStepTitle}>Carga de documentos</h4>
-                      <p className={styles.processStepDescription}>
-                        Sube los documentos requeridos en formato digital según las especificaciones.
-                      </p>
-                    </div>
-                  </div>
-                  <div className={styles.processStep}>
-                    <div className={styles.processStepIcon}>3</div>
-                    <div className={styles.processStepContent}>
-                      <h4 className={styles.processStepTitle}>Verificación</h4>
-                      <p className={styles.processStepDescription}>
-                        Nuestro equipo verificará la autenticidad de los documentos presentados.
-                      </p>
-                    </div>
-                  </div>
-                  <div className={styles.processStep}>
-                    <div className={styles.processStepIcon}>4</div>
-                    <div className={styles.processStepContent}>
-                      <h4 className={styles.processStepTitle}>Legalización</h4>
-                      <p className={styles.processStepDescription}>
-                        Se procederá a la legalización oficial de tu Diploma de Bachiller.
-                      </p>
-                    </div>
-                  </div>
-                  <div className={styles.processStep}>
-                    <div className={styles.processStepIcon}>5</div>
-                    <div className={styles.processStepContent}>
-                      <h4 className={styles.processStepTitle}>Entrega</h4>
-                      <p className={styles.processStepDescription}>
-                        Recibirás una notificación cuando tu documento legalizado esté disponible.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
 
             {/* Start button */}
             <div className={styles.startButtonContainer}>

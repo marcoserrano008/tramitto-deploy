@@ -75,7 +75,6 @@ export default function ApplicantStepSearchDocumentPage({
   useEffect(() => {
     loadSuggestions()
   }, [])
-
   useEffect(() => {
     let objectUrl: string | null = null;
 
@@ -87,13 +86,15 @@ export default function ApplicantStepSearchDocumentPage({
     (async () => {
       try {
         const res = await fetch(buildUrl(selectedDocument.idArchivo), {
-          // include auth if needed:
-          // credentials: 'include',
           headers: {Accept: 'application/pdf'},
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const blob = await res.blob();
-        objectUrl = URL.createObjectURL(blob);
+
+        const rawBlob = await res.blob();
+
+        const pdfBlob = new Blob([rawBlob], { type: 'application/pdf' });
+
+        objectUrl = URL.createObjectURL(pdfBlob);
         setPreviewUrl(objectUrl);
       } catch (e) {
         console.error(e);
@@ -120,6 +121,9 @@ export default function ApplicantStepSearchDocumentPage({
     setIsLoadingSuggestions(true)
     const suggestions: UmssDocument[] = await umssDocumentsSugestions.get(user?.sisCode, procedure?.procedureType)
     setSuggestions(suggestions)
+    if (suggestions.length > 0) {
+      setSelectedDocument(suggestions[0]);
+    }
     setIsLoadingSuggestions(false)
   }
 
@@ -401,57 +405,61 @@ export default function ApplicantStepSearchDocumentPage({
               </div>
             )}
 
-            <p className={styles.searchDescription}>Busca tu documento por código:</p>
+            {!selectedDocument?.id && (
+              <section>
+                <p className={styles.searchDescription}>Busca tu documento por código:</p>
 
-            <div className={styles.searchForm}>
-              <div className={styles.searchInputs}>
-                <div className={styles.inputGroup}>
-                  <label className={styles.inputLabel}>
-                    Código de Documento <span className={styles.required}>*</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={documentNumber}
-                    onChange={(e) => setDocumentNumber(e.target.value)}
-                    className={styles.searchInput}
-                    placeholder="Ej: 34689"
-                    disabled={isSearching}
-                  />
+                <div className={styles.searchForm}>
+                  <div className={styles.searchInputs}>
+                    <div className={styles.inputGroup}>
+                      <label className={styles.inputLabel}>
+                        Código de Documento <span className={styles.required}>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={documentNumber}
+                        onChange={(e) => setDocumentNumber(e.target.value)}
+                        className={styles.searchInput}
+                        placeholder="Ej: 34689"
+                        disabled={isSearching}
+                      />
+                    </div>
+
+                    <div className={styles.inputGroup}>
+                      <label className={styles.inputLabel}>Gestión (Año)</label>
+                      <input
+                        type="number"
+                        value={gestion}
+                        onChange={(e) => {
+                          setGestion(parseInt(e.target.value, 10));
+                        }}
+                        className={styles.searchInput}
+                        placeholder="Ej: 2024"
+                        disabled={isSearching}
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    className={styles.searchButton}
+                    onClick={handleSearch}
+                    disabled={isSearching || !documentNumber.trim()}
+                  >
+                    {isSearching ? (
+                      <>
+                        <div className={styles.searchSpinner}></div>
+                        Buscando documento...
+                      </>
+                    ) : (
+                      <>
+                        <i className="pi pi-search" style={{fontSize: '1rem'}}></i>
+                        Buscar Documento
+                      </>
+                    )}
+                  </button>
                 </div>
-
-                <div className={styles.inputGroup}>
-                  <label className={styles.inputLabel}>Gestión (Año)</label>
-                  <input
-                    type="number"
-                    value={gestion}
-                    onChange={(e) => {
-                      setGestion(parseInt(e.target.value, 10));
-                    }}
-                    className={styles.searchInput}
-                    placeholder="Ej: 2024"
-                    disabled={isSearching}
-                  />
-                </div>
-              </div>
-
-              <button
-                className={styles.searchButton}
-                onClick={handleSearch}
-                disabled={isSearching || !documentNumber.trim()}
-              >
-                {isSearching ? (
-                  <>
-                    <div className={styles.searchSpinner}></div>
-                    Buscando documento...
-                  </>
-                ) : (
-                  <>
-                    <i className="pi pi-search" style={{fontSize: '1rem'}}></i>
-                    Buscar Documento
-                  </>
-                )}
-              </button>
-            </div>
+              </section>
+            )}
 
             {error && !selectedDocument && (
               <div className={styles.errorMessage}>
@@ -490,7 +498,13 @@ export default function ApplicantStepSearchDocumentPage({
                   <div className={styles.documentPreview}>
                     <h4 className={styles.previewTitle}>Vista Previa del Documento</h4>
                     <div className={styles.previewContainer}>
-                      <iframe src={previewUrl} className={styles.pdfPreview} title="Vista previa del PDF"/>
+                      <embed
+                        src={previewUrl}
+                        type="application/pdf"
+                        className={styles.pdfPreview}
+                        width="100%"
+                        height="100%"
+                      />
                     </div>
                   </div>
                 )}

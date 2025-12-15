@@ -5,11 +5,11 @@ import 'primeicons/primeicons.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import logoTramitto from "../../../../../public/logoTramitto.svg";
-
-// type WhyItem = {
-//   icon: string;
-//   title: string;
-// };
+import ProceduresTable from "../ApplicantPersonalProceduresPage/components/ProceduresTable/ProceduresTable.tsx";
+import {useCallback, useEffect, useState} from "react";
+import {ProcedureResponse} from "../../../../types/ProcedureResponse.interface.ts";
+import {proceduresByUserIdService} from "../../../../services/ProceduresByUserId.http.service.ts";
+import {useAuth} from "../../../../context/AuthContext.tsx";
 
 type ProcessItem = {
   title: string;
@@ -17,14 +17,12 @@ type ProcessItem = {
   route: string;
 };
 
-// const whyItems: WhyItem[] = [
-//   { icon: 'pi pi-lock', title: 'Rápido y seguro' },
-//   { icon: 'pi pi-check-square', title: '100% Digital' },
-//   { icon: 'pi pi-map-marker', title: 'Seguimiento en tiempo real' },
-//   { icon: 'pi pi-file-pdf', title: 'Reducción de Papel y Costos' },
-//   { icon: 'pi pi-shield', title: 'Seguridad y Privacidad' },
-//   { icon: 'pi pi-pencil', title: 'Firma Digital Legalmente Válida' },
-// ];
+type RecentProcess = {
+  id: string;
+  type: string;
+  date: string;
+  status: 'En proceso' | 'Completado' | 'Pendiente' | 'Rechazado';
+};
 
 const processItems: ProcessItem[] = [
   {
@@ -43,69 +41,58 @@ const processItems: ProcessItem[] = [
     route: '/usuario/informacion-tramite/titulo-provision'
   },
 ];
-//
-// const slickSettings: Settings = {
-//   dots: true,
-//   infinite: true,
-//   speed: 500,
-//   slidesToShow: 3,
-//   slidesToScroll: 1,
-//   autoplay: true,
-//   autoplaySpeed: 3000,
-//   pauseOnHover: true,
-//   swipeToSlide: true,
-//   centerMode: false,
-//   responsive: [
-//     {
-//       breakpoint: 1200,
-//       settings: {
-//         slidesToShow: 3,
-//         slidesToScroll: 1,
-//       }
-//     },
-//     {
-//       breakpoint: 992,
-//       settings: {
-//         slidesToShow: 2,
-//         slidesToScroll: 1,
-//         centerMode: false,
-//       }
-//     },
-//     {
-//       breakpoint: 768,
-//       settings: {
-//         slidesToShow: 2,
-//         slidesToScroll: 1,
-//         centerMode: false,
-//       }
-//     },
-//     {
-//       breakpoint: 576,
-//       settings: {
-//         slidesToShow: 1,
-//         slidesToScroll: 1,
-//         centerMode: true,
-//         centerPadding: '40px',
-//       }
-//     },
-//     {
-//       breakpoint: 480,
-//       settings: {
-//         slidesToShow: 1,
-//         slidesToScroll: 1,
-//         centerMode: true,
-//         centerPadding: '20px',
-//       }
-//     }
-//   ]
-// };
+
+// Datos de ejemplo - En producción vendrían de una API
+const recentProcesses: RecentProcess[] = [
+  {
+    id: 'TR-2024-001',
+    type: 'Diploma de Bachiller',
+    date: '15/12/2024',
+    status: 'En proceso'
+  },
+  {
+    id: 'TR-2024-002',
+    type: 'Diploma Académico',
+    date: '10/12/2024',
+    status: 'Completado'
+  },
+  {
+    id: 'TR-2024-003',
+    type: 'Título Provisión Nacional',
+    date: '05/12/2024',
+    status: 'Pendiente'
+  },
+];
 
 const ApplicantHomePage = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const handleNavigation = (route: string) => {
     navigate(route);
   };
+  const [procedures, setProcedures] = useState<ProcedureResponse[]>([]);
+
+  const fetchProcedures = useCallback(async () => {
+    if (!auth.user) {
+      //setProcedureError('You must be logged in to see procedures');
+      //setProceduresLoading(false);
+      return;
+    }
+    try {
+      const response: ProcedureResponse[] = await proceduresByUserIdService.getProcedures(auth.user.id);
+      setProcedures(response);
+    } catch (error) {
+      console.error(error);
+      //setProcedureError('Failed to fetch procedures');
+    } finally {
+      //setProceduresLoading(false);
+    }
+  }, [auth.user]);
+
+  useEffect(() => {
+    fetchProcedures();
+  }, [fetchProcedures]);
 
   return (
     <div className={styles.container}>
@@ -116,29 +103,8 @@ const ApplicantHomePage = () => {
         </div>
         <div className={styles.heroLogos}>
           <img src={logoTramitto} alt="Logo Tramitto" className={styles.logoImage}/>
-          {/*<img src={logoUMSS} alt="Logo UMSS" className={styles.logoImage}/>*/}
         </div>
       </section>
-
-      {/*<section className={styles.whySection}>*/}
-      {/*  <h2 className={styles.whyHeader}>¿Por qué usar Tramitto?</h2>*/}
-      {/*  <div className={styles.carouselWrapper}>*/}
-      {/*    <Slider {...slickSettings} className={styles.slickSlider}>*/}
-      {/*      {whyItems.map((item, index) => (*/}
-      {/*        <div key={`${item.title}-${index}`} className={styles.slickSlide}>*/}
-      {/*          <div className={styles.whyCard}>*/}
-      {/*            <div className={styles.whyLeft}>*/}
-      {/*              <i className={`${item.icon} ${styles.whyIcon}`}></i>*/}
-      {/*            </div>*/}
-      {/*            <div className={styles.whyRight}>*/}
-      {/*              <p>{item.title}</p>*/}
-      {/*            </div>*/}
-      {/*          </div>*/}
-      {/*        </div>*/}
-      {/*      ))}*/}
-      {/*    </Slider>*/}
-      {/*  </div>*/}
-      {/*</section>*/}
 
       <section className={styles.processSection}>
         <div className={styles.processWrapper}>
@@ -162,6 +128,26 @@ const ApplicantHomePage = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.recentSection}>
+        <div className={styles.recentWrapper}>
+          <span className={styles.recentLabel}>Trámites Recientes</span>
+          <div className={styles.tableContainer}>
+            {recentProcesses.length > 0 ? (
+              <ProceduresTable
+                procedures={procedures}
+                defaultExpandedRows={[]}
+                limit={4}
+              />
+            ) : (
+              <div className={styles.emptyState}>
+                <i className="pi pi-inbox" style={{fontSize: "3rem", color: "#BFBFBF"}}></i>
+                <p>No tienes trámites recientes</p>
+              </div>
+            )}
           </div>
         </div>
       </section>

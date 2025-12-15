@@ -208,7 +208,7 @@ const ApplicantPersonalProceduresPage = () => {
         if (documentId) {
           // Importar la función handlePreview con autoDownload=true
           import('../../../../utils/documentActions.ts').then(({ handlePreview }) => {
-            handlePreview(documentId, selectedProcedure, true);
+            handlePreview(documentId, selectedProcedure);
           });
         }
       }
@@ -294,6 +294,7 @@ const ApplicantPersonalProceduresPage = () => {
           procedures={procedures}
           defaultExpandedRows={selectedProcedureId ? [selectedProcedureId] : []}
           highlightId={selectedProcedureId}
+          limit={10}
         />
       </section>
     </div>
